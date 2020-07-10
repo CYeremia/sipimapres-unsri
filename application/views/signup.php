@@ -129,18 +129,30 @@
                     <div class="input-group mb-4">
                         <select class="form-control" name="role" id="role" placeholder="Jurusan">
                             <option selected disabled>Pilih Role</option>
-                            <option>Admin</option>
-                            <option>Admin Fakultas</option>
                             <option>Mahasiswa</option>
+                            <option>Administrator Sistem</option>
+                            <option>Administrasi Fakultas</option>
                         </select>
                     </div>
 
                     <div class="input-group mb-4">
                         <select class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas">
                             <option selected disabled>Pilih Fakultas</option>
-                            <option>Fakultas Ilmu Komputer</option>
                             <option>Fakultas Ekonomi</option>
                             <option>Fakultas Hukum</option>
+                            <option>Fakultas Teknik</option>
+                            <option>Fakultas Kedokteran</option>
+
+                            <option>Fakultas pertanian</option>
+                            <option>Fakultas keguruan dan Ilmu Pendidikan</option>
+                            <option>Fakultas Ilmu sosial dan Ilmu Politik</option>
+                            <option>Fakultas Matematika dan Ilmu Pengetahuan Alam</option>
+                            <option>Fakultas Ilmu Komputer</option>
+
+                            <option>Fakultas Kesehatan Masyarakat</option>
+                            <option>Program S2</option>
+                            <option>Program S3</option>
+                            <option>Program studi Pendidikan Profesi</option>
                         </select>
                     </div>
 
@@ -148,12 +160,15 @@
                         <select class="form-control" name="jurusan" id="jurusan" placeholder="Jurusan">
                             <option selected disabled>Pilih Prodi</option>
                             <option>Teknik Informatika (S1)</option>
-                            <option>Teknik Informatika Bilingual</option>
-                            <option>Sistem Informasi Bilingual</option>
-                            <option>Sistem Komputer Bilingual</option>
-                            <option>Teknik Informatika</option>
-                            <option>Sistem Informasi</option>
-                            <option>Sistem Komputer</option>
+                            <option>Teknik Informatika (Kelas Bilingual S1)</option>
+                            <option>Sistem Informasi (S1)</option>
+                            <option>Sistem Informasi (Kelas Bilingual S1)</option>
+                            <option>Sistem Komputer (S1)</option>
+                            <option>Sistem Komputer (Kelas Profesional S1)</option>
+                            <option>Teknik Komputer (S0/D3)</option>
+                            <option>Teknik Komputer dan Jaringan (S0/D3)</option>
+                            <option>Manajemen Informatika (S0/D3)</option>
+                            <option>Komputerisasi Akuntansi (S0/D3)</option>
                         </select>
                     </div>
 

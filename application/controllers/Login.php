@@ -70,10 +70,10 @@ class Login extends CI_Controller
                 // die;
                 $this->session->set_userdata($data);
 
-                if ($user['Role'] == 'Administrasi Sistem') {
-                    redirect('login');
+                if ($user['Role'] == 'Administrator Sistem') {
+                    redirect('admin_sistem');
                 } else if ($user['Role'] == 'Administrasi Fakultas') {
-                    redirect('login');
+                    redirect('admin_fakultas');
                 } else if ($user['Role'] == 'Mahasiswa') {
                     redirect('mahasiswa');
                 }

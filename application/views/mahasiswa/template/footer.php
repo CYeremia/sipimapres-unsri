@@ -1,3 +1,12 @@
+<footer class="main-footer">
+    <!-- <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.0.5
+    </div> -->
+    <strong>Copyright © <?php echo (int) date('Y') ?> <a href="<?= site_url('mahasiswa') ?>">Si-Pimapres</a>.</strong>
+</footer>
+
+<!-- 2014-2019 -->
+
 <!-- jQuery -->
 <script src="<?= base_url('assets') ?>/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
