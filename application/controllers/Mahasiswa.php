@@ -43,11 +43,19 @@ class Mahasiswa extends CI_Controller
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
-    public function prestasi()
+    public function Prestasi_Kompetisi()
     {
         $this->data['active'] = 2;
-        $this->data['title'] = 'Mahasiswa | Prestasi ';
-        $this->data['content'] = 'prestasi';
+        $this->data['title'] = 'Mahasiswa | Prestasi Kompetisi';
+        $this->data['content'] = 'prestasi_kompetisi';
+        $this->load->view('mahasiswa/template/template', $this->data);
+    }
+
+    public function Prestasi_NonKompetisi()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Mahasiswa | Prestasi Non Kompetisi';
+        $this->data['content'] = 'prestasi_Nonkompetisi';
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 }

@@ -19103,7 +19103,8 @@ html.maximized-card {
   border-radius: 0.25rem;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  height: 43%;
   position: relative;
 }
 
@@ -19117,6 +19118,7 @@ html.maximized-card {
   display: block;
   padding: 3px 0;
   position: relative;
+
   text-align: center;
   text-decoration: none;
   z-index: 10;
@@ -19135,16 +19137,27 @@ html.maximized-card {
   white-space: nowrap;
 }
 
+.small-box> .inner> center> a >h3 {
+  /* font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 0;
+  white-space: nowrap; */
+  color: white;
+}
+
 @media (min-width: 992px) {
   .col-xl-2 .small-box h3,
   .col-lg-2 .small-box h3,
   .col-md-2 .small-box h3 {
-    font-size: 1.6rem;
+    font-size: 6.6rem;
+    color: white;
   }
   .col-xl-3 .small-box h3,
   .col-lg-3 .small-box h3,
   .col-md-3 .small-box h3 {
-    font-size: 1.6rem;
+    font-size: 6.6rem;
+    color: white;
   }
 }
 
@@ -19152,12 +19165,14 @@ html.maximized-card {
   .col-xl-2 .small-box h3,
   .col-lg-2 .small-box h3,
   .col-md-2 .small-box h3 {
-    font-size: 2.2rem;
+    font-size: 6.6rem;
+    color: white;
   }
   .col-xl-3 .small-box h3,
   .col-lg-3 .small-box h3,
   .col-md-3 .small-box h3 {
-    font-size: 2.2rem;
+    font-size: 6.6rem;
+    color: white;
   }
 }
 
@@ -19210,6 +19225,7 @@ html.maximized-card {
 @media (max-width: 767.98px) {
   .small-box {
     text-align: center;
+    color: white;
   }
   .small-box .icon {
     display: none;

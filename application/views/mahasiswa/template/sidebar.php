@@ -36,20 +36,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('mahasiswa/prestasi') ?>" class="nav-link <?php if ($active == 2) {
-                                                                                        echo "active";
-                                                                                    } ?>">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="<?= site_url('mahasiswa/Prestasi_Kompetisi') ?>" class="nav-link <?php if ($active == 2) {
+                                                                                                    echo "active";
+                                                                                                } ?>">
+                        <i class="nav-icon fas fa-trophy"></i>
                         <p>
                             Prestasi Kompetisi
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('mahasiswa/prestasi') ?>" class="nav-link <?php if ($active == 3) {
-                                                                                        echo "active";
-                                                                                    } ?>">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="<?= site_url('mahasiswa/Prestasi_NonKompetisi') ?>" class="nav-link <?php if ($active == 3) {
+                                                                                                        echo "active";
+                                                                                                    } ?>">
+                        <i class="nav-icon fas fa-award"></i>
                         <p>
                             Prestasi Non Kompetisi
                         </p>
