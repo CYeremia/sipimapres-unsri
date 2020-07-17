@@ -10,12 +10,15 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
+            <div class="nav-item">
                 <img src="<?= base_url('assets') ?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <!-- <a href="#" class="d-block"><?= $user['Nama'] ?> -->
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= $user['Nama'] ?>
-                </a>
+                <a href="#" class="d-block"><?= $userdata->Nama ?></a>
+                <a href="#" class="d-block">(<?= $userdata->IDPengenal ?>)</a>
+                <!-- <a href="#" class="d-block"><?= $user['Nama'] ?></a>
+                <a href="#" class="d-block">(<?= $user['IDPengenal'] ?>)</a> -->
             </div>
         </div>
 

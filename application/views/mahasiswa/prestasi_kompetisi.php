@@ -21,8 +21,45 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Data Prestasi Kompetisi, <?= $userdata->Nama ?>
+                        <div style="margin-left : 15em; display : inline">
+                            <a href="<?= base_url() ?>mahasiswa/Data_Kompetisi" class="btn bg-green">Tambah Data</a>
+                        </div>
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class=" card-body">
+                    <table id="perestasikompetisi" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Bidang</th>
+                                <th>Perlombaan</th>
+                                <th>Tahun</th>
+                                <th>Penyelenggara</th>
+                                <th>Kategori</th>
+                                <th>Tingkat</th>
+                                <th>Pencapaian</th>
+                                <th>Status</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
 
-        </div><!-- /.container-fluid -->
+                            </tr>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+
+        </div>
+        <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>

@@ -25,6 +25,12 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url('assets') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="<?= base_url('assets') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url('assets') ?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url('assets') ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
 <!-- ChartJS -->
 <script src="<?= base_url('assets') ?>/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -49,6 +55,9 @@
 <script src="<?= base_url('assets') ?>/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
+
+<!-- javascript -->
+<script src="<?= base_url('assets') ?>/dist/js/mahasiswa/<?= $content ?>.js"></script>
 </body>
 
 </html>

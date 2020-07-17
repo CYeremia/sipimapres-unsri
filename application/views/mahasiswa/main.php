@@ -38,32 +38,32 @@
                                                     <thead></thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width: 15%">Nama </td>
-                                                            <td><?= $user['Nama'] ?></td>
+                                                            <td style="width: 25%">Nama </td>
+                                                            <td><?= $userdata->Nama ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">Nim </td>
-                                                            <td><?= $user['IDPengenal'] ?></td>
+                                                            <td style="width: 25%">Nim </td>
+                                                            <td><?= $userdata->IDPengenal ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">Program Studi </td>
-                                                            <td><?= $user['ProgramStudi'] ?></td>
+                                                            <td style="width: 25%">Program Studi </td>
+                                                            <td><?= $userdata->ProgramStudi ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">Fakultas </td>
-                                                            <td><?= $user['Fakultas'] ?></td>
+                                                            <td style="width: 25%">Fakultas </td>
+                                                            <td><?= $userdata->Fakultas ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">Email </td>
-                                                            <td><?= $user['Email'] ?></td>
+                                                            <td style="width: 25%">Email </td>
+                                                            <td><?= $userdata->Email ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">IPK </td>
-                                                            <td><?= $user['IPK'] ?></td>
+                                                            <td style="width: 25%">IPK </td>
+                                                            <td><?= $userdata->IPK ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 15%">No. Telp </td>
-                                                            <td><?= $user['Telephone'] ?></td>
+                                                            <td style="width: 25%">No. Telp </td>
+                                                            <td><?= $userdata->Telephone ?></td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot></tfoot>

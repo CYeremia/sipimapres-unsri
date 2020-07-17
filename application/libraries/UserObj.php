@@ -8,8 +8,8 @@ class UserObj
 	public $Nama;
 	public $role;
 	public $IDpengenal;
-	public $fakultas;
-	public $program_studi;
+	public $Fakultas;
+	public $ProgramStudi;
 	public $email;
 	public $ipk;
 	public $telephone;
