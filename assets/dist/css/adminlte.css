@@ -20337,7 +20337,8 @@ html.maximized-card {
   font-size: 2.1rem;
   /* color: white; */
   font-weight: 300;
-  margin-bottom: .3rem;
+  margin-bottom: .0rem;
+  background: rgba(0, 0, 0, 0.2);
   /* margin-top: .3rem; */
   /* text-align: center; */
   
@@ -20408,7 +20409,7 @@ html.maximized-card {
 .login-box,
 .register-box {
   width: 450px;
-  background: rgba(0, 0, 0, 0.2);
+  /* background: rgba(0, 0, 0, 0.2); */
 }
 
 @media (max-width: 576px) {

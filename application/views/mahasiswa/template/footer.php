@@ -1,11 +1,19 @@
 <footer class="main-footer">
-    <!-- <div class="float-right d-none d-sm-block">
+    <!-- <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.0.5
     </div> -->
     <strong>Copyright © <?php echo (int) date('Y') ?> <a href="<?= site_url('mahasiswa') ?>">Si-Pimapres</a>.</strong>
 </footer>
 
-<!-- 2014-2019 -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
 <!-- jQuery -->
 <script src="<?= base_url('assets') ?>/plugins/jquery/jquery.min.js"></script>
@@ -41,8 +49,6 @@
 <script src="<?= base_url('assets') ?>/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
-
-<script src="<?= base_url('assets') ?>/dist/js/mahasiswa/<?= $content ?>.js"></script>
 </body>
 
 </html>

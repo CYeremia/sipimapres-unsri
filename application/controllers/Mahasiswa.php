@@ -24,20 +24,10 @@ class Mahasiswa extends CI_Controller
         //     redirect('logout');
         //     exit;
         // }   
-        //     $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
-        //     $this->data['id_role'] = $this->session->userdata('id_role');
-        //     if (isset($this->data['IDpengenal'], $this->data['id_role'])) {
-        //         if ($this->data['id_role'] != 1) {
-        //             redirect('logout');
-        //             exit;
-        //         }
-        //     } else {
-        //         redirect('logout');
-        //         exit;
-        //     }
+
 
         // $this->data['user'] = $this->db->query("SELECT `user`.`Nama`, `user`.`Role`, `user`.`IDPengenal`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`RoleID` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
-        $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
+        $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDpengenal')])->row_array();
         // var_dump($this->data['user']);
         // die;
         $this->load->model('user_m');
@@ -53,11 +43,11 @@ class Mahasiswa extends CI_Controller
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
-    public function logout()
+    public function prestasi()
     {
-        $this->session->unset_userdata('IDpengenal');
-        $this->session->unset_userdata('role_id');
-
-        redirect('login');
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Mahasiswa | Prestasi ';
+        $this->data['content'] = 'prestasi';
+        $this->load->view('mahasiswa/template/template', $this->data);
     }
 }

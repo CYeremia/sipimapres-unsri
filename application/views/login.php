@@ -15,10 +15,6 @@
     <link rel="stylesheet" href="<?= base_url('assets'); ?>/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- sweetalert -->
 
-    <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>
-
-
-
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url('assets'); ?>/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="<?= base_url('assets'); ?>/dist/css/adminlte.css">
@@ -59,12 +55,13 @@
 
                     <!-- <p class="login-box-msg">Sign in to start your session</p> -->
 
-                    <form class="user" method="POST" action="<?= base_url('login'); ?>">
+                    <!-- <form class="user" method="POST" action="<?= base_url('login'); ?>"> -->
+                    <form id="sign_in">
                         <div class="input-group mb-4">
                             <input type="text" class="form-control" id="IDpengenal" name="IDpengenal" placeholder="NIM/ID Pengenal" required>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-user"></span>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +74,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-8 mb-3" style="color: white;">
+                            <div class="col-8 mt-2" style="color: white;">
                                 <div class="icheck-primary">
                                     <input type="checkbox" id="remember">
                                     <label for="remember">
@@ -86,16 +83,17 @@
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-4">
-                                <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button>
+                            <div class="col-4 mt-2">
+                                <button class="btn btn-block bg-blue waves-effect" id="btSubmit" type="submit">SIGN IN</button>
+                                <!-- <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button> -->
                             </div>
                             <!-- /.col -->
                         </div>
                     </form>
-                    <p class="mb-0">
+                    <!-- <p class="mb-0">
                         Don't have an account?
                         <a class="signup" href="<?= site_url('signup/newUser') ?>">SIGN UP</a>
-                    </p>
+                    </p> -->
                 </div>
                 <!-- /.login-card-body -->
             </div>
@@ -106,11 +104,18 @@
     <!-- /.login-box -->
 
     <!-- jQuery -->
-    <script src="<?= base_url('assets'); ?>/plugins/jquery/jquery.min.js"></script>
+    <!-- <script src="<?= base_url('assets'); ?>/plugins/jquery/jquery.min.js"></script> -->
+    <script src="<?= base_url('assets'); ?>/plugins/jquery/jquery-3.5.1.min.js"></script>
+    <!-- <script src="<?= base_url('assets') ?>/plugins/jquery-validation/jquery.validate.js"></script> -->
+
     <!-- Bootstrap 4 -->
     <script ssrc="<?= base_url('assets'); ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url('assets'); ?>/dist/js/adminlte.min.js"></script>
+
+    <!-- <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.min.js"></script> -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!-- javascript -->
     <script src="<?= base_url('assets') ?>/dist/js/login.js"></script>
 </body>
