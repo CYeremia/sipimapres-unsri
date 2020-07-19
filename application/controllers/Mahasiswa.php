@@ -25,7 +25,14 @@ class Mahasiswa extends CI_Controller
         // var_dump($this->data['user']);
         // die;
         $this->load->model('user_m');
+        $this->load->model('prestasi_kompetisi');
+        $this->load->model('prestasi_nonkompetisi');
         $this->load->library('UserObj');
+    }
+
+    protected function flashmsg($msg, $type = 'success', $name = 'msg')
+    {
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
@@ -55,17 +62,175 @@ class Mahasiswa extends CI_Controller
 
     public function Data_Kompetisi()
     {
-        $this->data['active'] = 3;
+        if ($this->input->post('submit')) {
+            $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
+            $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+            $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
+            $this->form_validation->set_rules('Pencapaian', 'Pencapaian', 'required');
+
+            $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
+            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+            } else {
+                $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 1024;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+                // $config['encrypt_name']			= TRUE;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('buktiprestasi')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                } else {
+                    $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+                    $data['Bidang']        = $this->input->post('Bidang');
+                    $data['Perlombaan']       = $this->input->post('JudulLomba');
+                    $data['Tahun']       = $this->input->post('tahun');
+                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+                    $data['Kategori']       = $this->input->post('Kategori');
+                    $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['Pencapaian']       = $this->input->post('Pencapaian');
+                    $data['LinkBerita']       = $this->input->post('berita');
+                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
+                    $this->db->insert('prestasikompetisi', $data);
+                    redirect('mahasiswa/prestasi_kompetisi');
+                }
+            }
+        }
+        $this->data['active'] = 4;
         $this->data['title'] = 'Mahasiswa | Tambah Data Kompetisi';
         $this->data['content'] = 'data_kompetisi';
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
+    public function data_prestasi()
+    {
+        $result = [
+            'data' => $this->MapToObject(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function MapToObject()
+    {
+        $listData = [];
+        $data = $this->prestasi_kompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->no = $i;
+            $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
+            $obj->Nama = $Name->nama;
+            $obj->PeraihPrestasi = $k->PeraihPrestasi;
+            $obj->Bidang = $k->Bidang;
+            $obj->Perlombaan = $k->Perlombaan;
+            $obj->Tahun = $k->Tahun;
+            $obj->Penyelenggara = $k->Penyelenggara;
+            $obj->Kategori = $k->Kategori;
+            $obj->Tingkat = $k->Tingkat;
+            $obj->Pencapaian = $k->Pencapaian;
+            $obj->BuktiPrestasi = $k->BuktiPrestasi;
+            $obj->Status = $k->Status;
+            $obj->LinkBerita = $k->LinkBerita;
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
     public function Data_NonKompetisi()
     {
-        $this->data['active'] = 3;
+        if ($this->input->post('submit')) {
+            $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
+            $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+            $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
+            $this->form_validation->set_rules('Peran', 'Peran', 'required|trim');
+
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
+            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+            } else {
+                $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 1024;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+                // $config['encrypt_name']			= TRUE;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('buktiprestasi')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                } else {
+                    $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+                    $data['Kegiatan']       = $this->input->post('JudulLomba');
+                    $data['Tahun']       = $this->input->post('tahun');
+                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+                    $data['Kategori']       = $this->input->post('Kategori');
+                    $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
+                    $data['LinkBerita']       = $this->input->post('berita');
+                    $this->db->insert('prestasinonkompetisi', $data);
+                    redirect('mahasiswa/prestasi_nonkompetisi');
+                }
+            }
+        }
+
+        $this->data['active'] = 5;
         $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
         $this->data['content'] = 'data_nonkompetisi';
         $this->load->view('mahasiswa/template/template', $this->data);
+    }
+
+    public function data_prestasiNon()
+    {
+        $result = [
+            'data' => $this->MapToNon(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function MapToNon()
+    {
+        $listData = [];
+        $data = $this->prestasi_nonkompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->no = $i;
+            $obj->PeraihPrestasi = $k->PeraihPrestasi;
+            $obj->Kegiatan = $k->Kegiatan;
+            $obj->Tahun = $k->Tahun;
+            $obj->Penyelenggara = $k->Penyelenggara;
+            $obj->Kategori = $k->Kategori;
+            $obj->Tingkat = $k->Tingkat;
+            $obj->BuktiPrestasi = $k->BuktiPrestasi;
+            $obj->Status = $k->Status;
+            $obj->LinkBerita = $k->LinkBerita;
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
     }
 }

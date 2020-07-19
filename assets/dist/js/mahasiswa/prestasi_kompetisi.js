@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     prestasi_kompetisi = $('#perestasikompetisi').DataTable({
         ajax: {
-            url: globalUrl + '',
+            url: globalUrl + '/data_prestasi',
             type: 'POST',
             data: function (d) { }
         },
@@ -29,28 +29,24 @@ $(document).ready(function () {
             "targets": 3
         },
         {
-            data: "Symptom",
+            data: "Penyelenggara",
             "targets": 4
         },
         {
-            data: "Penyelenggaraan",
+            data: "Kategori",
             "targets": 5
         },
         {
-            data: "Kategori",
+            data: "Tingkat",
             "targets": 6
         },
         {
-            data: "Tingkat",
+            data: "Pencapaian",
             "targets": 7
         },
         {
-            data: "Pencapaian",
-            "targets": 8
-        },
-        {
             data: "Status",
-            "targets": 9
+            "targets": 8
         },
         {
             "data": null,
@@ -59,7 +55,7 @@ $(document).ready(function () {
                 var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class=\"material-icons\">add_circle</i></a>";
                 return actButt;
             },
-            "targets": 6,
+            "targets": 9,
             "width": "5%"
         }
         ],
@@ -77,7 +73,7 @@ $(document).ready(function () {
     //Get data detail
     $('#perestasikompetisi tbody').on('click', '.detailExpand', function () {
         var tr = $(this).closest('tr');
-        var row = myTicketData.row(tr);
+        var row = prestasi_kompetisi.row(tr);
 
         if (row.child.isShown()) {
             $(this).removeClass('col-red');
@@ -91,11 +87,42 @@ $(document).ready(function () {
             $(this).removeClass('col-blue');
             $(this).addClass('col-red');
             $(this).children().text('cancel');
-            row.child(format(row.data(), 'getdata')).show();
+            row.child(format(row.data())).show();
             tr.addClass('shown');
             $('div.slider', row.child()).slideDown();
         }
     });
 
-
 });
+
+//Row Child
+function format(d) {
+    return '<div class="slider">' +
+        '<table class="table table-striped">' +
+        '<tr>' +
+        '<td style="width: 10%">' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data</b></h4>' +
+        '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Nama Mahasiswa</td>' +
+        '<td>' + d.Nama + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Bidang</td>' +
+        '<td>' + d.Bidang + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Perlombaan</td>' +
+        '<td>' + d.Perlombaan + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tahun</td>' +
+        '<td>' + d.Tahun + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Penyelenggara</td>' +
+        '<td>' + d.Penyelenggara + '</td>' +
+        '</tr>' +
+        '</table></div>';
+}

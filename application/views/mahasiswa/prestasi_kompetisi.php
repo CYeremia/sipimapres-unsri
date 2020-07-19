@@ -23,11 +23,8 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Prestasi Kompetisi, <?= $userdata->Nama ?>
-                        <div style="margin-left : 15em; display : inline">
-                            <a href="<?= base_url() ?>mahasiswa/Data_Kompetisi" class="btn bg-green">Tambah Data</a>
-                        </div>
-                    </h3>
+                    <h3 class="card-title">Data Prestasi Kompetisi, <?= $userdata->Nama ?></h3>
+                    <a class="btn bg-green float-right" href="<?= base_url() ?>mahasiswa/Data_Kompetisi" class="btn bg-green">Tambah Data</a>
                 </div>
                 <!-- /.card-header -->
                 <div class=" card-body">

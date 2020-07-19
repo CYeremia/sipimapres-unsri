@@ -218,6 +218,22 @@ img {
   margin : 10px;
 }
 
+.navbar-nav > img {
+  vertical-align: middle;
+  border-style: none;
+  width: auto;
+  height: 40px;
+  margin: 10px;
+}
+
+.login-logo > a > img {
+  vertical-align: middle;
+  border-style: none;
+  width: auto;
+  height: 75px;
+  margin : 10px;
+}
+
 svg {
   overflow: hidden;
   vertical-align: middle;

@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     prestasi_nonkompetisi = $('#perestasinonkompetisi').DataTable({
         ajax: {
-            url: globalUrl + '',
+            url: globalUrl + '/data_prestasiNon',
             type: 'POST',
             data: function (d) { }
         },
@@ -25,7 +25,7 @@ $(document).ready(function () {
             "targets": 2,
         },
         {
-            data: "Penyelenggaraan",
+            data: "Penyelenggara",
             "targets": 3
         },
         {

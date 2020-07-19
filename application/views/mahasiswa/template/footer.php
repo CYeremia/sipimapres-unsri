@@ -17,6 +17,7 @@
 
 <!-- jQuery -->
 <script src="<?= base_url('assets') ?>/plugins/jquery/jquery.min.js"></script>
+<!-- <script src="<?= base_url('assets'); ?>/plugins/jquery/jquery-3.5.1.min.js"></script> -->
 <!-- jQuery UI 1.11.4 -->
 <script src="<?= base_url('assets') ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -34,10 +35,10 @@
 <!-- ChartJS -->
 <script src="<?= base_url('assets') ?>/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="<?= base_url('assets') ?>/plugins/sparklines/sparkline.js"></script>
+<!-- <script src="<?= base_url('assets') ?>/plugins/sparklines/sparkline.js"></script> -->
 <!-- JQVMap -->
-<script src="<?= base_url('assets') ?>/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="<?= base_url('assets') ?>/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- <script src="<?= base_url('assets') ?>/plugins/jqvmap/jquery.vmap.min.js"></script> -->
+<!-- <script src="<?= base_url('assets') ?>/plugins/jqvmap/maps/jquery.vmap.usa.js"></script> -->
 <!-- jQuery Knob Chart -->
 <script src="<?= base_url('assets') ?>/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -52,9 +53,11 @@
 <!-- AdminLTE App -->
 <script src="<?= base_url('assets') ?>/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?= base_url('assets') ?>/dist/js/pages/dashboard.js"></script>
+<!-- <script src="<?= base_url('assets') ?>/dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url('assets') ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 <!-- javascript -->
 <script src="<?= base_url('assets') ?>/dist/js/mahasiswa/<?= $content ?>.js"></script>

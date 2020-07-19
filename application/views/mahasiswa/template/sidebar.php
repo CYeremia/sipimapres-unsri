@@ -1,9 +1,10 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="<?= base_url('assets') ?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Si-Pimapres</span>
+    <a href="javascript:void(0);" class="brand-link d-flex">
+        <img src="<?= base_url('assets') ?>/dist/img/logo.png" alt="" class="brand-image img-circle" style="opacity: .8">
+        <img src="<?= base_url('assets') ?>/dist/img/logo-full.png" alt="" class="brand-image">
+        <!-- <span class="brand-text font-weight-light">Si-Pimapres</span> -->
     </a>
 
     <!-- Sidebar -->

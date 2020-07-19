@@ -45,10 +45,10 @@
         <div class="login-box">
             <div class="card-login" style="box-shadow: none;">
                 <div class="login-logo">
-                    <!-- <a style="margin-top: 0px" href="<?= site_url('login') ?>">
-                        <img src="<?= base_url('assets/dist/img/Logo.jpeg') ?>" height="1000px" alt="">
-                    </a> -->
-                    <a class="textlogo" href="javascript:void(0);"><b>Si-Pimampres</b></a>
+                    <a style="margin-top: 0px" href="<?= site_url('login') ?>">
+                        <img src="<?= base_url('assets/dist/img/logo-full.png') ?>" height="1000px" alt="">
+                    </a>
+                    <!-- <a class="textlogo" href="javascript:void(0);"><b>Si-Pimampres</b></a> -->
                 </div>
                 <!-- /.login-logo -->
                 <div class="card-body login-card-body">
@@ -75,16 +75,17 @@
                         </div>
                         <div class="row">
                             <div class="col-8 mt-2" style="color: white;">
-                                <div class="icheck-primary">
+                                <!-- <div class="icheck-primary">
                                     <input type="checkbox" id="remember">
                                     <label for="remember">
                                         Remember Me
                                     </label>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- /.col -->
                             <div class="col-4 mt-2">
                                 <button class="btn btn-block bg-blue waves-effect" id="btSubmit" type="submit">SIGN IN</button>
+                                <!-- <button class="btn btn-block" style="color: black; background-color: #D58E60;" id="btSubmit" type="submit">SIGN IN</button> -->
                                 <!-- <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button> -->
                             </div>
                             <!-- /.col -->
