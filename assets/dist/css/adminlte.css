@@ -20370,7 +20370,7 @@ html.maximized-card {
   /* color: white; */
   font-weight: 300;
   margin-bottom: .0rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(156, 155, 155, 0.45);
   /* margin-top: .3rem; */
   /* text-align: center; */
   
@@ -20454,7 +20454,7 @@ html.maximized-card {
 
 .login-card-body,
 .register-card-body {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(156, 155, 155, 0.45);
   border-top: 0;
   color: rgb(243, 243, 243);
   padding: 20px;

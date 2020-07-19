@@ -31,7 +31,7 @@
         }
 
         .card-login {
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         [type="checkbox"].filled-in:not(:checked)+label::after {
