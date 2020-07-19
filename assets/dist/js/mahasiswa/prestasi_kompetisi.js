@@ -2,6 +2,12 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
+var base_url = window.location.origin; //get default url name
+
+var pathArray = window.location.pathname.split( '/' ); //get child url
+
+var url = base_url+"/"+pathArray[1]+"/uploads/"; // append child url and uploads
+
 var prestasi_kompetisi;
 
 $(document).ready(function () {
@@ -52,7 +58,7 @@ $(document).ready(function () {
             "data": null,
             "orderable": false,
             "render": function (data, type, full, meta) {
-                var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class=\"material-icons\">add_circle</i></a>";
+                var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class=\"material-icons\">show detail</i></a>";
                 return actButt;
             },
             "targets": 9,
@@ -78,7 +84,7 @@ $(document).ready(function () {
         if (row.child.isShown()) {
             $(this).removeClass('col-red');
             $(this).addClass('col-blue');
-            $(this).children().text('add_circle');
+            $(this).children().text('show detail');
             $('div.slider', row.child()).slideUp(function () {
                 row.child.hide();
                 tr.removeClass('shown');
@@ -143,6 +149,9 @@ function format(d) {
         '<tr>' +
         '<td style="width: 15%">Status</td>' +
         '<td>' + d.Status + '</td>' +
+        '</tr>' +
+        '<td style="width: 15%">Bukti Prestasi</td>' +
+        '<td><img style="width:200px" src="'+url+d.BuktiPrestasi+'"></td>' +
         '</tr>' +
         // '<tr>' +
         // '<td style="width: 15%">Status</td>' +

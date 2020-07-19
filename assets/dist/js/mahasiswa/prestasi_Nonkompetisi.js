@@ -50,7 +50,7 @@ $(document).ready(function () {
             "data": null,
             "orderable": false,
             "render": function (data, type, full, meta) {
-                var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class=\"material-icons\">add_circle</i></a>";
+                var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class=\"material-icons\">show detail</i></a>";
                 return actButt;
             },
             "targets": 6,
@@ -76,7 +76,7 @@ $(document).ready(function () {
         if (row.child.isShown()) {
             $(this).removeClass('col-red');
             $(this).addClass('col-blue');
-            $(this).children().text('add_circle');
+            $(this).children().text('show detail');
             $('div.slider', row.child()).slideUp(function () {
                 row.child.hide();
                 tr.removeClass('shown');
@@ -131,7 +131,7 @@ function format(d) {
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img style="width:100px" src="'+url+d.BuktiPrestasi+'"></td>' +
+        '<td><img style="width:200px" src="'+url+d.BuktiPrestasi+'"></td>' +
         // '<td><img width="100 " src="<?php echo base_url(); ?>uploads/<?php echo' + d.BuktiPrestasi + ' ?>/"></td>' +
         // '<td <img width="" 500px height="500px" src=" <?php echo base_url(uploads/)' + d.BuktiPrestasi + '"?>"/></td>' +
         '</tr>' +
