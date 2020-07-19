@@ -2,6 +2,12 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
+var base_url = window.location.origin; //get default url name
+
+var pathArray = window.location.pathname.split( '/' ); //get child url
+
+var url = base_url+"/"+pathArray[1]+"/uploads/"; // append child url and uploads
+
 var prestasi_nonkompetisi;
 
 $(document).ready(function () {
@@ -125,7 +131,7 @@ function format(d) {
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img width="100" height="100" src="<?php echo base_url(uploads/' + d.BuktiPrestasi + '/)?>"></td>' +
+        '<td><img style="width:100px" src="'+url+d.BuktiPrestasi+'"></td>' +
         // '<td><img width="100 " src="<?php echo base_url(); ?>uploads/<?php echo' + d.BuktiPrestasi + ' ?>/"></td>' +
         // '<td <img width="" 500px height="500px" src=" <?php echo base_url(uploads/)' + d.BuktiPrestasi + '"?>"/></td>' +
         '</tr>' +
