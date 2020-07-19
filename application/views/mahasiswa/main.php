@@ -87,7 +87,7 @@
                         <div class="inner">
                             <center>
                                 <a href="<?= site_url('mahasiswa/Prestasi_Kompetisi') ?>">
-                                    <h3>150</h3>
+                                    <h3><?= $jumlah[0]->kompetisi ?></h3>
                                 </a>
                             </center>
                         </div>
@@ -103,7 +103,7 @@
                         <div class="inner">
                             <center>
                                 <a href="<?= site_url('mahasiswa/Prestasi_NonKompetisi') ?>">
-                                    <h3>150</h3>
+                                    <h3><?= $jumlah[1]->nonkompetisi ?></h3>
                                 </a>
                             </center>
                         </div>

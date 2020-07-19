@@ -20,14 +20,36 @@ class Mahasiswa extends CI_Controller
         //     redirect('logout');
         // }
 
-        $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
-        // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDpengenal')])->row_array();
-        // var_dump($this->data['user']);
-        // die;
         $this->load->model('user_m');
         $this->load->model('prestasi_kompetisi');
         $this->load->model('prestasi_nonkompetisi');
         $this->load->library('UserObj');
+
+        $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
+        $this->data['jumlah'] = 
+            [$this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi` WHERE `PeraihPrestasi` = '".$this->data['userdata']->IDPengenal."' AND `Status` = 'Diterima'")->row(),
+            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi` WHERE `PeraihPrestasi` = '".$this->data['userdata']->IDPengenal."' AND `Status` = 'Diterima'")->row()];
+
+        
+
+
+
+    //     $this->data['jumlah'] = [
+    //         "mantul" => $this->prestasi_kompetisi->get_num_row(['PeraihPrestasi' => $this->data['userdata']->IDPengenal , 'Status' => 'Diterima']), // Jumlah Prestasi Kompetisi
+    //         $this->prestasi_nonkompetisi->get_num_row(['PeraihPrestasi' => $this->data['userdata']->IDPengenal , 'Status' => 'Diterima']) // Jumlah Prestasi Non Kompetisi
+    // ]; 
+
+        // print '
+        // <script type="text/javascript">
+        //      var carnr;        
+        //      carnr = "'.$this->data['jumlah']->kompetisi.'"
+        //      console.log(carnr);
+        // </script>';   
+
+
+        // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDpengenal')])->row_array();
+        // var_dump($this->data['user']);
+        // die;
     }
 
     protected function flashmsg($msg, $type = 'success', $name = 'msg')
