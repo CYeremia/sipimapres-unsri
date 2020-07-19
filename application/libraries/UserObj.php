@@ -13,6 +13,10 @@ class UserObj
 	public $email;
 	public $ipk;
 	public $telephone;
+	public $Penyelenggara;
+	public $Tahun;
+	public $Perlombaan;
+	public $Bidang;
 
 
 	public $photo;

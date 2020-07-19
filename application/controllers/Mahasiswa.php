@@ -218,6 +218,8 @@ class Mahasiswa extends CI_Controller
         foreach ($data as $k) {
             $obj = new UserObj();
             $obj->no = $i;
+            $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
+            $obj->Nama = $Name->nama;
             $obj->PeraihPrestasi = $k->PeraihPrestasi;
             $obj->Kegiatan = $k->Kegiatan;
             $obj->Tahun = $k->Tahun;

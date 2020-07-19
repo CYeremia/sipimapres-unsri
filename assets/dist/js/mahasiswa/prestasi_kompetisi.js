@@ -109,6 +109,10 @@ function format(d) {
         '<td>' + d.Nama + '</td>' +
         '</tr>' +
         '<tr>' +
+        '<td style="width: 15%">NIM</td>' +
+        '<td>' + d.PeraihPrestasi + '</td>' +
+        '</tr>' +
+        '<tr>' +
         '<td style="width: 15%">Bidang</td>' +
         '<td>' + d.Bidang + '</td>' +
         '</tr>' +
@@ -124,5 +128,25 @@ function format(d) {
         '<td style="width: 15%">Penyelenggara</td>' +
         '<td>' + d.Penyelenggara + '</td>' +
         '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Kategori</td>' +
+        '<td>' + d.Kategori + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tingkat</td>' +
+        '<td>' + d.Tingkat + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Pencapaian</td>' +
+        '<td>' + d.Pencapaian + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Status</td>' +
+        '<td>' + d.Status + '</td>' +
+        '</tr>' +
+        // '<tr>' +
+        // '<td style="width: 15%">Status</td>' +
+        // '<td>' + d.Status + '</td>' +
+        // '</tr>' +
         '</table></div>';
 }

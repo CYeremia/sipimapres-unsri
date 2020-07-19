@@ -46,7 +46,7 @@
             <div class="card-login" style="box-shadow: none;">
                 <div class="login-logo">
                     <a style="margin-top: 0px" href="<?= site_url('login') ?>">
-                        <img src="<?= base_url('assets/dist/img/logo-full.png') ?>" height="1000px" alt="">
+                        <img src="<?= base_url('assets/dist/img/logo-full1.png') ?>" height="1000px" alt="">
                     </a>
                     <!-- <a class="textlogo" href="javascript:void(0);"><b>Si-Pimampres</b></a> -->
                 </div>

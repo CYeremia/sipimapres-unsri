@@ -65,7 +65,7 @@ $(document).ready(function () {
     //Get data detail
     $('#perestasinonkompetisi tbody').on('click', '.detailExpand', function () {
         var tr = $(this).closest('tr');
-        var row = myTicketData.row(tr);
+        var row = prestasi_nonkompetisi.row(tr);
 
         if (row.child.isShown()) {
             $(this).removeClass('col-red');
@@ -84,6 +84,50 @@ $(document).ready(function () {
             $('div.slider', row.child()).slideDown();
         }
     });
-
-
 });
+
+//Row Child
+function format(d) {
+    return '<div class="slider">' +
+        '<table class="table table-striped">' +
+        '<tr>' +
+        '<td style="width: 10%">' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data</b></h4>' +
+        '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Nama Mahasiswa</td>' +
+        '<td>' + d.Nama + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">NIM</td>' +
+        '<td>' + d.PeraihPrestasi + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tahun</td>' +
+        '<td>' + d.Tahun + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Penyelenggara</td>' +
+        '<td>' + d.Penyelenggara + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tingkat</td>' +
+        '<td>' + d.Tingkat + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tingkat</td>' +
+        '<td>' + d.Kategori + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Status</td>' +
+        '<td>' + d.Status + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Bukti Prestasi</td>' +
+        '<td><img width="100" height="100" src="<?php echo base_url(uploads/' + d.BuktiPrestasi + '/)?>"></td>' +
+        // '<td><img width="100 " src="<?php echo base_url(); ?>uploads/<?php echo' + d.BuktiPrestasi + ' ?>/"></td>' +
+        // '<td <img width="" 500px height="500px" src=" <?php echo base_url(uploads/)' + d.BuktiPrestasi + '"?>"/></td>' +
+        '</tr>' +
+        '</table></div>';
+}
