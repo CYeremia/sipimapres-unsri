@@ -4,9 +4,9 @@ var globalUrl = currUrl.join('/');
 
 var base_url = window.location.origin; //get default url name
 
-var pathArray = window.location.pathname.split( '/' ); //get child url
+var pathArray = window.location.pathname.split('/'); //get child url
 
-var url = base_url+"/"+pathArray[1]+"/uploads/"; // append child url and uploads
+var url = base_url + "/" + pathArray[1] + "/uploads/"; // append child url and uploads
 
 var prestasi_kompetisi;
 
@@ -106,8 +106,8 @@ function format(d) {
     return '<div class="slider">' +
         '<table class="table table-striped">' +
         '<tr>' +
-        '<td style="width: 10%">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data</b></h4>' +
+        '<td style="width: 10%" colspan="3">' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Tiket</b></h4>' +
         '</td>' +
         '</tr>' +
         '<tr>' +
@@ -151,7 +151,7 @@ function format(d) {
         '<td>' + d.Status + '</td>' +
         '</tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img style="width:200px" src="'+url+d.BuktiPrestasi+'"></td>' +
+        '<td><img onclick="BuktiPrestasi(\'' + d.BuktiPrestasi + '\')" style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
         '</tr>' +
         // '<tr>' +
         // '<td style="width: 15%">Status</td>' +
@@ -159,3 +159,18 @@ function format(d) {
         // '</tr>' +
         '</table></div>';
 }
+
+function BuktiPrestasi(gambar) {
+    var modal = document.getElementById("Modal-Img");
+    var modalImg = document.getElementById("img");
+
+    modal.style.display = "block";
+    modalImg.src = this.src = url + gambar;
+    $('#Modal-Img').modal('show');
+}
+
+$('#closemodal').click(function (e) {
+    var modal = document.getElementById("Modal-Img");
+    modal.style.display = "none";
+});
+
