@@ -7,7 +7,8 @@ class admin_fakultas  extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
+        $this->data['Role'] = $this->session->userdata('Role');
         // date_default_timezone_set("Asia/Bangkok"); // set timezone
         // $this->data['IDPengenal'] = $this->session->userdata('IDpegenal');
         // $this->data['Role'] = $this->session->userdata('Role');
@@ -36,10 +37,8 @@ class admin_fakultas  extends CI_Controller
         //         exit;
         //     }
 
-        // $this->data['user'] = $this->db->query("SELECT `user`.`Nama`, `user`.`Role`, `user`.`IDPengenal`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`RoleID` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
-        $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
-        // var_dump($this->data['user']);
-        // die;
+        $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
+        // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
         $this->load->model('user_m');
         $this->load->library('UserObj');
     }
@@ -51,13 +50,5 @@ class admin_fakultas  extends CI_Controller
         $this->data['title'] = 'Admin Fakultas | Dashboard ';
         $this->data['content'] = 'main';
         $this->load->view('admin_fakultas/template/template', $this->data);
-    }
-
-    public function logout()
-    {
-        $this->session->unset_userdata('IDpengenal');
-        $this->session->unset_userdata('role_id');
-
-        redirect('login');
     }
 }
