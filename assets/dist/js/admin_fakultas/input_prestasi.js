@@ -2,11 +2,12 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
-var inputPrestasi;
+var input_prestasi;
 
 $(document).ready(function () {
 
-    inputPrestasi = $('#inputPrestasi').DataTable({
+
+    input_prestasi = $('#inputPrestasi').DataTable({
         ajax: {
             url: globalUrl + '/data_mahasiswa',
             type: 'POST',
@@ -14,63 +15,60 @@ $(document).ready(function () {
         },
         columns: [{
             data: "no",
-            "targets": 0,
-            "width": "5%"
+            "targets": 0
         },
         {
-            data: "NIM",
-            "targets": 1,
-            "width": "5%"
+            data: "IDPengenal",
+            "targets": 1
         },
         {
             data: "Nama",
-            "targets": 2,
-            "width": "5%"
+            "targets": 2
         },
         {
-            data: "Program_Studi",
-            "targets": 3,
-            "width": "5%"
+            data: "ProgramStudi",
+            "targets": 3
         },
         {
-            data: { NIM: "NIM" },
+            data: { IDPengenal: "IDPengenal" },
 
             "render": function (data, type, full, meta) {
-                var actButt = "<button idpengenal=\" " + data.NIM + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Input Data</button>";
+                var actButt = "<button idpengenal=\" " + data.IDPengenal + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Input Data</button>";
                 return actButt;
             },
             "targets": 4,
-            "width": "5%"
-        },
+            "width": "20%"
+        }
+
         ],
         order: [[0, 'asc']],
     });
 
     //Get data detail
-    $('#inputPrestasi tbody').on('click', 'detaildata', function () {
+    $('#inputPrestasi tbody').on('click', '.detaildata', function () {
         var IDp = $(this).attr('idpengenal');
 
-        swal({
-            title: "Anda Yakin Akan melakukan Input Data?",
-            // text: "Data akan di Edit?",
-            type: "warning",
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#18a15f",
-            confirmButtonText: "Ya, saya yakin",
-            closeOnConfirm: false
-        }, function (isConfirm) {
-            if (isConfirm) {
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya Yakin!'
+        }).then((result) => {
+            if (result.value) {
                 detaildataM(IDp)
+
             }
-        });
+        })
     });
 
 });
 
 function detaildataM(IDp) {
-
+    // alert(IDp);
     $.ajax({
-
         type: 'POST',
         url: globalUrl + "/getdataMahasiswa",
         data: {
@@ -79,10 +77,16 @@ function detaildataM(IDp) {
         success: function (response) {
             console.log(response);
             swal.close();
-            document.getElementById('Symtomp').value = response.data[0].Symptom;
-            document.getElementById('bobot').value = response.data[0].Point;
+            document.getElementById('namamahasiswa').value = response.data[0].Nama;
+            document.getElementById('Nimmahasiswa').value = response.data[0].IDPengenal;
+            document.getElementById('prodi').value = response.data[0].ProgramStudi;
+            document.getElementById('fakultas').value = response.data[0].Fakultas;
+            document.getElementById('Email').value = response.data[0].Email;
+            document.getElementById('IPK').value = response.data[0].IPK;
+            document.getElementById('Notlp').value = response.data[0].Telephone;
 
-            document.getElementById('id_modal').value = response.data[0].BotButtonID;
+
+            document.getElementById('id_modal').value = response.data[0].IDPengenal;
             $('#modal-form2').modal();
 
 
@@ -90,64 +94,7 @@ function detaildataM(IDp) {
     });
 }
 
-//Row Child
-function format(d) {
-    return '<div class="slider">' +
-        '<table class="table table-striped">' +
-        '<tr>' +
-        '<td style="width: 10%" colspan="3">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Tiket</b></h4>' +
-        '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Nama Mahasiswa</td>' +
-        '<td>' + d.Nama + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">NIM</td>' +
-        '<td>' + d.PeraihPrestasi + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Bidang</td>' +
-        '<td>' + d.Bidang + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Perlombaan</td>' +
-        '<td>' + d.Perlombaan + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Tahun</td>' +
-        '<td>' + d.Tahun + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Penyelenggara</td>' +
-        '<td>' + d.Penyelenggara + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Kategori</td>' +
-        '<td>' + d.Kategori + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Tingkat</td>' +
-        '<td>' + d.Tingkat + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Pencapaian</td>' +
-        '<td>' + d.Pencapaian + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Status</td>' +
-        '<td>' + d.Status + '</td>' +
-        '</tr>' +
-        '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img onclick="BuktiPrestasi(\'' + d.BuktiPrestasi + '\')" style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
-        '</tr>' +
-        // '<tr>' +
-        // '<td style="width: 15%">Status</td>' +
-        // '<td>' + d.Status + '</td>' +
-        // '</tr>' +
-        '</table></div>';
-}
+
 
 
 

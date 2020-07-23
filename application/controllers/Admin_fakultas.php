@@ -59,7 +59,7 @@ class admin_fakultas  extends CI_Controller
         //jumlah data untuk dashboard
         $this->data['jumlah'] = [
 
-            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='". $this->data['userdata']->Fakultas."'")->row(), //jumlah mahasiswa
+            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
 
             $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
@@ -69,7 +69,6 @@ class admin_fakultas  extends CI_Controller
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
             WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row() //jumlah prestasi non kompetisi
         ];
-
     }
 
     public function index()
@@ -114,6 +113,26 @@ class admin_fakultas  extends CI_Controller
         echo json_encode($result);
     }
 
+    public function MapToObject()
+    {
+        $listData = [];
+        $data = $this->user_m->get(['Role' => 'Mahasiswa']);
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->no = $i;
+            // $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
+            // $obj->Nama = $Name->nama;
+            $obj->Nama = $k->Nama;
+            $obj->IDPengenal = $k->IDPengenal;
+            $obj->ProgramStudi = $k->ProgramStudi;
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
 
     public function penyebaranprestasi()
     {
@@ -129,6 +148,7 @@ class admin_fakultas  extends CI_Controller
 
     public function Maptodataprestasi()
     {
+<<<<<<< HEAD
         $listData = [];
         $year = date("Y");
         $data = $this->prodi->get(['Fakultas' => $this->data['userdata']->Fakultas]);
@@ -148,16 +168,22 @@ class admin_fakultas  extends CI_Controller
 
     public function prestasikompetisi()
     {   
+=======
+    }
+
+    public function prestasikompetisi()
+    {
+        $year = date("Y");
+>>>>>>> 13678d527f6a82df25e37c629bfd5ef3a3e8ef63
 
         return $year;
     }
 
     public function prestasinonkompetisi()
     {
-
-
     }
 
+<<<<<<< HEAD
 
 
     public function MapToObject()
@@ -190,4 +216,25 @@ class admin_fakultas  extends CI_Controller
     }
 
 
+=======
+    // mengambil data mahasiswa berdasarkan IDpengenal/NIM
+    public function getdataMahasiswa()
+    {
+        $id = $this->input->post('ID');
+        // print_r($id);
+        // die;
+        // $this->db->where('IDPengenal', $id);
+        // $dataku = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $id . "'")->result();
+        $dataku = $this->user_m->get(['IDPengenal' => $id]);
+        // $dataku = $this->db->get('user')->result();
+        $result = [
+            'data' => $dataku,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+>>>>>>> 13678d527f6a82df25e37c629bfd5ef3a3e8ef63
 }
