@@ -44,11 +44,32 @@ class admin_fakultas  extends CI_Controller
     }
 
     public function index()
-    // $Userdata['user'] = $this->db->get_where('user', ['IDpengenal' => $this->session->userdata('IDpengenal')])->row_array();
     {
         $this->data['active'] = 1;
         $this->data['title'] = 'Admin Fakultas | Dashboard ';
         $this->data['content'] = 'main';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    public function input_Prestasi()
+    {
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Fakultas | Input Prestasi ';
+        $this->data['content'] = 'input_prestasi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+    public function prestasi_kompetisi()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Kompetisi ';
+        $this->data['content'] = 'Verifikasi_kompetisi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+    public function prestasi_Nonkompetisi()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
+        $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 }

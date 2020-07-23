@@ -206,6 +206,8 @@ pre {
   overflow: auto;
 }
 
+
+
 figure {
   margin: 0 0 1rem;
 }
@@ -19128,7 +19130,20 @@ html.maximized-card {
   position: relative;
 }
 
+.small-box2 {
+  border-radius: 0.25rem;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: block;
+  margin-bottom: 30px;
+  height: 80%;
+  position: relative;
+}
+
 .small-box > .inner {
+  padding: 10px;
+}
+
+.small-box2 > .inner {
   padding: 10px;
 }
 
@@ -19144,7 +19159,23 @@ html.maximized-card {
   z-index: 10;
 }
 
+.small-box2 > .small-box-footer {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  padding: 3px 0;
+  position: relative;
+
+  text-align: center;
+  text-decoration: none;
+  z-index: 10;
+}
+
 .small-box > .small-box-footer:hover {
+  background: rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+}
+.small-box2 > .small-box-footer:hover {
   background: rgba(0, 0, 0, 0.15);
   color: #ffffff;
 }
@@ -19153,6 +19184,14 @@ html.maximized-card {
   font-size: 2.2rem;
   font-weight: bold;
   margin: 0 0 10px 0;
+  padding: 0;
+  white-space: nowrap;
+}
+.small-box2 h3 {
+  font-size: 4.1rem;
+  font-weight: 500;
+  /* font-weight: bold; */
+  margin: 0 0 10px 10%;
   padding: 0;
   white-space: nowrap;
 }
@@ -19165,17 +19204,31 @@ html.maximized-card {
   white-space: nowrap; */
   color: white;
 }
+.small-box2> .inner> center> a >h3 {
+  /* font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 0;
+  white-space: nowrap; */
+  color: white;
+}
 
 @media (min-width: 992px) {
   .col-xl-2 .small-box h3,
   .col-lg-2 .small-box h3,
-  .col-md-2 .small-box h3 {
+  .col-md-2 .small-box h3,
+  .col-xl-2 .small-box2 h3,
+  .col-lg-2 .small-box2 h3,
+  .col-md-2 .small-box2 h3 {
     font-size: 6.6rem;
     color: white;
   }
   .col-xl-3 .small-box h3,
   .col-lg-3 .small-box h3,
-  .col-md-3 .small-box h3 {
+  .col-md-3 .small-box h3,
+  .col-xl-3 .small-box2 h3,
+  .col-lg-3 .small-box2 h3,
+  .col-md-3 .small-box2 h3 {
     font-size: 6.6rem;
     color: white;
   }
@@ -19184,13 +19237,19 @@ html.maximized-card {
 @media (min-width: 1200px) {
   .col-xl-2 .small-box h3,
   .col-lg-2 .small-box h3,
-  .col-md-2 .small-box h3 {
+  .col-md-2 .small-box h3,
+  .col-xl-2 .small-box2 h3,
+  .col-lg-2 .small-box2 h3,
+  .col-md-2 .small-box2 h3 {
     font-size: 6.6rem;
     color: white;
   }
   .col-xl-3 .small-box h3,
   .col-lg-3 .small-box h3,
-  .col-md-3 .small-box h3 {
+  .col-md-3 .small-box h3,
+  .col-xl-3 .small-box2 h3,
+  .col-lg-3 .small-box2 h3,
+  .col-md-3 .small-box2 h3 {
     font-size: 6.6rem;
     color: white;
   }
@@ -19200,7 +19259,21 @@ html.maximized-card {
   font-size: 1rem;
 }
 
+.small-box2 p {
+  font-size: 2.2rem;
+  margin-left: 10%;
+  font-weight: 500;
+  /* text-align: center; */
+}
+
 .small-box p > small {
+  color: #f8f9fa;
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.small-box2 p > small {
   color: #f8f9fa;
   display: block;
   font-size: 0.9rem;
@@ -19212,7 +19285,17 @@ html.maximized-card {
   z-index: 5;
 }
 
+.small-box2 h3,
+.small-box2 p {
+  z-index: 5;
+}
+
 .small-box .icon {
+  color: rgba(0, 0, 0, 0.15);
+  z-index: 0;
+}
+
+.small-box2 .icon {
   color: rgba(0, 0, 0, 0.15);
   z-index: 0;
 }
@@ -19225,7 +19308,20 @@ html.maximized-card {
   transition: all 0.3s linear;
 }
 
+.small-box2 .icon > i {
+  font-size: 90px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  transition: all 0.3s linear;
+}
+
 .small-box .icon > i.fa, .small-box .icon > i.fas, .small-box .icon > i.far, .small-box .icon > i.fab, .small-box .icon > i.glyphicon, .small-box .icon > i.ion {
+  font-size: 70px;
+  top: 20px;
+}
+
+.small-box2 .icon > i.fa, .small-box2 .icon > i.fas, .small-box2 .icon > i.far, .small-box2 .icon > i.fab, .small-box2 .icon > i.glyphicon, .small-box2 .icon > i.ion {
   font-size: 70px;
   top: 20px;
 }
@@ -19234,11 +19330,23 @@ html.maximized-card {
   text-decoration: none;
 }
 
+.small-box2:hover {
+  text-decoration: none;
+}
+
 .small-box:hover .icon > i {
   font-size: 95px;
 }
 
+.small-box2:hover .icon > i {
+  font-size: 95px;
+}
+
 .small-box:hover .icon > i.fa, .small-box:hover .icon > i.fas, .small-box:hover .icon > i.far, .small-box:hover .icon > i.fab, .small-box:hover .icon > i.glyphicon, .small-box:hover .icon > i.ion {
+  font-size: 75px;
+}
+
+.small-box2:hover .icon > i.fa, .small-box2:hover .icon > i.fas, .small-box2:hover .icon > i.far, .small-box2:hover .icon > i.fab, .small-box2:hover .icon > i.glyphicon, .small-box2:hover .icon > i.ion {
   font-size: 75px;
 }
 
@@ -19247,10 +19355,23 @@ html.maximized-card {
     text-align: center;
     color: white;
   }
+  .small-box2 {
+    text-align: center;
+    color: white;
+  }
+
   .small-box .icon {
     display: none;
   }
+  
+  .small-box2 .icon {
+    display: none;
+  }
+
   .small-box p {
+    font-size: 12px;
+  }
+  .small-box2 p {
     font-size: 12px;
   }
 }
@@ -27378,7 +27499,9 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 .info-box > .overlay,
 .info-box > .loading-img,
 .small-box > .overlay,
-.small-box > .loading-img {
+.small-box2 > .overlay,
+.small-box > .loading-img,
+.small-box2 > .loading-img {
   height: 100%;
   left: 0;
   position: absolute;
@@ -27389,7 +27512,8 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 .card .overlay,
 .overlay-wrapper .overlay,
 .info-box .overlay,
-.small-box .overlay {
+.small-box .overlay,
+.small-box2 .overlay {
   border-radius: 0.25rem;
   -ms-flex-align: center;
   align-items: center;
@@ -27424,14 +27548,21 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 .small-box .overlay > .far,
 .small-box .overlay > .fab,
 .small-box .overlay > .glyphicon,
-.small-box .overlay > .ion {
+.small-box .overlay > .ion,
+.small-box2 .overlay > .fa,
+.small-box2 .overlay > .fas,
+.small-box2 .overlay > .far,
+.small-box2 .overlay > .fab,
+.small-box2 .overlay > .glyphicon,
+.small-box2 .overlay > .ion {
   color: #343a40;
 }
 
 .card .overlay.dark,
 .overlay-wrapper .overlay.dark,
 .info-box .overlay.dark,
-.small-box .overlay.dark {
+.small-box .overlay.dark,
+.small-box2 .overlay.dark {
   background: rgba(0, 0, 0, 0.5);
 }
 
@@ -27458,7 +27589,13 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 .small-box .overlay.dark > .far,
 .small-box .overlay.dark > .fab,
 .small-box .overlay.dark > .glyphicon,
-.small-box .overlay.dark > .ion {
+.small-box .overlay.dark > .ion,
+.small-box2 .overlay.dark > .fa,
+.small-box2 .overlay.dark > .fas,
+.small-box2 .overlay.dark > .far,
+.small-box2 .overlay.dark > .fab,
+.small-box2 .overlay.dark > .glyphicon,
+.small-box2 .overlay.dark > .ion {
   color: #ced4da;
 }
 

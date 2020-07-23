@@ -37,6 +37,27 @@
     <!-- sweetalert -->
     <link href="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
     <link href="<?= base_url('assets') ?>/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <style>
+        /* DataTables */
+        td.details-control {
+            background-image: url('<?= base_url('assets') ?>/dist/img/plus.png');
+            cursor: pointer;
+            background-size: 40%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        tr.shown td.details-control {
+            background-image: url('<?= base_url('assets') ?>/dist/img/min.png');
+            cursor: pointer;
+            background-size: 35%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+
+
 </head>
 
 <!-- <body class="theme-custom ls-closed">

@@ -2,17 +2,11 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
-var base_url = window.location.origin; //get default url name
-
-var pathArray = window.location.pathname.split('/'); //get child url
-
-var url = base_url + "/" + pathArray[1] + "/uploads/"; // append child url and uploads
-
-var prestasi_kompetisi;
+var verifikasi_kompetisi;
 
 $(document).ready(function () {
 
-    prestasi_kompetisi = $('#perestasikompetisi').DataTable({
+    verifikasi_kompetisi = $('#verifikasiKompetisi').DataTable({
         ajax: {
             url: globalUrl + '/data_prestasi',
             type: 'POST',
@@ -67,9 +61,9 @@ $(document).ready(function () {
     });
 
     //Get data detail
-    $('#perestasikompetisi tbody').on('click', 'td.details-control', function () {
+    $('#verifikasiKompetisi tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
-        var row = prestasi_kompetisi.row(tr);
+        var row = verifikasi_kompetisi.row(tr);
 
         if (row.child.isShown()) {
             // This row is already open - close it
@@ -144,17 +138,5 @@ function format(d) {
         '</table></div>';
 }
 
-function BuktiPrestasi(gambar) {
-    var modal = document.getElementById("Modal-Img");
-    var modalImg = document.getElementById("img");
 
-    modal.style.display = "block";
-    modalImg.src = this.src = url + gambar;
-    $('#Modal-Img').modal('show');
-}
-
-$('#closemodal').click(function (e) {
-    var modal = document.getElementById("Modal-Img");
-    modal.style.display = "none";
-});
 

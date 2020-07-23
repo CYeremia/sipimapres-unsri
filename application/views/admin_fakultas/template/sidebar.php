@@ -30,27 +30,31 @@
                with font-awesome or any other icon font library -->
                 <!-- <li class="nav-item"> -->
                 <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
+                    <a href="<?= site_url('admin_fakultas') ?>" class="nav-link <?php if ($active == 1) {
+                                                                                    echo "active";
+                                                                                } ?> ">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Dashboard
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
+                    <a href="<?= site_url('admin_fakultas/input_prestasi') ?>" class="nav-link <?php if ($active == 2) {
+                                                                                                    echo "active";
+                                                                                                } ?> ">
+                        <i class="nav-icon fas fa-user-edit"></i>
                         <p>
                             Input Prestasi
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
 
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                <li class="nav-item has-treeview menu-close">
+                    <a href="#" class="nav-link <?php if ($active == 3 || $active == 4) {
+                                                    echo "active";
+                                                } ?> ">
+                        <i class="nav-icon fas fa-file-signature"></i>
                         <p>
                             Verifikasi Data
                             <i class="right fas fa-angle-left"></i>
@@ -58,22 +62,28 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./index.html" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="<?= site_url('admin_fakultas/prestasi_kompetisi') ?>" class="nav-link <?php if ($active == 3) {
+                                                                                                                echo "active";
+                                                                                                            } ?> ">
+                                <i class="nav-icon fas fa-trophy"></i>
                                 <p>Prestasi Kompetisi</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="<?= site_url('admin_fakultas/prestasi_Nonkompetisi') ?>" class="nav-link <?php if ($active == 4) {
+                                                                                                                    echo "active";
+                                                                                                                } ?> ">
+                                <i class="nav-icon fas fa-award"></i>
                                 <p>Prestasi Non Kompetisi</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('logout') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <a href="<?= site_url('admin_fakultas') ?>" class="nav-link <?php if ($active == 5) {
+                                                                                    echo "active";
+                                                                                } ?> ">
+                        <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Profile
                         </p>
