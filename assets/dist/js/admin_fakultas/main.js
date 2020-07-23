@@ -1,9 +1,35 @@
 $(document).ready(function () {
+
+    var currUrl = window.location.href.split('/');
+    var globalUrl = currUrl.join('/');
+
+    var now = new Date().getFullYear(); //get year now
+
+    var year = []; //variabel year
+
+    for(var i = 9; i >= 0; i--)
+    { 
+        year[i] = now;
+        now-=1;
+    }
+
+    $.ajax({
+        url: globalUrl + '/penyebaranprestasi',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(data) {
+
+            console.log(data);
+
+
+        }});
+    
     var areaChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: year,
         datasets: [
             {
-                label: 'Digital Goods',
+                label: 'Prestasi Non Kompetisi',
                 backgroundColor: 'rgba(60,141,188,0.9)',
                 borderColor: 'rgba(60,141,188,0.8)',
                 pointRadius: false,
@@ -14,7 +40,7 @@ $(document).ready(function () {
                 data: [28, 48, 40, 19, 86, 27, 90]
             },
             {
-                label: 'Electronics',
+                label: 'Prestasi Kompetisi ',
                 backgroundColor: 'rgba(210, 214, 222, 1)',
                 borderColor: 'rgba(210, 214, 222, 1)',
                 pointRadius: false,

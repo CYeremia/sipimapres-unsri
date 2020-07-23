@@ -33,7 +33,26 @@ class admin_fakultas  extends CI_Controller
         $this->load->model('user_m');
         $this->load->model('prestasi_kompetisi');
         $this->load->model('prestasi_nonkompetisi');
+<<<<<<< HEAD
+        $this->load->model('prodi');
+=======
+>>>>>>> 5c65fe06c3e4290500a5f7c803b0f41b84d64e91
         $this->load->library('UserObj');
+
+        //jumlah data untuk dashboard
+        $this->data['jumlah'] = [
+
+            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='". $this->data['userdata']->Fakultas."'")->row(), //jumlah mahasiswa
+
+            $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
+            INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row(), //jumlah prestasi kompetisi
+
+            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
+            INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row() //jumlah prestasi non kompetisi
+        ];
+
     }
 
     public function index()
@@ -82,6 +101,38 @@ class admin_fakultas  extends CI_Controller
         echo json_encode($result);
     }
 
+
+    public function penyebaranprestasi()
+    {
+        $result = [
+            'data' => $this->prestasikompetisi(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function jurusan()
+    {
+
+    }
+
+    public function prestasikompetisi()
+    {   $year = date("Y");
+
+        return $year;
+    }
+
+    public function prestasinonkompetisi()
+    {
+
+
+    }
+
+
+
     public function MapToObject()
     {
         $listData = [];
@@ -102,6 +153,9 @@ class admin_fakultas  extends CI_Controller
         return $listData;
     }
 
+<<<<<<< HEAD
+
+=======
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
     public function getdataMahasiswa()
     {
@@ -121,4 +175,5 @@ class admin_fakultas  extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($result);
     }
+>>>>>>> 5c65fe06c3e4290500a5f7c803b0f41b84d64e91
 }
