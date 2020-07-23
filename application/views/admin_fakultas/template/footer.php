@@ -58,9 +58,12 @@
 <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
 <!-- bs-custom-file-input -->
 <script src="<?= base_url('assets') ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-
+<!-- Sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <!-- javascript -->
 <script src="<?= base_url('assets') ?>/dist/js/admin_fakultas/<?= $content ?>.js"></script>
+
 </body>
 
 </html>

@@ -69,7 +69,6 @@ class admin_fakultas  extends CI_Controller
     public function detailmahasiswa()
     {
     }
-
     //Menampilkan seluruh data mahasiswa
     public function data_mahasiswa()
     {
@@ -86,47 +85,33 @@ class admin_fakultas  extends CI_Controller
     public function MapToObject()
     {
         $listData = [];
-        $obj = new UserObj();
-        $obj->no = '1';
-        $obj->NIM = '09021181621024';
-        $obj->Nama = 'Christofer Yeremia';
-        $obj->Program_Studi = 'Teknik Informatika';
+        $data = $this->user_m->get(['Role' => 'Mahasiswa']);
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->no = $i;
+            // $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
+            // $obj->Nama = $Name->nama;
+            $obj->Nama = $k->Nama;
+            $obj->IDPengenal = $k->IDPengenal;
+            $obj->ProgramStudi = $k->ProgramStudi;
 
-        $listData[] = $obj;
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
         return $listData;
-
-        // $listData = [];
-        // $data = $this->prestasi_kompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
-        // $i = 1;
-        // foreach ($data as $k) {
-        //     $obj = new UserObj();
-        //     $obj->no = $i;
-        //     $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
-        //     $obj->Nama = $Name->nama;
-        //     $obj->PeraihPrestasi = $k->PeraihPrestasi;
-        //     $obj->Bidang = $k->Bidang;
-        //     $obj->Perlombaan = $k->Perlombaan;
-        //     $obj->Tahun = $k->Tahun;
-        //     $obj->Penyelenggara = $k->Penyelenggara;
-        //     $obj->Kategori = $k->Kategori;
-        //     $obj->Tingkat = $k->Tingkat;
-        //     $obj->Pencapaian = $k->Pencapaian;
-        //     $obj->BuktiPrestasi = $k->BuktiPrestasi;
-        //     $obj->Status = $k->Status;
-        //     $obj->LinkBerita = $k->LinkBerita;
-
-        //     $listData[] = $obj;
-        //     $i = $i + 1;
-        // }
-        // return $listData;
     }
 
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
     public function getdataMahasiswa()
     {
         $id = $this->input->post('ID');
-        $this->db->where('BotButtonID', $id);
-        $dataku = $this->db->get('symptom')->result();
+        // print_r($id);
+        // die;
+        // $this->db->where('IDPengenal', $id);
+        // $dataku = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $id . "'")->result();
+        $dataku = $this->user_m->get(['IDPengenal' => $id]);
+        // $dataku = $this->db->get('user')->result();
         $result = [
             'data' => $dataku,
             'status' => true,
