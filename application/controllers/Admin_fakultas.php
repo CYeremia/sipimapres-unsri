@@ -148,7 +148,6 @@ class admin_fakultas  extends CI_Controller
 
     public function Maptodataprestasi()
     {
-<<<<<<< HEAD
         $listData = [];
         $year = date("Y");
         $data = $this->prodi->get(['Fakultas' => $this->data['userdata']->Fakultas]);
@@ -168,13 +167,6 @@ class admin_fakultas  extends CI_Controller
 
     public function prestasikompetisi()
     {   
-=======
-    }
-
-    public function prestasikompetisi()
-    {
-        $year = date("Y");
->>>>>>> 13678d527f6a82df25e37c629bfd5ef3a3e8ef63
 
         return $year;
     }
@@ -183,40 +175,10 @@ class admin_fakultas  extends CI_Controller
     {
     }
 
-<<<<<<< HEAD
 
 
-    public function MapToObject()
-    {
-
-        // $listData = [];
-        // $data = $this->prestasi_kompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
-        // $i = 1;
-        // foreach ($data as $k) {
-        //     $obj = new UserObj();
-        //     $obj->no = $i;
-        //     $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
-        //     $obj->Nama = $Name->nama;
-        //     $obj->PeraihPrestasi = $k->PeraihPrestasi;
-        //     $obj->Bidang = $k->Bidang;
-        //     $obj->Perlombaan = $k->Perlombaan;
-        //     $obj->Tahun = $k->Tahun;
-        //     $obj->Penyelenggara = $k->Penyelenggara;
-        //     $obj->Kategori = $k->Kategori;
-        //     $obj->Tingkat = $k->Tingkat;
-        //     $obj->Pencapaian = $k->Pencapaian;
-        //     $obj->BuktiPrestasi = $k->BuktiPrestasi;
-        //     $obj->Status = $k->Status;
-        //     $obj->LinkBerita = $k->LinkBerita;
-
-        //     $listData[] = $obj;
-        //     $i = $i + 1;
-        // }
-        // return $listData;
-    }
 
 
-=======
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
     public function getdataMahasiswa()
     {
@@ -236,5 +198,4 @@ class admin_fakultas  extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($result);
     }
->>>>>>> 13678d527f6a82df25e37c629bfd5ef3a3e8ef63
 }
