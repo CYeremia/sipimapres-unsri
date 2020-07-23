@@ -27,30 +27,12 @@ class admin_fakultas  extends CI_Controller
         // $this->db->where('UserName', $this->data['username']);
         // $this->data['Photo'] = $this->db->get('user');
 
-        // if (isset($this->data['username'], $this->data['id_role'])) {
-        //     if ($this->data['id_role'] != 1) {
-        //         redirect('logout');
-        //         exit;
-        //     }
-        // } else {
-        //     redirect('logout');
-        //     exit;
-        // }   
-        //     $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
-        //     $this->data['id_role'] = $this->session->userdata('id_role');
-        //     if (isset($this->data['IDpengenal'], $this->data['id_role'])) {
-        //         if ($this->data['id_role'] != 1) {
-        //             redirect('logout');
-        //             exit;
-        //         }
-        //     } else {
-        //         redirect('logout');
-        //         exit;
-        //     }
 
         $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
         // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
         $this->load->model('user_m');
+        $this->load->model('prestasi_kompetisi');
+        $this->load->model('prestasi_nonkompetisi');
         $this->load->library('UserObj');
     }
 
@@ -84,6 +66,11 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    public function detailmahasiswa()
+    {
+    }
+
+    //Menampilkan seluruh data mahasiswa
     public function data_mahasiswa()
     {
         $result = [
@@ -98,6 +85,15 @@ class admin_fakultas  extends CI_Controller
 
     public function MapToObject()
     {
+        $listData = [];
+        $obj = new UserObj();
+        $obj->no = '1';
+        $obj->NIM = '09021181621024';
+        $obj->Nama = 'Christofer Yeremia';
+        $obj->Program_Studi = 'Teknik Informatika';
+
+        $listData[] = $obj;
+        return $listData;
 
         // $listData = [];
         // $data = $this->prestasi_kompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
@@ -123,5 +119,21 @@ class admin_fakultas  extends CI_Controller
         //     $i = $i + 1;
         // }
         // return $listData;
+    }
+
+    // mengambil data mahasiswa berdasarkan IDpengenal/NIM
+    public function getdataMahasiswa()
+    {
+        $id = $this->input->post('ID');
+        $this->db->where('BotButtonID', $id);
+        $dataku = $this->db->get('symptom')->result();
+        $result = [
+            'data' => $dataku,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
     }
 }

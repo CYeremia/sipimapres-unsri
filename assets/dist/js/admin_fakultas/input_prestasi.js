@@ -14,46 +14,32 @@ $(document).ready(function () {
         },
         columns: [{
             data: "no",
-            "targets": 0
+            "targets": 0,
+            "width": "5%"
         },
         {
             data: "NIM",
-            "targets": 1
+            "targets": 1,
+            "width": "5%"
         },
         {
-            data: "Namas",
+            data: "Nama",
             "targets": 2,
+            "width": "5%"
         },
         {
-            data: "Tahun",
-            "targets": 3
+            data: "Program_Studi",
+            "targets": 3,
+            "width": "5%"
         },
         {
-            data: "Penyelenggara",
-            "targets": 4
-        },
-        {
-            data: "Kategori",
-            "targets": 5
-        },
-        {
-            data: "Tingkat",
-            "targets": 6
-        },
-        {
-            data: "Pencapaian",
-            "targets": 7
-        },
-        {
-            data: "Status",
-            "targets": 8
-        },
-        {
-            "className": 'details-control',
-            "data": null,
-            "orderable": false,
-            "defaultContent": '',
-            "targets": 9,
+            data: { NIM: "NIM" },
+
+            "render": function (data, type, full, meta) {
+                var actButt = "<button idpengenal=\" " + data.NIM + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Input Data</button>";
+                return actButt;
+            },
+            "targets": 4,
             "width": "5%"
         },
         ],
@@ -61,23 +47,48 @@ $(document).ready(function () {
     });
 
     //Get data detail
-    $('#inputPrestasi tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = inputPrestasi.row(tr);
+    $('#inputPrestasi tbody').on('click', 'detaildata', function () {
+        var IDp = $(this).attr('idpengenal');
 
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row (the format() function would return the data to be shown)
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-        }
+        swal({
+            title: "Anda Yakin Akan melakukan Input Data?",
+            // text: "Data akan di Edit?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#18a15f",
+            confirmButtonText: "Ya, saya yakin",
+            closeOnConfirm: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+                detaildataM(IDp)
+            }
+        });
     });
 
 });
+
+function detaildataM(IDp) {
+
+    $.ajax({
+
+        type: 'POST',
+        url: globalUrl + "/getdataMahasiswa",
+        data: {
+            ID: IDp,
+        },
+        success: function (response) {
+            console.log(response);
+            swal.close();
+            document.getElementById('Symtomp').value = response.data[0].Symptom;
+            document.getElementById('bobot').value = response.data[0].Point;
+
+            document.getElementById('id_modal').value = response.data[0].BotButtonID;
+            $('#modal-form2').modal();
+
+
+        }
+    });
+}
 
 //Row Child
 function format(d) {
