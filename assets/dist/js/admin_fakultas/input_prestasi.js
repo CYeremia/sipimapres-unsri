@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     inputPrestasi = $('#inputPrestasi').DataTable({
         ajax: {
-            url: globalUrl + '/data_prestasi',
+            url: globalUrl + '/data_mahasiswa',
             type: 'POST',
             data: function (d) { }
         },
@@ -17,11 +17,11 @@ $(document).ready(function () {
             "targets": 0
         },
         {
-            data: "Bidang",
+            data: "NIM",
             "targets": 1
         },
         {
-            data: "Perlombaan",
+            data: "Namas",
             "targets": 2,
         },
         {

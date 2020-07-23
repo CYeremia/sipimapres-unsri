@@ -41,17 +41,17 @@
     <style>
         /* DataTables */
         td.details-control {
-            background-image: url('<?= base_url('assets') ?>/dist/img/plus.png');
+            background-image: url('<?= base_url('assets') ?>/dist/img/add.png');
             cursor: pointer;
-            background-size: 40%;
+            background-size: 30%;
             background-repeat: no-repeat;
             background-position: center;
         }
 
         tr.shown td.details-control {
-            background-image: url('<?= base_url('assets') ?>/dist/img/min.png');
+            background-image: url('<?= base_url('assets') ?>/dist/img/cancel.png');
             cursor: pointer;
-            background-size: 35%;
+            background-size: 30%;
             background-repeat: no-repeat;
             background-position: center;
         }

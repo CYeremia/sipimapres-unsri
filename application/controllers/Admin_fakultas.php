@@ -9,6 +9,17 @@ class admin_fakultas  extends CI_Controller
         parent::__construct();
         $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
         $this->data['Role'] = $this->session->userdata('Role');
+        // $this->db->select('Photo');
+        // $this->db->where('UserName', $this->data['username']);
+        // $this->data['Photo'] = $this->db->get('user');
+        if (isset($this->data['IDpengenal'], $this->data['Role'])) {
+            if ($this->data['Role'] != "Administrasi Fakultas") {
+                redirect('logout');
+            }
+        } else {
+            redirect('logout');
+        }
+
         // date_default_timezone_set("Asia/Bangkok"); // set timezone
         // $this->data['IDPengenal'] = $this->session->userdata('IDpegenal');
         // $this->data['Role'] = $this->session->userdata('Role');
@@ -71,5 +82,46 @@ class admin_fakultas  extends CI_Controller
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    public function data_mahasiswa()
+    {
+        $result = [
+            'data' => $this->MapToObject(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function MapToObject()
+    {
+
+        // $listData = [];
+        // $data = $this->prestasi_kompetisi->get(['PeraihPrestasi' => $this->data['IDpengenal']]);
+        // $i = 1;
+        // foreach ($data as $k) {
+        //     $obj = new UserObj();
+        //     $obj->no = $i;
+        //     $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
+        //     $obj->Nama = $Name->nama;
+        //     $obj->PeraihPrestasi = $k->PeraihPrestasi;
+        //     $obj->Bidang = $k->Bidang;
+        //     $obj->Perlombaan = $k->Perlombaan;
+        //     $obj->Tahun = $k->Tahun;
+        //     $obj->Penyelenggara = $k->Penyelenggara;
+        //     $obj->Kategori = $k->Kategori;
+        //     $obj->Tingkat = $k->Tingkat;
+        //     $obj->Pencapaian = $k->Pencapaian;
+        //     $obj->BuktiPrestasi = $k->BuktiPrestasi;
+        //     $obj->Status = $k->Status;
+        //     $obj->LinkBerita = $k->LinkBerita;
+
+        //     $listData[] = $obj;
+        //     $i = $i + 1;
+        // }
+        // return $listData;
     }
 }
