@@ -17,7 +17,7 @@ class UserObj
 	public $Tahun;
 	public $Perlombaan;
 	public $Bidang;
-
+	
 
 	public $photo;
 }
