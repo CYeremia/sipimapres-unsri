@@ -21,7 +21,7 @@
                     <!-- small box -->
                     <div class="small-box2 bg-info">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3><?= $jumlah[0]->mahasiswa ?></h3>
                             <p>Mahasiswa</p>
                         </div>
                         <div class="icon">
@@ -34,7 +34,7 @@
                     <!-- small box -->
                     <div class="small-box2 bg-success">
                         <div class="inner">
-                            <h3>53</h3>
+                            <h3><?= $jumlah[1]->kompetisi ?></h3>
                             <p>Prestasi Kompetisi</p>
                         </div>
                         <div class="icon">
@@ -47,7 +47,7 @@
                     <!-- small box -->
                     <div class="small-box2 bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3><?= $jumlah[2]->nonkompetisi ?></h3>
                             <p>Prestasi Non Kompetisi</p>
                         </div>
                         <div class="icon">

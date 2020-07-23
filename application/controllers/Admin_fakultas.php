@@ -51,7 +51,25 @@ class admin_fakultas  extends CI_Controller
         $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
         // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
         $this->load->model('user_m');
+        $this->load->model('prestasi_kompetisi');
+        $this->load->model('prestasi_nonkompetisi');
+        $this->load->model('prodi');
         $this->load->library('UserObj');
+
+        //jumlah data untuk dashboard
+        $this->data['jumlah'] = [
+
+            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='". $this->data['userdata']->Fakultas."'")->row(), //jumlah mahasiswa
+
+            $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
+            INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row(), //jumlah prestasi kompetisi
+
+            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
+            INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row() //jumlah prestasi non kompetisi
+        ];
+
     }
 
     public function index()
@@ -96,6 +114,38 @@ class admin_fakultas  extends CI_Controller
         echo json_encode($result);
     }
 
+
+    public function penyebaranprestasi()
+    {
+        $result = [
+            'data' => $this->prestasikompetisi(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function jurusan()
+    {
+
+    }
+
+    public function prestasikompetisi()
+    {   $year = date("Y");
+
+        return $year;
+    }
+
+    public function prestasinonkompetisi()
+    {
+
+
+    }
+
+
+
     public function MapToObject()
     {
 
@@ -124,4 +174,6 @@ class admin_fakultas  extends CI_Controller
         // }
         // return $listData;
     }
+
+
 }
