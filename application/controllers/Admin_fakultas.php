@@ -173,19 +173,8 @@ class admin_fakultas  extends CI_Controller
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
-<<<<<<< HEAD
                 $data = array('Prodi' => $k->Prodi , 'Kompetisi' => $prestasikompetisi , 'NonKompetisi' => $prestasinonkompetisi);
                 $listData[] =  $data;
-=======
-            $data = array('Prodi' => $k->Prodi, 'Kompetisi' => $prestasikompetisi, 'NonKompetisi' => $prestasinonkompetisi);
-            $listData[] =  $data;
-
-
-            //             SELECT * FROM prestasikompetisi
-            // INNER JOIN user ON
-            // prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            // WHERE Tahun=2016 AND ProgramStudi = 'Teknik Informatika (S1)' AND Status='Diterima';
->>>>>>> b86a1851d1675ec85d1672cc8c581ed29580c8c9
 
         }
         return $listData;
