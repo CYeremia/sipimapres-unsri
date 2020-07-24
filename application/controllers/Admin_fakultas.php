@@ -179,16 +179,6 @@ class admin_fakultas  extends CI_Controller
         return $listData;
     }
 
-    public function prestasikompetisi()
-    {   
-
-        return $year;
-    }
-
-    public function prestasinonkompetisi()
-    {
-    }
-
 
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
     public function getdataMahasiswa()
