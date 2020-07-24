@@ -115,12 +115,15 @@ class admin_fakultas  extends CI_Controller
 
     public function MapToObject()
     {
-        $this->load->model('user_m');
+        // $this->load->model('user_m');
         $listData = [];
         // $result['data'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`Role` = 'Mahasiswa' AND `user`.'Fakultas'= '" . $this->data['userdata']->Fakultas . "'")->result();
 
-        $data = $this->user_m->where('Role', 'Mahasiswa')->where('Fakultas', $this->data['userdata']->Fakukltas)->get();
+        // $data = $this->user_m->where('Role', 'Mahasiswa')->where('Fakultas', $this->data['userdata']->Fakukltas)->get();
         // $data = $this->user_m->get(['Role' => 'Mahasiswa']);
+        $fakultas = $this->data['userdata']->Fakultas;
+        $sql = "SELECT * FROM user WHERE Role='Mahasiswa' AND Fakultas='$fakultas'";
+        $data = $this->db->query($sql)->result();
         $i = 1;
         foreach ($data  as $k) {
             $obj = new UserObj();
