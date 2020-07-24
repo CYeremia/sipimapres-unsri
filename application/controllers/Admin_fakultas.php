@@ -117,14 +117,19 @@ class admin_fakultas  extends CI_Controller
 
     public function MapToObject()
     {
+        // $this->load->model('user_m');
         $listData = [];
-        $data = $this->user_m->get(['Role' => 'Mahasiswa']);
+        // $result['data'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`Role` = 'Mahasiswa' AND `user`.'Fakultas'= '" . $this->data['userdata']->Fakultas . "'")->result();
+
+        // $data = $this->user_m->where('Role', 'Mahasiswa')->where('Fakultas', $this->data['userdata']->Fakukltas)->get();
+        // $data = $this->user_m->get(['Role' => 'Mahasiswa']);
+        $fakultas = $this->data['userdata']->Fakultas;
+        $sql = "SELECT * FROM user WHERE Role='Mahasiswa' AND Fakultas='$fakultas'";
+        $data = $this->db->query($sql)->result();
         $i = 1;
-        foreach ($data as $k) {
+        foreach ($data  as $k) {
             $obj = new UserObj();
             $obj->no = $i;
-            // $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
-            // $obj->Nama = $Name->nama;
             $obj->Nama = $k->Nama;
             $obj->IDPengenal = $k->IDPengenal;
             $obj->ProgramStudi = $k->ProgramStudi;
@@ -158,18 +163,29 @@ class admin_fakultas  extends CI_Controller
             $queryprestasikompetisi = $this->db->query("SELECT COUNT(*) AS Kompetisi FROM prestasikompetisi
                 INNER JOIN user ON
                 prestasikompetisi.PeraihPrestasi = user.IDPengenal
-                WHERE Tahun=".$year." AND ProgramStudi = '".$prodi."' AND Status='Diterima';")->row_array();
+                WHERE Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
             $prestasikompetisi = $queryprestasikompetisi['Kompetisi'];
 
             $queryprestasinonkompetisi = $this->db->query("SELECT COUNT(*) AS NonKompetisi FROM prestasinonkompetisi
             INNER JOIN user ON
             prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Tahun=".$year." AND ProgramStudi = '".$prodi."' AND Status='Diterima';") ->row_array();
+            WHERE Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
+<<<<<<< HEAD
                 $data = array('Prodi' => $k->Prodi , 'Kompetisi' => $prestasikompetisi , 'NonKompetisi' => $prestasinonkompetisi);
                 $listData[] =  $data;
+=======
+            $data = array('Prodi' => $k->Prodi, 'Kompetisi' => $prestasikompetisi, 'NonKompetisi' => $prestasinonkompetisi);
+            $listData[] =  $data;
+
+
+            //             SELECT * FROM prestasikompetisi
+            // INNER JOIN user ON
+            // prestasikompetisi.PeraihPrestasi = user.IDPengenal
+            // WHERE Tahun=2016 AND ProgramStudi = 'Teknik Informatika (S1)' AND Status='Diterima';
+>>>>>>> b86a1851d1675ec85d1672cc8c581ed29580c8c9
 
         }
         return $listData;
