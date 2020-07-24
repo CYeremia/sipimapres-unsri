@@ -3,30 +3,42 @@ $(document).ready(function () {
     var currUrl = window.location.href.split('/');
     var globalUrl = currUrl.join('/');
 
-    var now = new Date().getFullYear(); //get year now
+    var prodi = []; //prodi berdasarkan jurusan
+    var prestasikompetisi = [] ;
+    var prestasinonkompetisi = [] ;
 
-    var year = []; //variabel year
+
 
     for(var i = 9; i >= 0; i--)
     { 
-        year[i] = now;
-        now-=1;
+        
     }
 
     $.ajax({
         url: globalUrl + '/penyebaranprestasi',
         type: 'POST',
+        async: false,
         dataType: 'json',
         contentType: 'application/json',
         success: function(data) {
 
-            console.log(data);
+            var length = data.data.length ; //panjang data
+            
+            for(var i = 0; i<length; i++)
+            {
+                prodi[i]= data.data[i].Prodi; //get prodi
+                prestasikompetisi[i] = data.data[i].Kompetisi; //jumlah prestasi kompetisi berdasarkan prodi
+                prestasinonkompetisi[i] = data.data[i].NonKompetisi; //jumlah prestasi non kompetisi berdasarkan prodi
+            }
+
+
 
 
         }});
-    
+        
     var areaChartData = {
-        labels: year,
+        
+        labels: prodi,
         datasets: [
             {
                 label: 'Prestasi Non Kompetisi',
@@ -37,7 +49,7 @@ $(document).ready(function () {
                 pointStrokeColor: 'rgba(60,141,188,1)',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [28, 48, 40, 19, 86, 27, 90]
+                data: prestasinonkompetisi //jumlah data
             },
             {
                 label: 'Prestasi Kompetisi ',
@@ -48,7 +60,7 @@ $(document).ready(function () {
                 pointStrokeColor: '#c1c7d1',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(220,220,220,1)',
-                data: [65, 59, 80, 81, 56, 55, 40]
+                data: prestasikompetisi //jumlah data
             },
         ]
     }

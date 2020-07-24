@@ -152,9 +152,23 @@ class admin_fakultas  extends CI_Controller
         $year = date("Y");
         $data = $this->prodi->get(['Fakultas' => $this->data['userdata']->Fakultas]);
         foreach ($data as $k) {
-            $listData[] = $k->Prodi;
-            $prestasikompetisi = $this->db->query("SELECT COUNT(*) FROM `prestasikompetisi` WHERE Tahun =".$year." AND"); 
-            $prestasinonkompetisi;
+            $prodi = $k->Prodi;
+            $queryprestasikompetisi = $this->db->query("SELECT COUNT(*) AS Kompetisi FROM prestasikompetisi
+                INNER JOIN user ON
+                prestasikompetisi.PeraihPrestasi = user.IDPengenal
+                WHERE Tahun=".$year." AND ProgramStudi = '".$prodi."' AND Status='Diterima';")->row_array();
+            $prestasikompetisi = $queryprestasikompetisi['Kompetisi'];
+
+            $queryprestasinonkompetisi = $this->db->query("SELECT COUNT(*) AS NonKompetisi FROM prestasinonkompetisi
+            INNER JOIN user ON
+            prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Tahun=".$year." AND ProgramStudi = '".$prodi."' AND Status='Diterima';") ->row_array();
+
+            $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
+
+                $data = array('Prodi' => $k->Prodi , 'Kompetisi' => $prestasikompetisi , 'NonKompetisi' => $prestasinonkompetisi);
+                $listData[] =  $data;
+            
 
 //             SELECT * FROM prestasikompetisi
 // INNER JOIN user ON
@@ -174,9 +188,6 @@ class admin_fakultas  extends CI_Controller
     public function prestasinonkompetisi()
     {
     }
-
-
-
 
 
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
