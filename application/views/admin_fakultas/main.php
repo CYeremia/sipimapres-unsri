@@ -80,10 +80,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                        <!-- <td>1</td>
                                         <td>EKO</td>
                                         <td>Teknik Informatika Bilingual</td>
-                                        <td>200</td>
+                                        <td>200</td> -->
 
                                     </tr>
                                 </tbody>

@@ -11,7 +11,8 @@ $(document).ready(function () {
         ajax: {
             url: globalUrl + '/data_mahasiswa',
             type: 'POST',
-            data: function (d) { }
+            data: function (d) { 
+            }
         },
         columns: [{
             data: "no",

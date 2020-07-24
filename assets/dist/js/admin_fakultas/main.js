@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
 
     var currUrl = window.location.href.split('/');
@@ -7,12 +9,32 @@ $(document).ready(function () {
     var prestasikompetisi = [] ;
     var prestasinonkompetisi = [] ;
 
-
-
-    for(var i = 9; i >= 0; i--)
-    { 
-        
-    }
+    //tampilkan tabel
+    $('#perestasikompetisi').DataTable({
+        ajax: {
+            url: globalUrl + '/gettopmahasiswa',
+            type: 'POST',
+            data: function (d) { }
+        },
+        columns: [{
+            data: "no",
+            "targets": 0
+        },
+        {
+            data: "Nama",
+            "targets": 1
+        },
+        {
+            data: "Prodi",
+            "targets": 2,
+        },
+        {
+            data: "Skor",
+            "targets": 3
+        }
+        ],
+        order: [[0, 'asc']],
+    });
 
     $.ajax({
         url: globalUrl + '/penyebaranprestasi',
@@ -31,10 +53,9 @@ $(document).ready(function () {
                 prestasinonkompetisi[i] = data.data[i].NonKompetisi; //jumlah prestasi non kompetisi berdasarkan prodi
             }
 
-
-
-
         }});
+
+      
         
     var areaChartData = {
         

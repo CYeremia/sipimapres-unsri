@@ -56,6 +56,8 @@ class admin_fakultas  extends CI_Controller
         $this->load->model('prodi');
         $this->load->library('UserObj');
 
+        $year = date("Y");
+
         //jumlah data untuk dashboard
         $this->data['jumlah'] = [
 
@@ -63,11 +65,11 @@ class admin_fakultas  extends CI_Controller
 
             $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row(), //jumlah prestasi kompetisi
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =".$year)->row(), //jumlah prestasi kompetisi
 
             $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima'")->row() //jumlah prestasi non kompetisi
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =".$year)->row() //jumlah prestasi non kompetisi
         ];
     }
 
@@ -168,12 +170,6 @@ class admin_fakultas  extends CI_Controller
 
                 $data = array('Prodi' => $k->Prodi , 'Kompetisi' => $prestasikompetisi , 'NonKompetisi' => $prestasinonkompetisi);
                 $listData[] =  $data;
-            
-
-//             SELECT * FROM prestasikompetisi
-// INNER JOIN user ON
-// prestasikompetisi.PeraihPrestasi = user.IDPengenal
-// WHERE Tahun=2016 AND ProgramStudi = 'Teknik Informatika (S1)' AND Status='Diterima';
 
         }
         return $listData;
@@ -198,5 +194,39 @@ class admin_fakultas  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
+    }
+
+    //data top mahasiswa dalam format json
+    public function gettopmahasiswa()
+    {
+        $result = [
+            'data' => $this->Maptotopmahasiswa(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //method untuk memasukkan data top mahasiswa ke dalam array
+    public function Maptotopmahasiswa()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Status='Diterima' AND Fakultas = 'Fakultas Ilmu Komputer' OR Fakultas = 'Fakultas Ekonomi' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        $i = 1;
+        foreach ($data as $k) {
+           $obj = array(
+               'no' => $i,
+               'Nama' => $k['Nama'],
+               'Prodi' => $k['ProgramStudi'],
+               'Skor' => $k['Skor']
+        );
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
     }
 }
