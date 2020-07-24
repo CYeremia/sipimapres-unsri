@@ -204,7 +204,7 @@ class admin_fakultas  extends CI_Controller
             $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
             $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
-            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+            $this->form_validation->set_rules('berita', 'berita', 'trim');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
@@ -244,6 +244,7 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //menambahkan data prestasi Non kompetisi mahasiswa
     public function Data_NonKompetisi()
     {
         if ($this->input->post('submit')) {
@@ -254,7 +255,7 @@ class admin_fakultas  extends CI_Controller
 
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
             $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
-            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+            $this->form_validation->set_rules('berita', 'berita', 'trim');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
@@ -272,16 +273,17 @@ class admin_fakultas  extends CI_Controller
                     $error = array('error' => $this->upload->display_errors());
                     $this->load->view('mahasiswa/Data_Kompetisi', $error);
                 } else {
-                    $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+                    $data['PeraihPrestasi'] = $this->input->post('NIM');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
                     $data['Tahun']       = $this->input->post('tahun');
                     $data['Penyelenggara']       = $this->input->post('Penyelenggara');
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['Status']       = "Diterima";
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
                     $this->db->insert('prestasinonkompetisi', $data);
-                    redirect('mahasiswa/prestasi_nonkompetisi');
+                    redirect('admin_fakultas/input_Prestasi');
                 }
             }
         }
@@ -289,7 +291,7 @@ class admin_fakultas  extends CI_Controller
         $this->data['active'] = 5;
         $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
         $this->data['content'] = 'data_nonkompetisi';
-        $this->load->view('mahasiswa/template/template', $this->data);
+        $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
 

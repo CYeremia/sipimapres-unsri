@@ -40,10 +40,40 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <?= form_open_multipart('mahasiswa/Data_NonKompetisi', ['class' => 'form-horizontal']) ?>
+                <?= form_open_multipart('admin_fakultas/Data_NonKompetisi', ['class' => 'form-horizontal']) ?>
                 <!-- <form role="form"> -->
-                <div class="card-body">
-                    <div class="row">
+                <div class="card-body" style="border-style: none none solid none;">
+                    <h3 class="mt-1">Data Mahasiswa</h3>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-dice-d20"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-dice-d20"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body" style="padding-top: 0.8rem;">
+                    <h3 class="mt-1">Data Prestasi Non Kompetisi</h3>
+                    <div class="row mt-3">
 
                         <!-- left -->
                         <div class="col-md-6">
@@ -85,7 +115,7 @@
                                         <span class="fas fa-link"></span>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
+                                <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita">
                             </div>
 
 
