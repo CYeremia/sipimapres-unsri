@@ -11,7 +11,7 @@ $(document).ready(function () {
         ajax: {
             url: globalUrl + '/data_mahasiswa',
             type: 'POST',
-            data: function (d) { 
+            data: function (d) {
             }
         },
         columns: [{
@@ -50,8 +50,8 @@ $(document).ready(function () {
         var IDp = $(this).attr('idpengenal');
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Apakah Anda Yakin?',
+            text: "Menambahkan Data Prestasi",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

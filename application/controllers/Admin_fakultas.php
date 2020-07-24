@@ -65,12 +65,17 @@ class admin_fakultas  extends CI_Controller
 
             $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =".$year)->row(), //jumlah prestasi kompetisi
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
 
             $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =".$year)->row() //jumlah prestasi non kompetisi
+            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
         ];
+    }
+
+    protected function flashmsg($msg, $type = 'success', $name = 'msg')
+    {
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
@@ -81,6 +86,7 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //menambahkan data prestasi mahasiswa
     public function input_Prestasi()
     {
         $this->data['active'] = 2;
@@ -102,7 +108,15 @@ class admin_fakultas  extends CI_Controller
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
+    public function tambah_dataprestasi()
+    {
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
+        $this->data['content'] = 'Verifikasi_Nonkompetisi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
 
+    //Menampilkan semua data mahasiswa berdasarkan fakultas
     public function data_mahasiswa()
     {
         $result = [
@@ -115,14 +129,10 @@ class admin_fakultas  extends CI_Controller
         echo json_encode($result);
     }
 
+    //Seleksi data pada database di table user
     public function MapToObject()
     {
-        // $this->load->model('user_m');
         $listData = [];
-        // $result['data'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`Role` = 'Mahasiswa' AND `user`.'Fakultas'= '" . $this->data['userdata']->Fakultas . "'")->result();
-
-        // $data = $this->user_m->where('Role', 'Mahasiswa')->where('Fakultas', $this->data['userdata']->Fakukltas)->get();
-        // $data = $this->user_m->get(['Role' => 'Mahasiswa']);
         $fakultas = $this->data['userdata']->Fakultas;
         $sql = "SELECT * FROM user WHERE Role='Mahasiswa' AND Fakultas='$fakultas'";
         $data = $this->db->query($sql)->result();
@@ -138,6 +148,148 @@ class admin_fakultas  extends CI_Controller
             $i = $i + 1;
         }
         return $listData;
+    }
+
+    // mengambil data mahasiswa berdasarkan IDpengenal/NIM
+    public function getdataMahasiswa()
+    {
+        $id = $this->input->post('ID');
+        // print_r($id);
+        // die;
+        $id = str_replace(" ", "", $id);
+        $dataku = $this->user_m->get(['IDPengenal' => $id]);
+        $result = [
+            'data' => $dataku,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //Seleksi Prestasi Mahasiswa
+    public function seleksipage()
+    {
+        if ($_POST['prestasi'] == 'Prestasi Kompetisi') {
+            $this->data['ID'] = $_POST['Nimmahasiswa'];
+            $this->data['Nama'] = $_POST['namamahasiswa'];
+            $this->data['active'] = 2;
+            $this->data['title'] = 'Admin Fakultas | Tambah Data Kompetisi';
+            $this->data['content'] = 'data_kompetisi';
+            $this->load->view('admin_fakultas/template/template', $this->data);
+        } else if ($_POST['prestasi'] == 'Prestasi Non Kompetisi') {
+            $this->data['ID'] = $_POST['Nimmahasiswa'];
+            $this->data['Nama'] = $_POST['namamahasiswa'];
+            $this->data['active'] = 2;
+            $this->data['title'] = 'Admin Fakultas | Tambah Data Non Kompetisi';
+            $this->data['content'] = 'data_nonkompetisi';
+            $this->load->view('admin_fakultas/template/template', $this->data);
+        } else if ($_POST['prestasi'] == '') {
+            redirect('admin_fakultas/input_Prestasi');
+        }
+        // print_r($_POST['Nimmahasiswa']);
+    }
+
+
+    //menambahkan data prestasi kompetisi mahasiswa
+    public function Data_Kompetisi()
+    {
+        if ($this->input->post('submit')) {
+            $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
+            $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+            $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
+            $this->form_validation->set_rules('Pencapaian', 'Pencapaian', 'required');
+
+            $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
+            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+            } else {
+                $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 1024;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+                // $config['encrypt_name']			= TRUE;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('buktiprestasi')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                } else {
+                    $data['PeraihPrestasi'] = $this->input->post('NIM');
+                    $data['Bidang']        = $this->input->post('Bidang');
+                    $data['Perlombaan']       = $this->input->post('JudulLomba');
+                    $data['Tahun']       = $this->input->post('tahun');
+                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+                    $data['Kategori']       = $this->input->post('Kategori');
+                    $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['Pencapaian']       = $this->input->post('Pencapaian');
+                    $data['Status']       = "Diterima";
+                    $data['LinkBerita']       = $this->input->post('berita');
+                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
+                    $this->db->insert('prestasikompetisi', $data);
+                    redirect('admin_fakultas/input_Prestasi');
+                }
+            }
+        }
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Fakultas | Tambah Data Kompetisi';
+        $this->data['content'] = 'data_kompetisi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    public function Data_NonKompetisi()
+    {
+        if ($this->input->post('submit')) {
+            $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
+            $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+            $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
+            $this->form_validation->set_rules('Peran', 'Peran', 'required|trim');
+
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
+            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+            } else {
+                $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 1024;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+                // $config['encrypt_name']			= TRUE;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('buktiprestasi')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                } else {
+                    $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+                    $data['Kegiatan']       = $this->input->post('JudulLomba');
+                    $data['Tahun']       = $this->input->post('tahun');
+                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+                    $data['Kategori']       = $this->input->post('Kategori');
+                    $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
+                    $data['LinkBerita']       = $this->input->post('berita');
+                    $this->db->insert('prestasinonkompetisi', $data);
+                    redirect('mahasiswa/prestasi_nonkompetisi');
+                }
+            }
+        }
+
+        $this->data['active'] = 5;
+        $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
+        $this->data['content'] = 'data_nonkompetisi';
+        $this->load->view('mahasiswa/template/template', $this->data);
     }
 
 
@@ -173,33 +325,14 @@ class admin_fakultas  extends CI_Controller
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
-                $data = array('Prodi' => $k->Prodi , 'Kompetisi' => $prestasikompetisi , 'NonKompetisi' => $prestasinonkompetisi);
-                $listData[] =  $data;
-
+            $data = array('Prodi' => $k->Prodi, 'Kompetisi' => $prestasikompetisi, 'NonKompetisi' => $prestasinonkompetisi);
+            $listData[] =  $data;
         }
         return $listData;
     }
 
 
-    // mengambil data mahasiswa berdasarkan IDpengenal/NIM
-    public function getdataMahasiswa()
-    {
-        $id = $this->input->post('ID');
-        // print_r($id);
-        // die;
-        // $this->db->where('IDPengenal', $id);
-        // $dataku = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $id . "'")->result();
-        $dataku = $this->user_m->get(['IDPengenal' => $id]);
-        // $dataku = $this->db->get('user')->result();
-        $result = [
-            'data' => $dataku,
-            'status' => true,
-            'status_code' => 200
-        ];
 
-        header('Content-Type: application/json');
-        echo json_encode($result);
-    }
 
     //data top mahasiswa dalam format json
     public function gettopmahasiswa()
@@ -219,15 +352,15 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Status='Diterima' AND Fakultas = '".$this->data['userdata']->Fakultas."' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
         foreach ($data as $k) {
-           $obj = array(
-               'no' => $i,
-               'Nama' => $k['Nama'],
-               'Prodi' => $k['ProgramStudi'],
-               'Skor' => $k['Skor']
-        );
+            $obj = array(
+                'no' => $i,
+                'Nama' => $k['Nama'],
+                'Prodi' => $k['ProgramStudi'],
+                'Skor' => $k['Skor']
+            );
 
             $listData[] = $obj;
             $i = $i + 1;

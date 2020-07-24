@@ -65,68 +65,73 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <?= form_open_multipart('admin_fakultas/detailmahasiswa', ['class' => 'form-horizontal']) ?>
-
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">person</i>
-                            </span>
+                    <div class="col-md-12">
+                        <?= form_open_multipart('admin_fakultas/seleksipage', ['class' => 'form-horizontal']) ?>
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </div>
                             <div class="form-line">
-                                <input type="text" class="form-control" name="namamahasiswa" id="namamahasiswa" placeholder="Nama" required disabled>
+                                <input type="text" class="form-control" name="namamahasiswa" id="namamahasiswa" placeholder="Nama" required>
                             </div>
                         </div>
 
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">book</i>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="fas fa-id-card-alt"></i>
                             </span>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="Nimmahasiswa" id="Nimmahasiswa" placeholder="Nim" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
                                 <i class="material-icons">book</i>
                             </span>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Program Studi" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">book</i>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="fas fa-university"></i>
                             </span>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">book</i>
-                            </span>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                            </div>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">book</i>
-                            </span>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="material-icons">book</i>
+                                </div>
+                            </div>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">book</i>
-                            </span>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-phone-square-alt"></span>
+                                </div>
+                            </div>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="Notlp" id="Notlp" placeholder="No. Telephone" required>
                             </div>
                         </div>
 
-                        <div class="input-group mb-4">
+                        <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-globe-americas"></span>
