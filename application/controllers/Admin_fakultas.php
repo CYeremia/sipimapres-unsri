@@ -115,6 +115,13 @@ class admin_fakultas  extends CI_Controller
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
+    public function profile()
+    {
+        $this->data['active'] = 5;
+        $this->data['title'] = 'Admin Fakultas | Profile ';
+        $this->data['content'] = 'profile';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
 
     //Menampilkan semua data mahasiswa berdasarkan fakultas
     public function data_mahasiswa()
@@ -151,7 +158,7 @@ class admin_fakultas  extends CI_Controller
     }
 
     // mengambil data mahasiswa berdasarkan IDpengenal/NIM
-    public function getdataMahasiswa()
+    public function getdataIDp()
     {
         $id = $this->input->post('ID');
         // print_r($id);
@@ -190,7 +197,6 @@ class admin_fakultas  extends CI_Controller
         }
         // print_r($_POST['Nimmahasiswa']);
     }
-
 
     //menambahkan data prestasi kompetisi mahasiswa
     public function Data_Kompetisi()
@@ -294,6 +300,24 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Mengubah Password Admin
+    public function editPassword()
+    {
+        if ($this->input->post('ubahpassword')) {
+            $this->form_validation->set_rules('password1', 'Password', 'required');
+            $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Password Gagal Diubah, Password Baru dan Password Konfirmasi Berbeda', 'danger');
+            } else {
+                $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                $this->db->where('IDPengenal', $this->input->post('detector'));
+                $this->db->update('user', $input);
+                $this->flashmsg('Password Telah Berhasil Diubah');
+            }
+        }
+        redirect('admin_fakultas/profile');
+    }
+
 
     //json penyebaran prestasi berdasarkan jurusan
     public function penyebaranprestasi()
@@ -387,7 +411,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='".$this->data['userdata']->Fakultas."' ORDER BY Status DESC") ->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -405,8 +429,6 @@ class admin_fakultas  extends CI_Controller
             $i = $i + 1;
         }
         return $listData;
-
-
     }
 
     //data prestasi non kompetisi dalam format json
@@ -427,7 +449,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
-        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='".$this->data['userdata']->Fakultas."' ORDER BY Status DESC") ->result_array();
+        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -445,10 +467,5 @@ class admin_fakultas  extends CI_Controller
             $i = $i + 1;
         }
         return $listData;
-
-
     }
-
-
-
 }

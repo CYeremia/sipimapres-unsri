@@ -71,7 +71,7 @@ function detaildataM(IDp) {
     // alert(IDp);
     $.ajax({
         type: 'POST',
-        url: globalUrl + "/getdataMahasiswa",
+        url: globalUrl + "/getdataIDp",
         data: {
             ID: IDp,
         },

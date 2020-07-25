@@ -80,9 +80,9 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('admin_fakultas') ?>" class="nav-link <?php if ($active == 5) {
-                                                                                    echo "active";
-                                                                                } ?> ">
+                    <a href="<?= site_url('admin_fakultas/profile') ?>" class="nav-link <?php if ($active == 5) {
+                                                                                            echo "active";
+                                                                                        } ?> ">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Profile
