@@ -27,23 +27,25 @@
                 </div>
                 <!-- /.card-header -->
                 <div class=" card-body">
-                    <table id="inputPrestasi" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>NIM</th>
-                                <th>Nama</th>
-                                <th>Program Studi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                    <div class="table-responsive">
+                        <table id="inputPrestasi" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Program Studi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
 
-                            </tr>
-                        </tbody>
-                        <tfoot></tfoot>
-                    </table>
+                                </tr>
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -57,8 +59,8 @@
 <div id="modal-form2" class="modal fade" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="m-t-none m-b">Detail Mahasiswa</h3>
+            <div class="modal-header" style="border-style: none none solid none;">
+                <h3 class=" m-t-none m-b">Detail Mahasiswa</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="false" style="color:black">&times;</span>
                 </button>
@@ -68,67 +70,66 @@
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_fakultas/seleksipage', ['class' => 'form-horizontal']) ?>
                         <div class="input-group mb-3">
-                            <div class="input-group-text">
-                                <i class="fas fa-user"></i>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
                             </div>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="namamahasiswa" id="namamahasiswa" placeholder="Nama" required>
-                            </div>
+                            <input type="text" class="form-control" name="namamahasiswa" id="namamahasiswa" placeholder="Nama" readonly="true">
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="fas fa-id-card-alt"></i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="Nimmahasiswa" id="Nimmahasiswa" placeholder="Nim" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-card-alt"></span>
+                                </div>
                             </div>
+                            <input type="text" class="form-control" name="Nimmahasiswa" id="Nimmahasiswa" placeholder="Nim" readonly="true">
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="material-icons">book</i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Program Studi" required>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="fas fa-university"></i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas" required>
-                            </div>
-                        </div>
+
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <i class="fas fa-envelope"></i>
+                                    <span class="fas fa-id-card-alt"></span>
                                 </div>
                             </div>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" required>
-                            </div>
+                            <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Program Studi" readonly="true">
                         </div>
+
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <i class="material-icons">book</i>
+                                    <span class="fas fa-university"></span>
                                 </div>
                             </div>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK" required>
-                            </div>
+                            <input type="text" class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas" readonly="true">
                         </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" readonly="true">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK" readonly="true">
+                        </div>
+
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone-square-alt"></span>
                                 </div>
                             </div>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="Notlp" id="Notlp" placeholder="No. Telephone" required>
-                            </div>
+                            <input type="text" class="form-control" name="Notlp" id="Notlp" placeholder="No. Telephone" readonly="true">
                         </div>
 
                         <div class="input-group mb-3">
@@ -144,17 +145,31 @@
                             </select>
                         </div>
 
-                        <input type="hidden" name="detector" id="id_modal">
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <input type="submit" name="datamahasiswa" value="Ubah" class="btn btn-sm btn-success pull-right">
+                        <!-- <div class="row"> -->
+                        <!-- <div class="col-8 mt-2" style="color: white;"> -->
+                        <!-- <div class="icheck-primary">
+                                    <input type="checkbox" id="remember">
+                                    <label for="remember">
+                                        Remember Me
+                                    </label>
+                                </div> -->
+                        <!-- </div> -->
+                        <!-- /.col -->
+                        <div class="col-4 mt-2 float-right">
+                            <input type="hidden" name="detector" id="id_modal">
+                            <div class="form-group">
+                                <!-- <div class="col-lg-offset-2 col-lg-10"> -->
+                                <input type="submit" name="datamahasiswa" value="Tambah Prestasi" class="btn btn-sm btn-success float-right">
                             </div>
                         </div>
-                        <?= form_close() ?>
                     </div>
+                    <!-- /.col -->
                 </div>
-            </div>
 
+
+                <?= form_close() ?>
+            </div>
         </div>
     </div>
+
 </div>
