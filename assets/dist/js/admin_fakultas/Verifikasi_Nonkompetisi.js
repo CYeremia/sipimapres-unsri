@@ -2,13 +2,13 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
-var verifikasi_kompetisi;
+var verifikasi_Nonkompetisi;
 
 $(document).ready(function () {
 
     verifikasi_Nonkompetisi = $('#verifikasinon_kompetisi').DataTable({
         ajax: {
-            url: globalUrl + '/data_prestasi',
+            url: globalUrl + '/getdataprestasinonkompetisi',
             type: 'POST',
             data: function (d) { }
         },
@@ -17,45 +17,48 @@ $(document).ready(function () {
             "targets": 0
         },
         {
-            data: "Bidang",
+            data: "NIM",
             "targets": 1
         },
         {
-            data: "Perlombaan",
+            data: "Nama",
             "targets": 2,
         },
         {
-            data: "Tahun",
+            data: "Prodi",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "Kegiatan",
             "targets": 4
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 5
         },
         {
-            data: "Tingkat",
+            data: "Status",
             "targets": 6
         },
         {
-            data: "Pencapaian",
-            "targets": 7
+            data: { NIM: "NIM" },
+
+            "render": function (data, type, full, meta) {
+                var actButt = "<button idpengenal=\" " + data.NIM + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Ubah Status</button>";
+                return actButt;
+            },
+            "targets": 7,
+            "width": "10%"
         },
-        {
-            data: "Status",
-            "targets": 8
-        },
-        {
-            "className": 'details-control',
-            "data": null,
-            "orderable": false,
-            "defaultContent": '',
-            "targets": 9,
-            "width": "5%"
-        },
+
+        // {
+        //     "className": 'details-control',
+        //     "data": null,
+        //     "orderable": false,
+        //     "defaultContent": '',
+        //     "targets": 9,
+        //     "width": "5%"
+        // },
         ],
         order: [[0, 'asc']],
     });

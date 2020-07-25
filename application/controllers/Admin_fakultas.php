@@ -65,11 +65,11 @@ class admin_fakultas  extends CI_Controller
 
             $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
 
             $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
         ];
     }
 
@@ -319,13 +319,13 @@ class admin_fakultas  extends CI_Controller
             $queryprestasikompetisi = $this->db->query("SELECT COUNT(*) AS Kompetisi FROM prestasikompetisi
                 INNER JOIN user ON
                 prestasikompetisi.PeraihPrestasi = user.IDPengenal
-                WHERE Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+                WHERE Role = 'Mahasiswa' AND Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
             $prestasikompetisi = $queryprestasikompetisi['Kompetisi'];
 
             $queryprestasinonkompetisi = $this->db->query("SELECT COUNT(*) AS NonKompetisi FROM prestasinonkompetisi
             INNER JOIN user ON
             prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+            WHERE Role = 'Mahasiswa' AND Tahun=" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
@@ -369,13 +369,83 @@ class admin_fakultas  extends CI_Controller
         return $listData;
     }
 
+    //data prestasi kompetisi dalam format json
     public function getdataprestasikompetisi()
     {
+        $result = [
+            'data' => $this->Maptodataprestasikompetisi(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //method untuk memasukkan data prestasi kompetisi ke dalam array
+    public function Maptodataprestasikompetisi()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='".$this->data['userdata']->Fakultas."' ORDER BY Status DESC") ->result_array();
+        $i = 1;
+
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'NIM' => $k['NIM'],
+                'Nama' => $k['Nama'],
+                'Prodi' => $k['Prodi'],
+                'Judul lomba' => $k['Judul lomba'],
+                'Penyelenggara' => $k['Penyelenggara'],
+                'Status' => $k['Status']
+            );
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+
 
     }
 
-    public function Maptodataprestasikompetisi()
+    //data prestasi non kompetisi dalam format json
+    public function getdataprestasinonkompetisi()
     {
+        $result = [
+            'data' => $this->Maptodataprestasinonkompetisi(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //method untuk memasukkan data prestasi non kompetisi ke dalam array
+    public function Maptodataprestasinonkompetisi()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
+        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='".$this->data['userdata']->Fakultas."' ORDER BY Status DESC") ->result_array();
+        $i = 1;
+
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'NIM' => $k['NIM'],
+                'Nama' => $k['Nama'],
+                'Prodi' => $k['Prodi'],
+                'Kegiatan' => $k['Kegiatan'],
+                'Penyelenggara' => $k['Penyelenggara'],
+                'Status' => $k['Status']
+            );
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+
 
     }
 
