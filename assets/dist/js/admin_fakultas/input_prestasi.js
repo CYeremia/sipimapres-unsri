@@ -38,7 +38,7 @@ $(document).ready(function () {
                 return actButt;
             },
             "targets": 4,
-            "width": "20%"
+            "width": "7%"
         }
 
         ],
