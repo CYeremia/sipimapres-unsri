@@ -295,6 +295,7 @@ class admin_fakultas  extends CI_Controller
     }
 
 
+    //json penyebaran prestasi berdasarkan jurusan
     public function penyebaranprestasi()
     {
         $result = [
@@ -307,6 +308,7 @@ class admin_fakultas  extends CI_Controller
         echo json_encode($result);
     }
 
+    //data untuk tabel di dashboard
     public function Maptodataprestasi()
     {
         $listData = [];
@@ -333,9 +335,6 @@ class admin_fakultas  extends CI_Controller
         return $listData;
     }
 
-
-
-
     //data top mahasiswa dalam format json
     public function gettopmahasiswa()
     {
@@ -354,7 +353,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Role='Mahasiswa' AND Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
         foreach ($data as $k) {
             $obj = array(
@@ -369,4 +368,17 @@ class admin_fakultas  extends CI_Controller
         }
         return $listData;
     }
+
+    public function getdataprestasikompetisi()
+    {
+
+    }
+
+    public function Maptodataprestasikompetisi()
+    {
+
+    }
+
+
+
 }
