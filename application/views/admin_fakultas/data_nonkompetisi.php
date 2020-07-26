@@ -49,7 +49,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-dice-d20"></span>
+                                        <span class="fas fa-user"></span>
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Judul Perlombaan" required>
@@ -61,7 +61,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-dice-d20"></span>
+                                        <span class="fas fa-id-card-alt"></span>
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Judul Perlombaan" required>

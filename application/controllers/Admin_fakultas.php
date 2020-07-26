@@ -95,6 +95,7 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Menampilkan Semua data Prestasi Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_kompetisi()
     {
         $this->data['active'] = 3;
@@ -103,9 +104,9 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Menampilkan Detail Prestasi Kompetisi Mahasiswa
     public function Verifikasi_statuskompetisi($ID)
     {
-
         $data['IDprestasi'] = $ID;
         $ID = $this->prestasi_kompetisi->get_row($data);
         $IDPengenal = $ID->PeraihPrestasi;
@@ -113,16 +114,6 @@ class admin_fakultas  extends CI_Controller
         $sql = "SELECT `Nama` FROM user WHERE IDPengenal='$IDPengenal'";
         $Nama = $this->db->query($sql)->row();
 
-        if ($this->input->post('submit')) {
-            $input['Status'] = $this->input->post('status');
-            $this->db->where('IDPrestasi', $data['IDprestasi']);
-            $this->db->update('prestasikompetisi', $input);
-            redirect('admin_fakultas/Verifikasi_kompetisi');
-            // $this->db->update('prestasikompetisi', $input);
-        }
-
-
-        // $this->data['IDP'] = $ID;
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
         $this->data['active'] = 3;
@@ -131,7 +122,25 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Insert Status Kedatabase berdasarkan ID Prestasi Mahasiswa Prestasi Kompetisi
+    public function Verifikasi_status_kompetisi()
+    {
+        if ($this->input->post('submit')) {
+            $input['Status'] = $this->input->post('status');
+            $nama['namamahasiswa'] = $this->input->post('Nama');
+            if ($input['Status'] == '') {
+                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
+                redirect('admin_fakultas/prestasi_kompetisi');
+            } else {
+                $this->db->where('IDPrestasi', $this->input->post('IDPrestasiM'));
+                $this->db->update('prestasikompetisi', $input);
+                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Kompetisi', 'success');
+                redirect('admin_fakultas/prestasi_kompetisi');
+            }
+        }
+    }
 
+    //Menampilkan Semua data Prestasi Non Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_Nonkompetisi()
     {
         $this->data['active'] = 4;
@@ -140,13 +149,42 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
-    public function tambah_dataprestasi()
+    public function Verifikasi_statusNonkompetisi($ID)
     {
-        $this->data['active'] = 2;
+        $data['IDprestasi'] = $ID;
+        $ID = $this->prestasi_nonkompetisi->get_row($data);
+        $IDPengenal = $ID->PeraihPrestasi;
+
+        $sql = "SELECT `Nama` FROM user WHERE IDPengenal='$IDPengenal'";
+        $Nama = $this->db->query($sql)->row();
+
+        $this->data['NamaM'] = $Nama;
+        $this->data['IDM'] = $ID;
+        $this->data['active'] = 4;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
-        $this->data['content'] = 'Verifikasi_Nonkompetisi';
+        $this->data['content'] = 'Verifikasi_statusNonKompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
+
+    public function Verifikasi_status_Nonkompetisi()
+    {
+        if ($this->input->post('submit')) {
+            $input['Status'] = $this->input->post('status');
+            $nama['namamahasiswa'] = $this->input->post('Nama');
+            if ($input['Status'] == '') {
+                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
+                redirect('admin_fakultas/prestasi_Nonkompetisi');
+            } else {
+                $this->db->where('IDPrestasi', $this->input->post('IDPrestasiM'));
+                $this->db->update('prestasinonkompetisi', $input);
+                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Kompetisi', 'success');
+                redirect('admin_fakultas/prestasi_Nonkompetisi');
+            }
+        }
+    }
+
+
+
     public function profile()
     {
         $this->data['active'] = 5;
@@ -206,25 +244,6 @@ class admin_fakultas  extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($result);
     }
-
-    // // status
-    // public function getdataPrestasi()
-    // {
-    //     $id = $this->input->post('ID');
-    //     $ID = str_replace("%20", "", $id);
-    //     // print_r($id);
-    //     // die;
-    //     // $id = str_replace(" ", "", $id);
-    //     // $dataku = $this->prestasi_kompetisi->get(['IDPrestasi' => $ID]);
-    //     $result = [
-    //         'data' => $this->mapdata($ID),
-    //         'status' => true,
-    //         'status_code' => 200
-    //     ];
-
-    //     header('Content-Type: application/json');
-    //     echo json_encode($result);
-    // }
 
     public function mapdata($id)
     {
@@ -364,7 +383,6 @@ class admin_fakultas  extends CI_Controller
                 }
             }
         }
-
         $this->data['active'] = 5;
         $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
         $this->data['content'] = 'data_nonkompetisi';
@@ -520,13 +538,14 @@ class admin_fakultas  extends CI_Controller
     public function Maptodataprestasinonkompetisi()
     {
         $listData = [];
-        $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
+        $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
         prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
             $obj = array(
                 'no' => $i,
+                'ID' => $k['ID'],
                 'NIM' => $k['NIM'],
                 'Nama' => $k['Nama'],
                 'Prodi' => $k['Prodi'],

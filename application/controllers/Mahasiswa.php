@@ -128,7 +128,7 @@ class Mahasiswa extends CI_Controller
                 }
             }
         }
-        $this->data['active'] = 4;
+        $this->data['active'] = 2;
         $this->data['title'] = 'Mahasiswa | Tambah Data Kompetisi';
         $this->data['content'] = 'data_kompetisi';
         $this->load->view('mahasiswa/template/template', $this->data);
@@ -216,7 +216,7 @@ class Mahasiswa extends CI_Controller
             }
         }
 
-        $this->data['active'] = 5;
+        $this->data['active'] = 3;
         $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
         $this->data['content'] = 'data_nonkompetisi';
         $this->load->view('mahasiswa/template/template', $this->data);
