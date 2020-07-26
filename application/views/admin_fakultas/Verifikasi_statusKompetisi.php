@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-12">
-                        <?= form_open_multipart('admin_fakultas/Verifikasi_statuskompetisi?id='$IDM->IDPrestasi, ['class' => 'form-horizontal']) ?>
+                        <?= form_open_multipart('admin_fakultas/Verifikasi_statuskompetisi/'.$IDM->ID, ['class' => 'form-horizontal']) ?>
                         <table id="verifikasi" style="width:100%" class="table table-bordered table-hover dataTable">
                             <thead></thead>
                             <tbody>

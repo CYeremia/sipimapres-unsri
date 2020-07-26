@@ -106,6 +106,7 @@ class admin_fakultas  extends CI_Controller
     public function Verifikasi_statuskompetisi($ID)
     {
 
+        $this->data['IDM'] = $ID;
         $data['IDprestasi'] = $ID;
         $ID = $this->prestasi_kompetisi->get_row($data);
         $IDPengenal = $ID->PeraihPrestasi;
@@ -114,6 +115,9 @@ class admin_fakultas  extends CI_Controller
         $Nama = $this->db->query($sql)->row();
 
         if ($this->input->post('submit')) {
+
+            
+            $data['IDprestasi'] = $_GET['id'];
             $input['Status'] = $this->input->post('status');
             $this->db->where('IDPrestasi', $data['IDprestasi']);
             $this->db->update('prestasikompetisi', $input);
