@@ -2,6 +2,8 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
+// console.log(globalUrl);
+
 var verifikasi_kompetisi;
 
 $(document).ready(function () {
@@ -41,105 +43,53 @@ $(document).ready(function () {
             "targets": 6
         },
         {
-            data: { NIM: "NIM" },
+            data: { ID: "ID" },
 
             "render": function (data, type, full, meta) {
-                var actButt = "<button idpengenal=\" " + data.NIM + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Ubah Status</button>";
+                var actButt = "<button idprestasi=\"" + data.ID + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Ubah Status</button>";
                 return actButt;
             },
             "targets": 7,
             "width": "10%"
         },
-
-        // {
-        //     "className": 'details-control',
-        //     "data": null,
-        //     "orderable": false,
-        //     "defaultContent": '',
-        //     "targets": 9,
-        //     "width": "5%"
-        // },
         ],
         order: [[0, 'asc']],
     });
 
     //Get data detail
-    $('#verifikasiKompetisi tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = verifikasi_kompetisi.row(tr);
+    $('#verifikasiKompetisi tbody').on('click', '.detaildata', function () {
+        var IDp = $(this).attr('idprestasi');
 
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row (the format() function would return the data to be shown)
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-        }
+        Swal.fire({
+            title: 'Apakah Anda Yakin Mengubah Status Prestasi?',
+            // text: "Menambahkan Data Prestasi",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya Yakin!'
+        }).then((result) => {
+            if (result.value) {
+                // window.location.href = globalUrl + "/Verifikasi_statuskompetisi/" + IDp;
+                window.location.replace(globalUrl + "/Verifikasi_statuskompetisi/" + IDp);
+            }
+        })
     });
 
 });
 
-//Row Child
-function format(d) {
-    return '<div class="slider">' +
-        '<table class="table table-striped">' +
-        '<tr>' +
-        '<td style="width: 10%" colspan="3">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Tiket</b></h4>' +
-        '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Nama Mahasiswa</td>' +
-        '<td>' + d.Nama + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">NIM</td>' +
-        '<td>' + d.PeraihPrestasi + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Bidang</td>' +
-        '<td>' + d.Bidang + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Perlombaan</td>' +
-        '<td>' + d.Perlombaan + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Tahun</td>' +
-        '<td>' + d.Tahun + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Penyelenggara</td>' +
-        '<td>' + d.Penyelenggara + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Kategori</td>' +
-        '<td>' + d.Kategori + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Tingkat</td>' +
-        '<td>' + d.Tingkat + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Pencapaian</td>' +
-        '<td>' + d.Pencapaian + '</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td style="width: 15%">Status</td>' +
-        '<td>' + d.Status + '</td>' +
-        '</tr>' +
-        '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img onclick="BuktiPrestasi(\'' + d.BuktiPrestasi + '\')" style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
-        '</tr>' +
-        // '<tr>' +
-        // '<td style="width: 15%">Status</td>' +
-        // '<td>' + d.Status + '</td>' +
-        // '</tr>' +
-        '</table></div>';
+function Dataprestasi(IDp) {
+    // alert(IDp);
+    // console.log(IDp);
+    $.ajax({
+        type: 'POST',
+        url: globalUrl + "/Verifikasi_statuskompetisi",
+        data: {
+            ID: IDp,
+        }
+    });
 }
+
 
 
 

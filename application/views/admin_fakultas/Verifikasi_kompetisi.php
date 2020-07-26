@@ -27,26 +27,28 @@
                 </div>
                 <!-- /.card-header -->
                 <div class=" card-body">
-                    <table id="verifikasiKompetisi" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>NIM</th>
-                                <th>Nama</th>
-                                <th>Program Studi</th>
-                                <th>Judul Lomba</th>
-                                <th>Penyelenggara</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                    <div class="table-responsive">
+                        <table id="verifikasiKompetisi" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Program Studi</th>
+                                    <th>Judul Lomba</th>
+                                    <th>Penyelenggara</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
 
-                            </tr>
-                        </tbody>
-                        <tfoot></tfoot>
-                    </table>
+                                </tr>
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
