@@ -94,7 +94,6 @@ class admin_fakultas  extends CI_Controller
         $this->data['content'] = 'input_prestasi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
-
     public function prestasi_kompetisi()
     {
         $this->data['active'] = 3;
@@ -102,38 +101,6 @@ class admin_fakultas  extends CI_Controller
         $this->data['content'] = 'Verifikasi_kompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
-
-    public function Verifikasi_statuskompetisi($ID)
-    {
-        $data['IDprestasi'] = $ID;
-        $ID = $this->prestasi_kompetisi->get_row($data);
-        $IDPengenal = $ID->PeraihPrestasi;
-
-        $sql = "SELECT `Nama` FROM user WHERE IDPengenal='$IDPengenal'";
-        $Nama = $this->db->query($sql)->row();
-
-        if ($this->input->post('submit')) {
-
-            
-            $data['IDprestasi'] = $_GET['id'];
-            $input['Status'] = $this->input->post('status');
-            $this->db->where('IDPrestasi', $data['IDprestasi']);
-            $this->db->update('prestasikompetisi', $input);
-            redirect('admin_fakultas/Verifikasi_kompetisi');
-            // $this->db->update('prestasikompetisi', $input);
-        }
-
-
-        // $this->data['IDP'] = $ID;
-        $this->data['NamaM'] = $Nama;
-        $this->data['IDM'] = $ID;
-        $this->data['active'] = 3;
-        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
-        $this->data['content'] = 'Verifikasi_statusKompetisi';
-        $this->load->view('admin_fakultas/template/template', $this->data);
-    }
-
-
     public function prestasi_Nonkompetisi()
     {
         $this->data['active'] = 4;
@@ -141,7 +108,6 @@ class admin_fakultas  extends CI_Controller
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
-
     public function tambah_dataprestasi()
     {
         $this->data['active'] = 2;
@@ -207,45 +173,6 @@ class admin_fakultas  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
-    }
-
-    // // status
-    // public function getdataPrestasi()
-    // {
-    //     $id = $this->input->post('ID');
-    //     $ID = str_replace("%20", "", $id);
-    //     // print_r($id);
-    //     // die;
-    //     // $id = str_replace(" ", "", $id);
-    //     // $dataku = $this->prestasi_kompetisi->get(['IDPrestasi' => $ID]);
-    //     $result = [
-    //         'data' => $this->mapdata($ID),
-    //         'status' => true,
-    //         'status_code' => 200
-    //     ];
-
-    //     header('Content-Type: application/json');
-    //     echo json_encode($result);
-    // }
-
-    public function mapdata($id)
-    {
-        $listData = [];
-        // $fakultas = $this->data['userdata']->Fakultas;
-        $sql = "SELECT * FROM user WHERE Role='$id'";
-        $data = $this->db->query($sql)->result();
-        $i = 1;
-        foreach ($data  as $k) {
-            $obj = new UserObj();
-            // $obj->no = $i;
-            $obj->IDPrestasi = $k->IDPrestasi;
-            // $obj->IDPengenal = $k->IDPengenal;
-            // $obj->ProgramStudi = $k->ProgramStudi;
-
-            $listData[] = $obj;
-            $i = $i + 1;
-        }
-        return $listData;
     }
 
     //Seleksi Prestasi Mahasiswa
@@ -483,14 +410,13 @@ class admin_fakultas  extends CI_Controller
     public function Maptodataprestasikompetisi()
     {
         $listData = [];
-        $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
+        $data = $this->db->query("SELECT `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
         prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
             $obj = array(
                 'no' => $i,
-                'ID' => $k['ID'],
                 'NIM' => $k['NIM'],
                 'Nama' => $k['Nama'],
                 'Prodi' => $k['Prodi'],
