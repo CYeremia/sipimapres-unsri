@@ -26,7 +26,7 @@
         <div class="container-fluid">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Tambah Prestasi Kompetisi</h3>
+                    <h3 class="card-title">Tambah Prestasi Non Kompetisi</h3>
                 </div>
                 <div class="header">
                     <?= $this->session->flashdata('msg') ?>
