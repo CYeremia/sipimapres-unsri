@@ -22,7 +22,7 @@
 
                 <div class="card-body">
                     <div class="col-md-12">
-                        <?= form_open_multipart('admin_fakultas/Verifikasi_statuskompetisi/'.$IDM->ID, ['class' => 'form-horizontal']) ?>
+                        <?= form_open_multipart('admin_fakultas/Verifikasi_status_Nonkompetisi', ['class' => 'form-horizontal']) ?>
                         <table id="verifikasi" style="width:100%" class="table table-bordered table-hover dataTable">
                             <thead></thead>
                             <tbody>
@@ -38,13 +38,14 @@
                                 </tr>
 
                                 <tr>
-                                    <td style=" width: 20%">Judul Perlombaan</td>
-                                    <td><?php echo ($IDM->Perlombaan) ?></td>
+                                    <td style=" width: 20%">Kegiatan</td>
+                                    <td><?php echo ($IDM->Kegiatan) ?></td>
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">Bidang</td>
-                                    <td><?php echo ($IDM->Bidang) ?></td>
+                                    <td style="width: 20%">Peran</td>
+                                    <td></td>
+                                    <!-- <td><?php echo ($IDM->Peran) ?></td> -->
                                 </tr>
 
                                 <tr>
@@ -53,18 +54,13 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">Kategori</td>
-                                    <td><?php echo ($IDM->Kategori) ?></td>
-                                </tr>
-
-                                <tr>
-                                    <td style="width: 20%">Pencapaian</td>
-                                    <td><?php echo ($IDM->Pencapaian) ?></td>
-                                </tr>
-
-                                <tr>
                                     <td style="width: 20%">Tahun</td>
                                     <td><?php echo ($IDM->Tahun) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Kategori</td>
+                                    <td><?php echo ($IDM->Kategori) ?></td>
                                 </tr>
 
                                 <tr>

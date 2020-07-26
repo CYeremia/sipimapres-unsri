@@ -70,25 +70,11 @@ $(document).ready(function () {
             confirmButtonText: 'Ya, Saya Yakin!'
         }).then((result) => {
             if (result.value) {
-                // window.location.href = globalUrl + "/Verifikasi_statuskompetisi/" + IDp;
                 window.location.replace(globalUrl + "/Verifikasi_statuskompetisi/" + IDp);
             }
         })
     });
-
 });
-
-function Dataprestasi(IDp) {
-    // alert(IDp);
-    // console.log(IDp);
-    $.ajax({
-        type: 'POST',
-        url: globalUrl + "/Verifikasi_statuskompetisi",
-        data: {
-            ID: IDp,
-        }
-    });
-}
 
 
 

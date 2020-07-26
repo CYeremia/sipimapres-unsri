@@ -105,8 +105,6 @@ class admin_fakultas  extends CI_Controller
 
     public function Verifikasi_statuskompetisi($ID)
     {
-
-        $this->data['IDM'] = $ID;
         $data['IDprestasi'] = $ID;
         $ID = $this->prestasi_kompetisi->get_row($data);
         $IDPengenal = $ID->PeraihPrestasi;
