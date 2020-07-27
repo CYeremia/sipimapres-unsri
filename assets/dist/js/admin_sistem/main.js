@@ -10,31 +10,31 @@ $(document).ready(function () {
     var prestasinonkompetisi = [];
 
     //tampilkan tabel
-    $('#perestasikompetisi').DataTable({
-        ajax: {
-            url: globalUrl + '/gettopmahasiswa',
-            type: 'POST',
-            data: function (d) { }
-        },
-        columns: [{
-            data: "no",
-            "targets": 0
-        },
-        {
-            data: "Nama",
-            "targets": 1
-        },
-        {
-            data: "Prodi",
-            "targets": 2,
-        },
-        {
-            data: "Skor",
-            "targets": 3
-        }
-        ],
-        order: [[0, 'asc']],
-    });
+    // $('#perestasikompetisi').DataTable({
+    //     ajax: {
+    //         url: globalUrl + '/gettopmahasiswa',
+    //         type: 'POST',
+    //         data: function (d) { }
+    //     },
+    //     columns: [{
+    //         data: "no",
+    //         "targets": 0
+    //     },
+    //     {
+    //         data: "Nama",
+    //         "targets": 1
+    //     },
+    //     {
+    //         data: "Prodi",
+    //         "targets": 2,
+    //     },
+    //     {
+    //         data: "Skor",
+    //         "targets": 3
+    //     }
+    //     ],
+    //     order: [[0, 'asc']],
+    // });
 
     $.ajax({
         url: globalUrl + '/penyebaranprestasi',

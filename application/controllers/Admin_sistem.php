@@ -7,45 +7,52 @@ class Admin_sistem  extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
-        // date_default_timezone_set("Asia/Bangkok"); // set timezone
-        // $this->data['IDPengenal'] = $this->session->userdata('IDpegenal');
-        // $this->data['Role'] = $this->session->userdata('Role');
+        $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
+        $this->data['Role'] = $this->session->userdata('Role');
         // $this->db->select('Photo');
         // $this->db->where('UserName', $this->data['username']);
         // $this->data['Photo'] = $this->db->get('user');
+        if (isset($this->data['IDpengenal'], $this->data['Role'])) {
+            if ($this->data['Role'] != "Administrator Sistem") {
+                redirect('logout');
+            }
+        } else {
+            redirect('logout');
+        }
 
-        // if (isset($this->data['username'], $this->data['id_role'])) {
-        //     if ($this->data['id_role'] != 1) {
-        //         redirect('logout');
-        //         exit;
-        //     }
-        // } else {
-        //     redirect('logout');
-        //     exit;
-        // }   
-        //     $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
-        //     $this->data['id_role'] = $this->session->userdata('id_role');
-        //     if (isset($this->data['IDpengenal'], $this->data['id_role'])) {
-        //         if ($this->data['id_role'] != 1) {
-        //             redirect('logout');
-        //             exit;
-        //         }
-        //     } else {
-        //         redirect('logout');
-        //         exit;
-        //     }
-
-        // $this->data['user'] = $this->db->query("SELECT `user`.`Nama`, `user`.`Role`, `user`.`IDPengenal`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`RoleID` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
-        $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
+        $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
+        // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
         // var_dump($this->data['user']);
         // die;
         $this->load->model('user_m');
+        $this->load->model('prestasi_kompetisi');
+        $this->load->model('prestasi_nonkompetisi');
+        $this->load->model('prodi');
         $this->load->library('UserObj');
+
+        $year = date("Y");
+
+        //jumlah data untuk dashboard
+        $this->data['jumlah'] = [
+
+            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
+
+            $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
+            INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
+
+            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
+            INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
+        ];
+    }
+
+    protected function flashmsg($msg, $type = 'success', $name = 'msg')
+    {
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
-    // $Userdata['user'] = $this->db->get_where('user', ['IDpengenal' => $this->session->userdata('IDpengenal')])->row_array();
     {
         $this->data['active'] = 1;
         $this->data['title'] = 'Admin Sistem | Dashboard ';
@@ -53,11 +60,12 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
-    public function logout()
+    public function Peringkat_Mahasiswa()
     {
-        $this->session->unset_userdata('IDpengenal');
-        $this->session->unset_userdata('role_id');
-
-        redirect('login');
+        // 09021381621094
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'peringkat_mahasiswa';
+        $this->load->view('admin_sistem/template/template', $this->data);
     }
 }
