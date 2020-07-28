@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Peringkat Mahasiswa</h1>
+                    <h1 class="m-0 text-dark">Analisis Peringkat Bidang</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -18,7 +18,7 @@
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Filter Peringkat Mahasiswa</h3>
+                        <h3 class="card-title">Filter Peringkat Bidang</h3>
                     </div>
                     <div class="card-body">
                         <!-- Year and Faculty range -->
@@ -37,16 +37,32 @@
 
                         <div class="form-group">
                             <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-university"></i>
-                                    </span>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-globe-americas"></i>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="jenisprestasi" id="jenisprestasi" required>
+                                    <option selected disabled>Pilih Jenis Prestasi</option>
+                                    <option>Prestasi Kompetisi</option>
+                                    <option>Prestasi Non Kompetisi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- /.input group -->
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-code-branch"></i>
+                                    </div>
                                 </div>
                                 <select name="role" id="role" class="form-control show-tick" required>
-                                    <option selected disabled>Pilih Fakultas</option>
-                                    <?php foreach ($fakultas as $value) { ?>
-                                        <option value="<?= $value->IDfakultas ?>"><?= $value->Fakultas ?></option>
-                                    <?php } ?>
+                                    <option selected disabled>Pilih Bidang</option>
+                                    <option>Ilmiah /Akademik /Penalaran</option>
+                                    <option>Wirausahawan (Entrepreneur)</option>
+
                                 </select>
                             </div>
                         </div>
@@ -63,7 +79,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Peringkat Mahasiswa dari Seluruh Fakultas</h3>
+                <h3 class="card-title">Peringkat Berdasarkan Bidang</h3>
             </div>
             <!-- /.card-header -->
             <div class=" card-body">
@@ -72,18 +88,14 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Mahasiswa</th>
-                                <th>Fakultas</th>
-                                <th>Program Studi</th>
-                                <th>Skor</th>
+                                <th>Bidang</th>
+                                <th>Jumlah Prestasi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>EKO</td>
-                                <td>Fakultas Ilmu Komputer</td>
-                                <td>Teknik Informatika Bilingual</td>
+                                <td>Teknologi Sains</td>
                                 <td>200</td>
                             </tr>
                         </tbody>
@@ -94,6 +106,8 @@
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
+
+
     </section>
     <!-- section -->
 </div>

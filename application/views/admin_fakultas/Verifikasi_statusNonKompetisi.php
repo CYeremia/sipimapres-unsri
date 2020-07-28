@@ -44,8 +44,7 @@
 
                                 <tr>
                                     <td style="width: 20%">Peran</td>
-                                    <td></td>
-                                    <!-- <td><?php echo ($IDM->Peran) ?></td> -->
+                                    <td><?php echo ($IDM->Peran) ?></td>
                                 </tr>
 
                                 <tr>

@@ -68,7 +68,7 @@
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-5 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs (Charts with tabs)-->
                     <div class="card">
                         <div class="card-header">
@@ -81,6 +81,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Mahasiswa</th>
+                                        <th>Fakultas</th>
                                         <th>Program Studi</th>
                                         <th>Skor</th>
                                     </tr>
@@ -104,7 +105,7 @@
                 </section>
                 <!-- /.Left col -->
                 <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                <section class="col-lg-7 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
 
                     <!-- BAR CHART -->
                     <div class="card card-success">

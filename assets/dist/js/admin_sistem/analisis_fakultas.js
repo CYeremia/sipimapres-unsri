@@ -7,3 +7,4 @@ for (var year = end; year >= start; year--) {
     options += "<option>" + year + "</option>";
 }
 document.getElementById("tahun").innerHTML = options;
+document.getElementById("tahun2").innerHTML = options;

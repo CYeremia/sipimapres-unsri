@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Peringkat Mahasiswa</h1>
+                    <h1 class="m-0 text-dark">Analisis Peringkat Fakultas</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -18,7 +18,7 @@
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Filter Peringkat Mahasiswa</h3>
+                        <h3 class="card-title">Filter Peringkat Fakultas</h3>
                     </div>
                     <div class="card-body">
                         <!-- Year and Faculty range -->
@@ -30,6 +30,14 @@
                                     </span>
                                 </div>
                                 <select class="form-control" name="tahun" id="tahun" required>
+                                </select>
+                                <span class="input-group-addon" style="padding: 0px 10px 0px 10px;">to</span>
+                                <!-- <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div> -->
+                                <select class="form-control" name="tahun2" id="tahun2" required>
                                 </select>
                             </div>
                         </div>
@@ -63,7 +71,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Peringkat Mahasiswa dari Seluruh Fakultas</h3>
+                <h3 class="card-title">Peringkat Fakultas Berdasarkan Prestasi</h3>
             </div>
             <!-- /.card-header -->
             <div class=" card-body">
@@ -71,19 +79,45 @@
                     <table id="perestasikompetisi" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Nama Mahasiswa</th>
-                                <th>Fakultas</th>
-                                <th>Program Studi</th>
-                                <th>Skor</th>
+                                <th>Nama Fakultas</th>
+                                <th>Jumlah Prestasi Kompetisi</th>
+                                <th>Jumlah Prestasi Non Kompetisi</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>EKO</td>
                                 <td>Fakultas Ilmu Komputer</td>
-                                <td>Teknik Informatika Bilingual</td>
+                                <td>150</td>
+                                <td>50</td>
+                                <td>200</td>
+                            </tr>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Peringkat Fakultas Berdasarkan Mahasiswa Berprestasi</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class=" card-body">
+                <div class="table-responsive">
+                    <table id="perestasikompetisi" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Fakultas</th>
+                                <th>Jumlah Mahasiswa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fakultas Ilmu Komputer</td>
                                 <td>200</td>
                             </tr>
                         </tbody>

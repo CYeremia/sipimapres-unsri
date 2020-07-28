@@ -63,9 +63,62 @@ class Admin_sistem  extends CI_Controller
     public function Peringkat_Mahasiswa()
     {
         // 09021381621094
+        $this->data['fakultas'] = $this->db->get('fakultas')->result();
         $this->data['active'] = 2;
         $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
         $this->data['content'] = 'peringkat_mahasiswa';
         $this->load->view('admin_sistem/template/template', $this->data);
     }
+
+    public function Analisis_PeringkatFakultas()
+    {
+        $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'analisis_fakultas';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    public function Analisis_PeringkatBidang()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'analisis_bidang';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    // AMBIL DATA TOP MAHASISWA
+    function gettopmahasiswa()
+    {
+        $result = [
+            'data' => $this->Maptotopmahasiswa(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    function Maptotopmahasiswa()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , SUM(prestasikompetisi.Skor)+SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal INNER JOIN prestasinonkompetisi ON prestasikompetisi.PeraihPrestasi = prestasinonkompetisi.PeraihPrestasi WHERE Role='Mahasiswa' AND prestasinonkompetisi.Status='Diterima' AND prestasikompetisi.Status='Diterima'  GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'Nama' => $k['Nama'],
+                'Fakultas' => $k['Fakultas'],
+                'Prodi' => $k['ProgramStudi'],
+                'Skor' => $k['Skor']
+            );
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+    // END OF DATA TOP MAHASISWA
 }

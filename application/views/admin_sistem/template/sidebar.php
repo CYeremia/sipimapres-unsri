@@ -62,17 +62,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('') ?>" class="nav-link <?php if ($active == 3) {
-                                                                                echo "active";
-                                                                            } ?> ">
+                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatFakultas') ?>" class="nav-link <?php if ($active == 3) {
+                                                                                                                        echo "active";
+                                                                                                                    } ?> ">
                                 <i class="nav-icon fas fa-trophy"></i>
                                 <p>Per Fakultas</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('') ?>" class="nav-link <?php if ($active == 4) {
-                                                                                echo "active";
-                                                                            } ?> ">
+                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatBidang') ?>" class="nav-link <?php if ($active == 4) {
+                                                                                                                    echo "active";
+                                                                                                                } ?> ">
                                 <i class="nav-icon fas fa-award"></i>
                                 <p>Per Bidang</p>
                             </a>
