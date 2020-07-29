@@ -2,6 +2,8 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
+console.log(globalUrl);
+
 var input_prestasi;
 
 $(document).ready(function () {

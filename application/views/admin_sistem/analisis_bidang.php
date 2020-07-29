@@ -44,8 +44,8 @@
                                 </div>
                                 <select class="form-control" name="jenisprestasi" id="jenisprestasi" required>
                                     <option selected disabled>Pilih Jenis Prestasi</option>
-                                    <option>Prestasi Kompetisi</option>
-                                    <option>Prestasi Non Kompetisi</option>
+                                    <option>Kompetisi</option>
+                                    <option>Non Kompetisi</option>
                                 </select>
                             </div>
                         </div>
@@ -58,10 +58,10 @@
                                         <i class="fas fa-code-branch"></i>
                                     </div>
                                 </div>
-                                <select name="role" id="role" class="form-control show-tick" required>
+                                <select class="form-control" name="pilihan_bidang" id="pilihan_bidang" required>
                                     <option selected disabled>Pilih Bidang</option>
-                                    <option>Ilmiah /Akademik /Penalaran</option>
-                                    <option>Wirausahawan (Entrepreneur)</option>
+                                    <!-- <option>Ilmiah /Akademik /Penalaran</option>
+                                    <option>Wirausahawan (Entrepreneur)</option> -->
 
                                 </select>
                             </div>

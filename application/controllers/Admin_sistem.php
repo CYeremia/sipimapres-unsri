@@ -25,6 +25,7 @@ class Admin_sistem  extends CI_Controller
         // var_dump($this->data['user']);
         // die;
         $this->load->model('user_m');
+        $this->load->model('Bidang_prestasi');
         $this->load->model('prestasi_kompetisi');
         $this->load->model('prestasi_nonkompetisi');
         $this->load->model('prodi');
@@ -87,6 +88,30 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    //get data select bidang
+    public function getdataselect()
+    {
+        $pilihan = $this->input->post('pilihan');
+        // $data = $this->Bidang_prestasi->get(['JalurPencapaian' => $pilihan]);
+
+
+        $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='$pilihan'";
+        $data = $this->db->query($sql)->result();
+        // print_r($data);
+        // die;
+
+        // // $data = $this->Bidang_prestasi->get(['JalurPencapaian' => $pilihan]);
+        // // $data = $this->db->query("SELECT * FROM bidangprestasi WHERE JalurPencapaian='$pilihan'")->result();
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
     // AMBIL DATA TOP MAHASISWA
     function gettopmahasiswa()
     {
@@ -103,8 +128,10 @@ class Admin_sistem  extends CI_Controller
     function Maptotopmahasiswa()
     {
         $listData = [];
-        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , SUM(prestasikompetisi.Skor)+SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal INNER JOIN prestasinonkompetisi ON prestasikompetisi.PeraihPrestasi = prestasinonkompetisi.PeraihPrestasi WHERE Role='Mahasiswa' AND prestasinonkompetisi.Status='Diterima' AND prestasikompetisi.Status='Diterima'  GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor FROM user LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
+        // $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , SUM(prestasikompetisi.Skor)+SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
+        // prestasikompetisi.PeraihPrestasi = user.IDPengenal INNER JOIN prestasinonkompetisi ON prestasikompetisi.PeraihPrestasi = prestasinonkompetisi.PeraihPrestasi WHERE Role='Mahasiswa' AND prestasinonkompetisi.Status='Diterima' AND prestasikompetisi.Status='Diterima'  GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
         foreach ($data as $k) {
             $obj = array(
@@ -121,4 +148,7 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
     // END OF DATA TOP MAHASISWA
+
+
+
 }
