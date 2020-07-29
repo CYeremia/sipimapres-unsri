@@ -37,6 +37,7 @@ $(document).ready(function () {
         }
         ],
         order: [[0, 'asc']],
+        "lengthChange": false,
     });
 
     $.ajax({

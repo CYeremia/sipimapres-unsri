@@ -2,8 +2,7 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 
-console.log(globalUrl);
-
+// console.log(globalUrl);
 
 //Menampilkan Seleksi Tahun
 var start = 2000;
@@ -15,13 +14,6 @@ for (var year = end; year >= start; year--) {
     options += "<option>" + year + "</option>";
 }
 document.getElementById("tahun").innerHTML = options;
-
-
-var lookup = {
-    'Option 1': ['Option 1 - Choice 1', 'Option 1 - Choice 2', 'Option 1 - Choice 3'],
-    'Option 2': ['Option 2 - Choice 1', 'Option 2 - Choice 2'],
-    'Option 3': ['Option 3 - Choice 1'],
-};
 
 $('#jenisprestasi').on('change', function () {
     // Set selected option as variable
@@ -37,10 +29,9 @@ $('#jenisprestasi').on('change', function () {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response.data[0].Bidang);
-            console.log(response.data.length);
+            // console.log(response.data[0].Bidang);
 
-
+            // Empty the target field
             $('#pilihan_bidang').empty();
             // <option selected disabled>Pilih Jenis Prestasi</option>
             $('#pilihan_bidang').append("<option selected disabled'>Pilih Jenis Prestasi</option>");
@@ -52,6 +43,5 @@ $('#jenisprestasi').on('change', function () {
         }
     });
 
-    // Empty the target field
 });
 

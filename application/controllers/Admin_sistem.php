@@ -36,15 +36,15 @@ class Admin_sistem  extends CI_Controller
         //jumlah data untuk dashboard
         $this->data['jumlah'] = [
 
-            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
+            $this->db->query("SELECT COUNT(*) AS mahasiswa FROM user WHERE Role = 'Mahasiswa'")->row(), //jumlah mahasiswa
 
-            $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
+            $this->db->query("SELECT COUNT(*) AS kompetisi FROM prestasikompetisi
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
+            WHERE Role = 'Mahasiswa' AND Status = 'Diterima' AND Tahun =" . $year)->row(), //jumlah prestasi kompetisi
 
-            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
+            $this->db->query("SELECT COUNT(*) AS nonkompetisi FROM prestasinonkompetisi
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
+            WHERE Role = 'Mahasiswa' AND Status = 'Diterima' AND Tahun =" . $year)->row() //jumlah prestasi non kompetisi
         ];
     }
 
@@ -71,6 +71,84 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+
+    //Get data peringkat mahasiswa
+    public function getpringkatM()
+    {
+        $result = [
+            'data' => $this->MapperingkatM(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MapperingkatM()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.IDPengenal, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
+        FROM user
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' GROUP BY user.IDPengenal ORDER BY Skor DESC")->result_array();
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'NIM' => $k['IDPengenal'],
+                'Nama' => $k['Nama'],
+                'Fakultas' => $k['Fakultas'],
+                'Prodi' => $k['ProgramStudi'],
+                'Skor' => $k['Skor']
+            );
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    //Filter Peringkat Mahasiswa Berdasarkan Tahun dan Fakultas
+    public function FilterPeringkatM($tahun, $fakultas)
+    {
+        $Fakultas = str_replace("%20", " ", $fakultas);
+        // print_r($Fakultas);
+        // die;
+        $result = [
+            'data' => $this->MapFilterperingkatM($tahun, $Fakultas),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MapFilterperingkatM($tahun, $Fakultas)
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi, user.IDPengenal, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
+        FROM user
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima' AND Tahun='" . $tahun . "' GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  AND Tahun='" . $tahun . "' GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi 
+        WHERE user.Role='Mahasiswa'  AND user.Fakultas='" . $Fakultas . "' GROUP BY user.IDPengenal ORDER BY Skor DESC")->result_array();
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'NIM' => $k['IDPengenal'],
+                'Nama' => $k['Nama'],
+                'Fakultas' => $k['Fakultas'],
+                'Prodi' => $k['ProgramStudi'],
+                'Skor' => $k['Skor']
+            );
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+
     public function Analisis_PeringkatFakultas()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
@@ -92,16 +170,11 @@ class Admin_sistem  extends CI_Controller
     public function getdataselect()
     {
         $pilihan = $this->input->post('pilihan');
-        // $data = $this->Bidang_prestasi->get(['JalurPencapaian' => $pilihan]);
-
 
         $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='$pilihan'";
         $data = $this->db->query($sql)->result();
         // print_r($data);
         // die;
-
-        // // $data = $this->Bidang_prestasi->get(['JalurPencapaian' => $pilihan]);
-        // // $data = $this->db->query("SELECT * FROM bidangprestasi WHERE JalurPencapaian='$pilihan'")->result();
         $result = [
             'data' => $data,
             'status' => true,

@@ -42,18 +42,18 @@
                                         <i class="fas fa-university"></i>
                                     </span>
                                 </div>
-                                <select name="role" id="role" class="form-control show-tick" required>
-                                    <option selected disabled>Pilih Fakultas</option>
+                                <select name="fakultas" id="fakultas" class="form-control show-tick" required>
+                                    <option selected="selected" disabled>Pilih Fakultas</option>
                                     <?php foreach ($fakultas as $value) { ?>
-                                        <option value="<?= $value->IDfakultas ?>"><?= $value->Fakultas ?></option>
+                                        <option value="<?= $value->Fakultas ?>"><?= $value->Fakultas ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
                         <!-- /.input group -->
 
-                        <button type="button" id="filterhistory" style="margin-right:2em; " class="btn bg-green waves-effect">APPLY FILTER</button>
-                        <button type="button" id="resetdate" class="btn bg-red waves-effect">RESET FILTER</button>
+                        <button type="button" id="filterperingkat" style="margin-right:2em; " class="btn bg-green waves-effect">APPLY FILTER</button>
+                        <button type="button" id="resetperingkat" class="btn bg-red waves-effect">RESET FILTER</button>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -68,10 +68,11 @@
             <!-- /.card-header -->
             <div class=" card-body">
                 <div class="table-responsive">
-                    <table id="perestasikompetisi" class="table table-bordered table-striped">
+                    <table id="peringkatM" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>NIM</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Fakultas</th>
                                 <th>Program Studi</th>
@@ -80,11 +81,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>EKO</td>
-                                <td>Fakultas Ilmu Komputer</td>
-                                <td>Teknik Informatika Bilingual</td>
-                                <td>200</td>
+
                             </tr>
                         </tbody>
                         <tfoot></tfoot>
