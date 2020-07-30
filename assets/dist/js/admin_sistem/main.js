@@ -51,9 +51,9 @@ $(document).ready(function () {
             var length = data.data.length; //panjang data
 
             for (var i = 0; i < length; i++) {
-                prodi[i] = data.data[i].Prodi; //get prodi
-                prestasikompetisi[i] = data.data[i].Kompetisi; //jumlah prestasi kompetisi berdasarkan prodi
-                prestasinonkompetisi[i] = data.data[i].NonKompetisi; //jumlah prestasi non kompetisi berdasarkan prodi
+                Fakultas[i] = data.data[i].Fakultas; //get fakultas
+                prestasikompetisi[i] = data.data[i].PrestasiKompetisi; //jumlah prestasi kompetisi berdasarkan fakultas
+                prestasinonkompetisi[i] = data.data[i].Prestasinonkompetisi; //jumlah prestasi non kompetisi berdasarkan fakultas
             }
 
         }
@@ -63,7 +63,7 @@ $(document).ready(function () {
 
     var areaChartData = {
 
-        labels: prodi,
+        labels: Fakultas,
         datasets: [
             {
                 label: 'Prestasi Non Kompetisi',
