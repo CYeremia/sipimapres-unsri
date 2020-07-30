@@ -63,6 +63,7 @@ $(document).ready(function () {
         var fakultas = document.getElementById("fakultas"); //select ID Fakultas
         var selectfakultas = fakultas.options[fakultas.selectedIndex].value; //get value berdasarkan index yang dipilih
         // console.log(selectfakultas);
+        console.log(globalUrl + '/FilterPeringkatM/' + selecttahun + "/" + selectfakultas);
 
         $('#peringkatM').dataTable().fnDestroy();
         prestasiM = $('#peringkatM').DataTable({

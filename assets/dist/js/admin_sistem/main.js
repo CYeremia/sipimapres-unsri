@@ -5,7 +5,7 @@ $(document).ready(function () {
     var currUrl = window.location.href.split('/');
     var globalUrl = currUrl.join('/');
 
-    var prodi = []; //prodi berdasarkan jurusan
+    var Fakultas = [];
     var prestasikompetisi = [];
     var prestasinonkompetisi = [];
 
