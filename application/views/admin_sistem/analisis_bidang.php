@@ -31,6 +31,14 @@
                                 </div>
                                 <select class="form-control" name="tahun" id="tahun" required>
                                 </select>
+                                <span class="input-group-addon" style="padding: 0px 10px 0px 10px;">to</span>
+                                <!-- <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div> -->
+                                <select class="form-control" name="tahun2" id="tahun2" required>
+                                </select>
                             </div>
                         </div>
                         <!-- /.input group -->
@@ -94,9 +102,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>Teknologi Sains</td>
-                                <td>200</td>
+
                             </tr>
                         </tbody>
                         <tfoot></tfoot>

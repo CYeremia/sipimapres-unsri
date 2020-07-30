@@ -148,7 +148,7 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
 
-
+    //Menampilkan analisis peringkat berdasarkan fakultas
     public function Analisis_PeringkatFakultas()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
@@ -158,6 +158,23 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    public function daftarPrestasi_Fakultas()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Fakultas ';
+        $this->data['content'] = 'daftar_prestasi';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    public function daftarPrestasi_Mahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Mahasiswa ';
+        $this->data['content'] = 'daftar_prestasiMahasiswa';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    //Menampilkan analisis peringkat berdasarkan bidang
     public function Analisis_PeringkatBidang()
     {
         $this->data['active'] = 4;
@@ -166,7 +183,7 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
-    //get data select bidang
+    //get data select bidang untuk fulter
     public function getdataselect()
     {
         $pilihan = $this->input->post('pilihan');
@@ -183,6 +200,14 @@ class Admin_sistem  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
+    }
+
+    public function Prestasi_Bidang()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'prestasi_bidang';
+        $this->load->view('admin_sistem/template/template', $this->data);
     }
 
     // AMBIL DATA TOP MAHASISWA
