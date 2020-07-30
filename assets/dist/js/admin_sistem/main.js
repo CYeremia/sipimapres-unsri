@@ -37,7 +37,10 @@ $(document).ready(function () {
         }
         ],
         order: [[0, 'asc']],
-        "lengthChange": false,
+        "lengthChange": false, //show entries
+        "ordering": false, //Mengurutkan data berdasarkan kolom
+        "paging": false, //btn next and prev
+        "info": false // showing information data
     });
 
     $.ajax({
