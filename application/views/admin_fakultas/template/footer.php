@@ -4,7 +4,7 @@
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.0.5
     </div> -->
-    <strong>Copyright © <?php echo (int) date('Y') ?> <a href="<?= site_url('mahasiswa') ?>">Si-Pimapres</a>.</strong>
+    <strong>Copyright © <?php echo (int) date('Y') ?> <a href="<?= site_url('admin_fakultas') ?>">Si-Pimapres</a>.</strong>
 </footer>
 
 <!-- Control Sidebar -->

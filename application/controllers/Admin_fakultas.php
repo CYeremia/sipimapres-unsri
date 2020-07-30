@@ -465,8 +465,12 @@ class admin_fakultas  extends CI_Controller
     public function Maptotopmahasiswa()
     {
         $listData = [];
-        $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Role='Mahasiswa' AND Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
+        $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
+        FROM user
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
+        // $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
+        // prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Role='Mahasiswa' AND Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
         foreach ($data as $k) {
             $obj = array(
