@@ -75,7 +75,7 @@ class admin_fakultas  extends CI_Controller
 
     protected function flashmsg($msg, $type = 'success', $name = 'msg')
     {
-        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close2" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
@@ -207,7 +207,7 @@ class admin_fakultas  extends CI_Controller
     }
 
     //Seleksi data pada database di table user
-    public function MapToObject()
+    private function MapToObject()
     {
         $listData = [];
         $fakultas = $this->data['userdata']->Fakultas;
@@ -233,7 +233,7 @@ class admin_fakultas  extends CI_Controller
         $id = $this->input->post('ID');
         // print_r($id);
         // die;
-        $id = str_replace(" ", "", $id);
+        // $id = str_replace(" ", "", $id);
         $dataku = $this->user_m->get(['IDPengenal' => $id]);
         $result = [
             'data' => $dataku,

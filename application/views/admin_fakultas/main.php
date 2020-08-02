@@ -57,72 +57,53 @@
                 </div>
                 <!-- ./col -->
             </div>
-            <!-- /.row -->
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-5 connectedSortable">
-                    <!-- Custom tabs (Charts with tabs)-->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Top Mahasiswa</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class=" card-body">
-                            <table id="perestasikompetisi" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Mahasiswa</th>
-                                        <th>Program Studi</th>
-                                        <th>Skor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <!-- <td>1</td>
-                                        <td>EKO</td>
-                                        <td>Teknik Informatika Bilingual</td>
-                                        <td>200</td> -->
 
-                                    </tr>
-                                </tbody>
-                                <tfoot></tfoot>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Top Mahasiswa</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class=" card-body">
+                    <div class="table-responsive">
+                        <table id="perestasikompetisi" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Program Studi</th>
+                                    <th>Skor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                </tr>
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
                     </div>
-                    <!-- /.card -->
-
-                </section>
-                <!-- /.Left col -->
-                <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                <section class="col-lg-7 connectedSortable">
-
-                    <!-- BAR CHART -->
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">Penyebaran Prestasi</h3>
-
-                            <!-- <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                            </div> -->
-                        </div>
-                        <div class="card-body">
-                            <div class="chart">
-                                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </section>
-                <!-- right col -->
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+            <!-- /.card -->
+
+            <!-- BAR CHART -->
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Penyebaran Prestasi</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
+    <!-- /.section-->
 </div>
+<!-- /.content -->

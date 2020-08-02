@@ -36,7 +36,7 @@ $(document).ready(function () {
             data: { IDPengenal: "IDPengenal" },
 
             "render": function (data, type, full, meta) {
-                var actButt = "<button idpengenal=\" " + data.IDPengenal + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Input Data</button>";
+                var actButt = "<button idpengenal=\"" + data.IDPengenal + "\" class=\"btn bg-blue detaildata\" style=\"margin : auto;\">Input Data</button>";
                 return actButt;
             },
             "targets": 4,
