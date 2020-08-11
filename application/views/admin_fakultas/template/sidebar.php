@@ -54,6 +54,36 @@
                     <a href="#" class="nav-link <?php if ($active == 3 || $active == 4) {
                                                     echo "active";
                                                 } ?> ">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Analisis Peringkat
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= site_url('admin_fakultas/Analisis_Peringkatprodi') ?>" class="nav-link <?php if ($active == 3) {
+                                                                                                                    echo "active";
+                                                                                                                } ?> ">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>Per Prodi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= site_url('admin_fakultas/Analisis_PeringkatBidang') ?>" class="nav-link <?php if ($active == 4) {
+                                                                                                                        echo "active";
+                                                                                                                    } ?> ">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Per Bidang</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview menu-close">
+                    <a href="#" class="nav-link <?php if ($active == 5 || $active == 6) {
+                                                    echo "active";
+                                                } ?> ">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
                             Verifikasi Data
@@ -62,7 +92,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('admin_fakultas/prestasi_kompetisi') ?>" class="nav-link <?php if ($active == 3) {
+                            <a href="<?= site_url('admin_fakultas/prestasi_kompetisi') ?>" class="nav-link <?php if ($active == 5) {
                                                                                                                 echo "active";
                                                                                                             } ?> ">
                                 <i class="nav-icon fas fa-trophy"></i>
@@ -70,7 +100,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('admin_fakultas/prestasi_Nonkompetisi') ?>" class="nav-link <?php if ($active == 4) {
+                            <a href="<?= site_url('admin_fakultas/prestasi_Nonkompetisi') ?>" class="nav-link <?php if ($active == 6) {
                                                                                                                     echo "active";
                                                                                                                 } ?> ">
                                 <i class="nav-icon fas fa-award"></i>

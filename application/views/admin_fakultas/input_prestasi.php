@@ -140,8 +140,8 @@
                             </div>
                             <select class="form-control" name="prestasi" id="prestasi" required>
                                 <option selected disabled>Pilih Prestasi</option>
-                                <option>Prestasi Kompetisi</option>
-                                <option>Prestasi Non Kompetisi</option>
+                                <option>Kompetisi</option>
+                                <option>Non Kompetisi</option>
                             </select>
                         </div>
 

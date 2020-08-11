@@ -90,10 +90,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link <?php if ($active == 6) {
-                                                                        echo "active";
-                                                                    } ?> ">
-                        <i class="nav-icon fas fa-user-cog"></i>
+                    <a href="<?= site_url('admin_sistem/kelola_bidang') ?>" class="nav-link <?php if ($active == 6) {
+                                                                                                echo "active";
+                                                                                            } ?> ">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>
                             Kelola Bidang
                         </p>
