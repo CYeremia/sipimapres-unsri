@@ -15,6 +15,9 @@ for (var year = end; year >= start; year--) {
 }
 document.getElementById("tahun").innerHTML = options;
 
+document.getElementById("tahun2").innerHTML = options;
+
+//Show pilih bidang berdasarkan jenis bidang
 $('#jenisprestasi').on('change', function () {
     // Set selected option as variable
     var selectValue = $(this).val();

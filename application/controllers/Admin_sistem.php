@@ -50,7 +50,7 @@ class Admin_sistem  extends CI_Controller
 
     protected function flashmsg($msg, $type = 'success', $name = 'msg')
     {
-        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close2" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
@@ -148,7 +148,7 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
 
-
+    //Menampilkan analisis peringkat berdasarkan fakultas
     public function Analisis_PeringkatFakultas()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
@@ -158,6 +158,23 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    public function daftarPrestasi_Fakultas()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Fakultas ';
+        $this->data['content'] = 'daftar_prestasi';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    public function daftarPrestasi_Mahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Mahasiswa ';
+        $this->data['content'] = 'daftar_prestasiMahasiswa';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    //Menampilkan analisis peringkat berdasarkan bidang
     public function Analisis_PeringkatBidang()
     {
         $this->data['active'] = 4;
@@ -166,7 +183,7 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
-    //get data select bidang
+    //get data select bidang untuk fulter
     public function getdataselect()
     {
         $pilihan = $this->input->post('pilihan');
@@ -183,6 +200,27 @@ class Admin_sistem  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
+    }
+
+    public function getdatafakultas()
+    {
+        $data = $this->db->get('fakultas')->result();
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Prestasi_Bidang()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'prestasi_bidang';
+        $this->load->view('admin_sistem/template/template', $this->data);
     }
 
     // AMBIL DATA TOP MAHASISWA
@@ -253,5 +291,186 @@ class Admin_sistem  extends CI_Controller
             $listData[] =  $data;
         }
         return $listData;
+    }
+
+    //Manage User
+    public function kelola_user()
+    {
+        $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $this->data['active'] = 5;
+        $this->data['title'] = 'Admin Sistem | Kelola User ';
+        $this->data['content'] = 'manage_user';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    //mengambil semua data user pada table user
+    public function getUser()
+    {
+        $result = [
+            'data' => $this->Mapuser(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Mapuser()
+    {
+        $cek = $this->db->where('Role !=', "Mahasiswa");
+        $data = $this->user_m->get();
+        $listData = [];
+        $i = 1;
+
+        foreach ($data as $k) {
+            $obj = new UserObj();
+
+            $obj->No = $i;
+            $obj->NIP = $k->IDPengenal;
+            $obj->Nama = $k->Nama;
+            $obj->username = $k->IDPengenal;
+            $obj->role = $k->Role;
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    //Tambah User
+    public function tambahuser()
+    {
+        $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $this->data['active'] = 5;
+        $this->data['title'] = 'Admin Sistem | Tambah User ';
+        $this->data['content'] = 'tambah_user';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    public function tambahdatauser()
+    {
+        if ($this->input->post('tambahuser')) {
+            $this->form_validation->set_rules('password1', 'Password', 'required');
+            $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
+                redirect("admin_sistem/tambahuser");
+            } else {
+                if ($this->input->post('role') != "Administrator Sistem") {
+                    $input['Nama'] = $this->input->post('namaadmin');
+                    $input['IDPengenal'] = $this->input->post('NIP');
+                    $input['Email'] = $this->input->post('Email');
+                    $input['Role'] = $this->input->post('role');
+                    $input['Fakultas'] = $this->input->post('fakultas');
+                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                    $this->user_m->insert($input);
+                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                } else {
+                    $input['Nama'] = $this->input->post('namaadmin');
+                    $input['IDPengenal'] = $this->input->post('NIP');
+                    $input['Email'] = $this->input->post('Email');
+                    $input['Role'] = $this->input->post('role');
+                    $input['Fakultas'] = null;
+                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                    $this->user_m->insert($input);
+                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                }
+            }
+        }
+        redirect("admin_sistem/kelola_user");
+    }
+
+    //Edit Data User
+    // mengambil data User berdasarkan NIP
+    public function getdataNIP()
+    {
+        $id = $this->input->post('ID');
+        // print_r($id);
+        // die;
+        $dataku = $this->user_m->get(['IDPengenal' => $id]);
+        $result = [
+            'data' => $dataku,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //update user
+    public function updateuser()
+    {
+        if ($this->input->post('updatedata')) {
+            if ($this->input->post("password1") != "" && $this->input->post("password2") != "") {
+                $this->form_validation->set_rules('password1', 'Password', 'required');
+                $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
+                if ($this->form_validation->run() == FALSE) {
+                    $this->flashmsg('Password Baru dan Password Konfirmasi Berbeda!', 'danger');
+                } else {
+                    if ($this->input->post('role') != "Administrator Sistem") {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = $this->input->post('fakultas');
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->db->where('IDPengenal', $this->input->post('detector'));
+                        $this->db->update('user', $input);
+                        $this->flashmsg('Data User Telah Berhasil Diubah');
+                    } else {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = null;
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->db->where('IDPengenal', $this->input->post('detector'));
+                        $this->db->update('user', $input);
+                        $this->flashmsg('Data User Telah Berhasil Diubah');
+                    }
+                }
+            } else {
+                if ($this->input->post('role') != "Administrator Sistem") {
+                    $input['Nama'] = $this->input->post('namaadmin');
+                    $input['IDPengenal'] = $this->input->post('NIP');
+                    $input['Email'] = $this->input->post('Email');
+                    $input['Role'] = $this->input->post('role');
+                    $input['Fakultas'] = $this->input->post('fakultas');
+                    $this->db->where('IDPengenal', $this->input->post('detector'));
+                    $this->db->update('user', $input);
+                    $this->flashmsg('Data User Telah Berhasil Diubah');
+                } else {
+                    $input['Nama'] = $this->input->post('namaadmin');
+                    $input['IDPengenal'] = $this->input->post('NIP');
+                    $input['Email'] = $this->input->post('Email');
+                    $input['Role'] = $this->input->post('role');
+                    $input['Fakultas'] = null;
+                    $this->db->where('IDPengenal', $this->input->post('detector'));
+                    $this->db->update('user', $input);
+                    $this->flashmsg('Data User Telah Berhasil Diubah');
+                }
+            }
+        }
+        redirect("admin_sistem/kelola_user");
+    }
+
+    //Menghapus user
+    public function deleteuser()
+    {
+        $id = $this->input->post('ID');
+        $data['IDPengenal'] = $id;
+        $userCek = $this->user_m->get_row($data);
+        // print_r($test);
+        if ($userCek != null) {
+            // $this->db->query("DELETE FROM `user` WHERE IDPengenal='$id'");
+            $this->db->where('IDPengenal', $id);
+            $this->db->delete('user');
+            $result['status'] = true;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
     }
 }

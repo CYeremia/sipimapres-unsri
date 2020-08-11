@@ -80,9 +80,9 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link <?php if ($active == 5) {
-                                                                        echo "active";
-                                                                    } ?> ">
+                    <a href="<?= site_url('admin_sistem/kelola_user') ?>" class="nav-link <?php if ($active == 5) {
+                                                                                                echo "active";
+                                                                                            } ?> ">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Kelola User

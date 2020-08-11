@@ -56,7 +56,7 @@ class Mahasiswa extends CI_Controller
 
     protected function flashmsg($msg, $type = 'success', $name = 'msg')
     {
-        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable"> <a href="#" class="close2" data-dismiss="alert" aria-label="close">&times;</a>' . $msg . '</div>');
     }
 
     public function index()
