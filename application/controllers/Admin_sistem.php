@@ -153,7 +153,7 @@ class Admin_sistem  extends CI_Controller
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
         $this->data['active'] = 3;
-        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['title'] = 'Admin Sistem | Analisis Peringkat Fakultas';
         $this->data['content'] = 'analisis_fakultas';
         $this->load->view('admin_sistem/template/template', $this->data);
     }
@@ -178,7 +178,7 @@ class Admin_sistem  extends CI_Controller
     public function Analisis_PeringkatBidang()
     {
         $this->data['active'] = 4;
-        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['title'] = 'Admin Sistem | Analisis Peringkat Bidang ';
         $this->data['content'] = 'analisis_bidang';
         $this->load->view('admin_sistem/template/template', $this->data);
     }
@@ -304,7 +304,6 @@ class Admin_sistem  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
-
     }
 
     //data untuk peringkat berdasarkan keseluruhan fakultas berdasarkan prestasi
@@ -320,14 +319,13 @@ class Admin_sistem  extends CI_Controller
         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t2
         ON t2.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' GROUP BY Fakultas ORDER BY total DESC
-        ") ->result_array();
+        ")->result_array();
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
             $listData[] =  $data;
         }
         return $listData;
-
     }
 
     //json peringkat fakultas berdasarkan jumlah mahasiswa
@@ -356,7 +354,7 @@ class Admin_sistem  extends CI_Controller
         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t1)t2
         ON t2.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' GROUP BY Fakultas
-        ") ->result_array();
+        ")->result_array();
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
@@ -541,6 +539,109 @@ class Admin_sistem  extends CI_Controller
             // $this->db->query("DELETE FROM `user` WHERE IDPengenal='$id'");
             $this->db->where('IDPengenal', $id);
             $this->db->delete('user');
+            $result['status'] = true;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //Kelola Bidang
+    public function kelola_bidang()
+    {
+        $this->data['active'] = 6;
+        $this->data['title'] = 'Admin Sistem | Kelola Bidang ';
+        $this->data['content'] = 'manage_bidang';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    //mengambil semua data bidang pada table user
+    public function getbidang()
+    {
+        $result = [
+            'data' => $this->Mapbidang(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Mapbidang()
+    {
+        // $cek = $this->db->where('Role !=', "Mahasiswa");
+
+        $data = $this->Bidang_prestasi->get();
+        $listData = [];
+        $i = 1;
+
+        $data = $this->db->query("SELECT * FROM `bidangprestasi` ORDER BY `bidangprestasi`.`JalurPencapaian` ASC")->result();
+        foreach ($data as $k) {
+            $obj = new UserObj();
+
+            $obj->No = $i;
+            $obj->IDPrestasi = $k->IDPrestasi;
+            $obj->Jenis_Prestasi = $k->JalurPencapaian;
+            $obj->Nama_bidang = $k->Bidang;
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    //Tambah Data Bidang
+    public function tambahbidang()
+    {
+        if ($this->input->post('tambahdata')) {
+            $input['JalurPencapaian'] = $this->input->post('jalurPencapaian');
+            $input['Bidang'] = $this->input->post('namabidang');
+            $this->Bidang_prestasi->insert($input);
+            $this->flashmsg('Data Bidang Telah Berhasil Ditambah');
+        }
+        redirect("admin_sistem/kelola_bidang");
+    }
+
+    //Edit Data Bidang
+    // mengambil data Bidang berdasarkan IDPrestasi
+    public function getdatabidang()
+    {
+        $id = $this->input->post('ID');
+        $dataku = $this->Bidang_prestasi->get(['IDPrestasi' => $id]);
+        $result = [
+            'data' => $dataku,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //update user
+    public function updatebidang()
+    {
+        if ($this->input->post('updatedata')) {
+            $input['JalurPencapaian'] = $this->input->post('Jalur_Pencapaian');
+            $input['Bidang'] = $this->input->post('nama_bidang');
+            $this->db->where('IDPrestasi', $this->input->post('detector'));
+            $this->db->update('bidangprestasi', $input);
+            $this->flashmsg('Data Bidang Telah Berhasil Diubah');
+        }
+        redirect("admin_sistem/kelola_bidang");
+    }
+
+    //Menghapus Bidang
+    public function deletebidang()
+    {
+        $id = $this->input->post('ID');
+        $data['IDPrestasi'] = $id;
+        $BidangCek = $this->Bidang_prestasi->get_row($data);
+        // print_r($test);
+        if ($BidangCek != null) {
+            $this->db->where('IDPrestasi', $id);
+            $this->db->delete('bidangprestasi');
             $result['status'] = true;
         }
 

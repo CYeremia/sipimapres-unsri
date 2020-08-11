@@ -95,10 +95,72 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Menampilkan Analisis Peringkat Berdasarkan Prodi
+    public function Analisis_Peringkatprodi()
+    {
+        // $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Analisis Peringkat Prodi';
+        $this->data['content'] = 'analisis_Prodi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    public function daftarPrestasi_Prodi()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Prodi ';
+        $this->data['content'] = 'daftar_prestasi';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    public function daftarPrestasi_Mahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Sistem | Daftar Prestasi Mahasiswa ';
+        $this->data['content'] = 'daftar_prestasiMahasiswa';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //Menampilkan analisis peringkat berdasarkan bidang
+    public function Analisis_PeringkatBidang()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Analisis Peringkat Bidang ';
+        $this->data['content'] = 'analisis_bidang';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //get data select bidang untuk fulter
+    public function getdataselect()
+    {
+        $pilihan = $this->input->post('pilihan');
+
+        $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='$pilihan'";
+        $data = $this->db->query($sql)->result();
+        // print_r($data);
+        // die;
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Prestasi_Bidang()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'prestasi_bidang';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
     //Menampilkan Semua data Prestasi Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_kompetisi()
     {
-        $this->data['active'] = 3;
+        $this->data['active'] = 5;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Kompetisi ';
         $this->data['content'] = 'Verifikasi_kompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -116,7 +178,7 @@ class admin_fakultas  extends CI_Controller
 
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
-        $this->data['active'] = 3;
+        $this->data['active'] = 5;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_statusKompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -143,7 +205,7 @@ class admin_fakultas  extends CI_Controller
     //Menampilkan Semua data Prestasi Non Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_Nonkompetisi()
     {
-        $this->data['active'] = 4;
+        $this->data['active'] = 6;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -160,7 +222,7 @@ class admin_fakultas  extends CI_Controller
 
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
-        $this->data['active'] = 4;
+        $this->data['active'] = 6;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_statusNonKompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -268,14 +330,14 @@ class admin_fakultas  extends CI_Controller
     //Seleksi Prestasi Mahasiswa
     public function seleksipage()
     {
-        if ($_POST['prestasi'] == 'Prestasi Kompetisi') {
+        if ($_POST['prestasi'] == 'Kompetisi') {
             $this->data['ID'] = $_POST['Nimmahasiswa'];
             $this->data['Nama'] = $_POST['namamahasiswa'];
             $this->data['active'] = 2;
             $this->data['title'] = 'Admin Fakultas | Tambah Data Kompetisi';
             $this->data['content'] = 'data_kompetisi';
             $this->load->view('admin_fakultas/template/template', $this->data);
-        } else if ($_POST['prestasi'] == 'Prestasi Non Kompetisi') {
+        } else if ($_POST['prestasi'] == 'Non Kompetisi') {
             $this->data['ID'] = $_POST['Nimmahasiswa'];
             $this->data['Nama'] = $_POST['namamahasiswa'];
             $this->data['active'] = 2;
