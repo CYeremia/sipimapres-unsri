@@ -98,7 +98,8 @@ class admin_fakultas  extends CI_Controller
     //Menampilkan Analisis Peringkat Berdasarkan Prodi
     public function Analisis_Peringkatprodi()
     {
-        // $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $data = $this->db->query("SELECT * FROM `prodi` WHERE `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->result();
+        $this->data['prodi'] = $data;
         $this->data['active'] = 3;
         $this->data['title'] = 'Admin Sistem | Analisis Peringkat Prodi';
         $this->data['content'] = 'analisis_Prodi';
