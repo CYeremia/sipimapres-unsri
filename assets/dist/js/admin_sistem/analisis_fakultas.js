@@ -12,15 +12,15 @@ document.getElementById("tahun2").innerHTML = options;
 var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
-
+var daftarP;
 
 //tabel default
-function tabel()
+function tabel(start,end)
 {
     //tabel peringkat fakultas berdasarkan prestasi
     daftarP = $('#perestasikompetisi').DataTable({
         ajax: {
-            url: globalUrl + '/peringkatfakultasprestasi',
+            url: globalUrl + '/peringkatfakultasprestasi/'+start+'/'+end,
             type: 'POST',
             data: function (d) { }
         },
@@ -47,7 +47,7 @@ function tabel()
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
     daftarP = $('#perestasikompetisimahasiswa').DataTable({
         ajax: {
-            url: globalUrl + '/peringkatfakultasmahasiswa',
+            url: globalUrl + '/peringkatfakultasmahasiswa/'+start+'/'+end,
             type: 'POST',
             data: function (d) { }
         },
@@ -67,11 +67,12 @@ function tabel()
 
 $(document).ready(function () {
 
-    tabel();
+    tabel(end,end);
 
 });
 
 
+//on click apply filter
 $('#filter').click(function (e) {
 
     var startindex = document.getElementById("tahun");
@@ -79,21 +80,33 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
-    var fakultas = document.getElementById("fakultas"); //select ID Fakultas
-    var selectfakultas = fakultas.options[fakultas.selectedIndex].value; //get value berdasarkan index yang dipilih
+    var fakultasindex = document.getElementById("fakultas"); //select ID Fakultas
+    var fakultas = fakultasindex.options[fakultasindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 
-    console.log(start+end+selectfakultas);
+    if(fakultasindex.selectedIndex == 0) //tidak memilih fakultas apapun
+    {
+        $('#perestasikompetisi').dataTable().fnDestroy();
+        $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
+        tabel(start,end);
+    }
+    else //ketika memilih fakultas
+    {
+
+    }
+
+
+
+    console.log(start+end+fakultas);
     
 
 });
 
+//on click reset filter
 $('#resetfilter').click(function (e) {
 
-    // $('#perestasikompetisi').dataTable().fnDestroy();
-    // $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
+    $('#perestasikompetisi').dataTable().fnDestroy();
+    $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
 
-    tabel();
-
-
+    tabel(end,end);
 });
 

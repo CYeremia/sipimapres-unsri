@@ -294,10 +294,10 @@ class Admin_sistem  extends CI_Controller
     }
 
     //json peringkat fakultas berdasarkan prestasi
-    public function peringkatfakultasprestasi()
+    public function peringkatfakultasprestasi($start,$end)
     {
         $result = [
-            'data' => $this->Maptoperingkatfakultasprestasi(),
+            'data' => $this->Maptoperingkatfakultasprestasi($start,$end),
             'status' => true,
             'status_code' => 200
         ];
@@ -307,19 +307,19 @@ class Admin_sistem  extends CI_Controller
     }
 
     //data untuk peringkat berdasarkan keseluruhan fakultas berdasarkan prestasi
-    public function Maptoperingkatfakultasprestasi()
+    public function Maptoperingkatfakultasprestasi($start,$end)
     {
 
         $listData = [];
-        $data = $this->db->query("SELECT Fakultas,SUM(t1.total) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
+
+        $data = $this->db->query("SELECT Fakultas,IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
         LEFT JOIN 
-        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t1
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
         ON t1.PeraihPrestasi=user.IDPengenal
         LEFT JOIN 
-        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t2
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
         ON t2.PeraihPrestasi=user.IDPengenal
-        WHERE user.Role='Mahasiswa' GROUP BY Fakultas ORDER BY total DESC
-        ")->result_array();
+        WHERE user.Role='Mahasiswa' GROUP BY Fakultas ORDER BY total DESC")->result_array();
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
@@ -328,11 +328,48 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
 
-    //json peringkat fakultas berdasarkan jumlah mahasiswa
-    public function peringkatfakultasmahasiswa()
+
+    //json peringkat fakultas berdasarkan prestasi
+    public function satuperingkatfakultasprestasi($start,$end,$fakultas)
     {
         $result = [
-            'data' => $this->Maptoperingkatfakultasmahasiswa(),
+            'data' => $this->Maptosatuperingkatfakultasprestasi($start,$end,$fakultas),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+
+     //data untuk peringkat satu fakultas berdasarkan prestasi
+     public function Maptosatuperingkatfakultasprestasi($start,$end,$fakultas)
+     {
+ 
+         $listData = [];
+ 
+         $data = $this->db->query("SELECT Fakultas,IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
+         LEFT JOIN 
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+         ON t1.PeraihPrestasi=user.IDPengenal
+         LEFT JOIN 
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+         ON t2.PeraihPrestasi=user.IDPengenal
+         WHERE user.Role='Mahasiswa' AND Fakultas='".$fakultas."' GROUP BY Fakultas")->result_array();
+ 
+         foreach ($data as $k) {
+             $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+             $listData[] =  $data;
+         }
+         return $listData;
+     }
+
+    //json peringkat fakultas berdasarkan jumlah mahasiswa
+    public function peringkatfakultasmahasiswa($start,$end)
+    {
+        $result = [
+            'data' => $this->Maptoperingkatfakultasmahasiswa($start,$end),
             'status' => true,
             'status_code' => 200
         ];
@@ -343,18 +380,19 @@ class Admin_sistem  extends CI_Controller
 
 
     //data untuk peringkat fakultas berdasarkan jumlah mahasiswa
-    public function Maptoperingkatfakultasmahasiswa()
+    public function Maptoperingkatfakultasmahasiswa($start,$end)
     {
         $listData = [];
-        $data = $this->db->query("SELECT Fakultas,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
+
+        
+        $data= $this->db->query("SELECT Fakultas,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
         INNER JOIN 
         (SELECT DISTINCT(t1.PeraihPrestasi) FROM
-        (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi
+        (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
         UNION ALL
-        SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t1)t2
+        SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
         ON t2.PeraihPrestasi=user.IDPengenal
-        WHERE user.Role='Mahasiswa' GROUP BY Fakultas
-        ")->result_array();
+        WHERE user.Role='Mahasiswa' GROUP BY Fakultas")->result_array();
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
