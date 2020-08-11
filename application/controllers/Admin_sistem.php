@@ -293,6 +293,80 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
 
+    //json peringkat fakultas berdasarkan prestasi
+    public function peringkatfakultasprestasi()
+    {
+        $result = [
+            'data' => $this->Maptoperingkatfakultasprestasi(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+
+    }
+
+    //data untuk peringkat berdasarkan keseluruhan fakultas berdasarkan prestasi
+    public function Maptoperingkatfakultasprestasi()
+    {
+
+        $listData = [];
+        $data = $this->db->query("SELECT Fakultas,SUM(t1.total) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
+        LEFT JOIN 
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t1
+        ON t1.PeraihPrestasi=user.IDPengenal
+        LEFT JOIN 
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t2
+        ON t2.PeraihPrestasi=user.IDPengenal
+        WHERE user.Role='Mahasiswa' GROUP BY Fakultas ORDER BY total DESC
+        ") ->result_array();
+
+        foreach ($data as $k) {
+            $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $listData[] =  $data;
+        }
+        return $listData;
+
+    }
+
+    //json peringkat fakultas berdasarkan jumlah mahasiswa
+    public function peringkatfakultasmahasiswa()
+    {
+        $result = [
+            'data' => $this->Maptoperingkatfakultasmahasiswa(),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+
+    //data untuk peringkat fakultas berdasarkan jumlah mahasiswa
+    public function Maptoperingkatfakultasmahasiswa()
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT Fakultas,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
+        INNER JOIN 
+        (SELECT DISTINCT(t1.PeraihPrestasi) FROM
+        (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi
+        UNION ALL
+        SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN '2020' AND '2020' GROUP BY PeraihPrestasi)t1)t2
+        ON t2.PeraihPrestasi=user.IDPengenal
+        WHERE user.Role='Mahasiswa' GROUP BY Fakultas
+        ") ->result_array();
+
+        foreach ($data as $k) {
+            $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
+            $listData[] =  $data;
+        }
+        return $listData;
+    }
+
+
+
     //Manage User
     public function kelola_user()
     {
