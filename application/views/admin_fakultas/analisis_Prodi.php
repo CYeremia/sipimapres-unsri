@@ -43,7 +43,7 @@
                         </div>
                         <!-- /.input group -->
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -51,13 +51,13 @@
                                     </span>
                                 </div>
                                 <select name="role" id="role" class="form-control show-tick" required>
-                                    <option selected disabled>Pilih Fakultas</option>
-                                    <?php foreach ($fakultas as $value) { ?>
-                                        <option value="<?= $value->IDfakultas ?>"><?= $value->Fakultas ?></option>
+                                    <option selected disabled>Pilih Prodi</option>
+                                    <?php foreach ($prodi as $value) { ?>
+                                        <option value="<?= $value->Prodi ?>"><?= $value->Prodi ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-                        </div> -->
+                        </div>
                         <!-- /.input group -->
 
                         <button type="button" id="filterhistory" style="margin-right:2em; " class="btn bg-green waves-effect">APPLY FILTER</button>
