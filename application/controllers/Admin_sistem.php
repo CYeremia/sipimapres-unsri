@@ -365,8 +365,6 @@ class Admin_sistem  extends CI_Controller
         return $listData;
     }
 
-
-
     //Manage User
     public function kelola_user()
     {

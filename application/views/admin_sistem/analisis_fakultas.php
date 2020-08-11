@@ -50,10 +50,10 @@
                                         <i class="fas fa-university"></i>
                                     </span>
                                 </div>
-                                <select name="role" id="role" class="form-control show-tick" required>
+                                <select name="fakultas" id="fakultas" class="form-control show-tick" required>
                                     <option selected disabled>Pilih Fakultas</option>
                                     <?php foreach ($fakultas as $value) { ?>
-                                        <option value="<?= $value->IDfakultas ?>"><?= $value->Fakultas ?></option>
+                                        <option value="<?= $value->Fakultas ?>"><?= $value->Fakultas ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

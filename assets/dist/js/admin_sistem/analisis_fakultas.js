@@ -79,7 +79,10 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
-    console.log(start+end);
+    var fakultas = document.getElementById("fakultas"); //select ID Fakultas
+    var selectfakultas = fakultas.options[fakultas.selectedIndex].value; //get value berdasarkan index yang dipilih
+
+    console.log(start+end+selectfakultas);
     
 
 });
