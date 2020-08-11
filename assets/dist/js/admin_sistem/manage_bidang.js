@@ -26,7 +26,7 @@ $(document).ready(function () {
         {
             data: "Nama_bidang",
             "targets": 2,
-            "width": "60%"
+            "width": "65%"
         },
         {
             data: { IDPrestasi: "IDPrestasi" },
