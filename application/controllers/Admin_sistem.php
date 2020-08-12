@@ -347,6 +347,7 @@ class Admin_sistem  extends CI_Controller
      public function Maptosatuperingkatfakultasprestasi($start,$end,$fakultas)
      {
  
+         $fakultas = str_replace("%20"," ",$fakultas);   
          $listData = [];
  
          $data = $this->db->query("SELECT Fakultas,IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
