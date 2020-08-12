@@ -37,7 +37,14 @@ function tabel(start,end)
             "targets": 2
         },
         {
-            data: "Total",
+            data: {Total : "Total", Fakultas : "Fakultas"},
+            "render": function(data, type, full, meta){
+                if(type === 'display'){
+                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+data.Fakultas+'">' + data.Total + '</a>';
+                }
+    
+                return data;
+             },
             "targets": 3
         },
         ],
@@ -56,6 +63,63 @@ function tabel(start,end)
             "targets": 0
         },
         {
+            data: {TotalMahasiswa : "TotalMahasiswa", Fakultas : "Fakultas"},
+            "render": function(data, type, full, meta){
+                if(type === 'display'){
+                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+data.Fakultas+'">' + data.TotalMahasiswa + '</a>';
+                }
+    
+                return data;
+             },
+            "targets": 1
+        },
+        ],
+        order: [0, 'asc']
+    });
+}
+
+//tabel peringkat fakultas berdasarkan prestasi (hanya satu fakultas)
+function satuperingkatfakultasprestasi(start,end,fakultas)
+{
+    //tabel peringkat fakultas berdasarkan prestasi
+    daftarP = $('#perestasikompetisi').DataTable({
+        ajax: {
+            url: globalUrl + '/satuperingkatfakultasprestasi/'+start+'/'+end+'/'+fakultas,
+            type: 'POST',
+            data: function (d) { }
+        },
+        columns: [{
+            data: "Fakultas",
+            "targets": 0
+        },
+        {
+            data: "PrestasiKompetisi",
+            "targets": 1
+        },
+        {
+            data: "PrestasiNonKompetisi",
+            "targets": 2
+        },
+        {
+            data: "Total",
+            "targets": 3
+        },
+        ],
+        order: [0, 'asc']
+    });
+
+    //tabel peringkat fakultas berdasarkan jumlah mahasiswa
+    daftarP = $('#perestasikompetisimahasiswa').DataTable({
+        ajax: {
+            url: globalUrl + '/satuperingkatfakultasmahasiswa/'+start+'/'+end+'/'+fakultas,
+            type: 'POST',
+            data: function (d) { }
+        },
+        columns: [{
+            data: "Fakultas",
+            "targets": 0
+        },
+        {
             data: "TotalMahasiswa",
             "targets": 1
         },
@@ -63,6 +127,10 @@ function tabel(start,end)
         order: [0, 'asc']
     });
 }
+
+
+
+
 
 
 $(document).ready(function () {
@@ -87,11 +155,13 @@ $('#filter').click(function (e) {
     {
         $('#perestasikompetisi').dataTable().fnDestroy();
         $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
-        tabel(start,end);
+        tabel(start,end); //panggil tabel
     }
     else //ketika memilih fakultas
-    {
-
+    {   
+        $('#perestasikompetisi').dataTable().fnDestroy();
+        $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
+        satuperingkatfakultasprestasi(start,end,fakultas); //panggil tabel
     }
 
 
