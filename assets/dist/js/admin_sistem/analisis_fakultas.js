@@ -9,6 +9,11 @@ for (var year = end; year >= start; year--) {
 document.getElementById("tahun").innerHTML = options;
 document.getElementById("tahun2").innerHTML = options;
 
+document.getElementById("tahun").value="Tahun";
+document.getElementById("tahun2").value="Tahun";
+document.getElementById("fakultas").value="Pilih Fakultas";
+
+
 var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
@@ -101,7 +106,14 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
             "targets": 2
         },
         {
-            data: "Total",
+            data: {Total : "Total", Fakultas : "Fakultas"},
+            "render": function(data, type, full, meta){
+                if(type === 'display'){
+                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+data.Fakultas+'">' + data.Total + '</a>';
+                }
+    
+                return data;
+             },
             "targets": 3
         },
         ],
@@ -120,18 +132,20 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
             "targets": 0
         },
         {
-            data: "TotalMahasiswa",
+            data: {TotalMahasiswa : "TotalMahasiswa", Fakultas : "Fakultas"},
+            "render": function(data, type, full, meta){
+                if(type === 'display'){
+                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+data.Fakultas+'">' + data.TotalMahasiswa + '</a>';
+                }
+    
+                return data;
+             },
             "targets": 1
         },
         ],
         order: [0, 'asc']
     });
 }
-
-
-
-
-
 
 $(document).ready(function () {
 
@@ -164,11 +178,6 @@ $('#filter').click(function (e) {
         satuperingkatfakultasprestasi(start,end,fakultas); //panggil tabel
     }
 
-
-
-    console.log(start+end+fakultas);
-    
-
 });
 
 //on click reset filter
@@ -176,6 +185,10 @@ $('#resetfilter').click(function (e) {
 
     $('#perestasikompetisi').dataTable().fnDestroy();
     $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
+
+    document.getElementById("tahun").value="Tahun";
+    document.getElementById("tahun2").value="Tahun";
+    document.getElementById("fakultas").value="Pilih Fakultas";
 
     tabel(end,end);
 });

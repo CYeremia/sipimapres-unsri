@@ -197,6 +197,20 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    //menampilkan prestasi bidang mahasiswa
+    public function Prestasi_Bidang($parameters = null)
+    {
+        if($parameters == null)
+        {
+            redirect('Admin_sistem/Analisis_PeringkatBidang');
+        }
+        else{
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
+        $this->data['content'] = 'prestasi_bidang';
+        $this->load->view('admin_sistem/template/template', $this->data);}
+    }
+
     //get data select bidang untuk fulter
     public function getdataselect()
     {
@@ -227,14 +241,6 @@ class Admin_sistem  extends CI_Controller
 
         header('Content-Type: application/json');
         echo json_encode($result);
-    }
-
-    public function Prestasi_Bidang()
-    {
-        $this->data['active'] = 4;
-        $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
-        $this->data['content'] = 'prestasi_bidang';
-        $this->load->view('admin_sistem/template/template', $this->data);
     }
 
     // AMBIL DATA TOP MAHASISWA
@@ -437,9 +443,6 @@ class Admin_sistem  extends CI_Controller
         return $listData;
      }
 
-
-
-
     //json peringkat fakultas berdasarkan jumlah mahasiswa
     public function peringkatfakultasmahasiswa($start,$end)
     {
@@ -452,7 +455,6 @@ class Admin_sistem  extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($result);
     }
-
 
     //data untuk peringkat fakultas berdasarkan jumlah mahasiswa
     public function Maptoperingkatfakultasmahasiswa($start,$end)
@@ -583,12 +585,17 @@ class Admin_sistem  extends CI_Controller
     public function Maptoperingkatbidang($start,$end)
     {
         $listData = [];
-
-        $data = $this->db->query("SELECT t1.Bidang, COUNT(t1.Bidang) AS Total FROM
-        (SELECT Bidang FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end."
+        
+        $data = $this->db->query("SELECT bidangprestasi.Bidang,IFNULL(t2.Total,0) AS Total FROM bidangprestasi
+        LEFT JOIN
+        (SELECT t1.Bidang, COUNT(t1.Bidang) AS Total FROM user
+        INNER JOIN
+        (SELECT PeraihPrestasi,Bidang FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end."
         UNION ALL
-        SELECT 'Non-Kompetisi' AS Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  Tahun BETWEEN ".$start." AND ".$end.")t1
-        GROUP BY t1.Bidang ORDER BY Total DESC")->result_array();
+        SELECT PeraihPrestasi,Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  Tahun BETWEEN ".$start." AND ".$end.")t1
+        ON user.IDPengenal=t1.PeraihPrestasi 
+        GROUP BY t1.Bidang)t2
+        ON t2.Bidang=bidangprestasi.Bidang ORDER BY Total DESC")->result_array();
 
         $i = 1;
 
@@ -601,6 +608,59 @@ class Admin_sistem  extends CI_Controller
             $i+=1;
         }
         return $listData;
+    }
+
+
+     //json prestasi mahasiswa berdasarkan tahun dan fakultas
+     public function prestasibidang($start,$end,$bidang)
+     {
+         $result = [
+             'data' => $this->Maptoprestasibidang($start,$end,$bidang),
+             'status' => true,
+             'status_code' => 200,
+             'bidang' => $bidang
+         ];
+ 
+         header('Content-Type: application/json');
+         echo json_encode($result);
+     }
+
+
+
+    // data prestasi bidang mahasiswa
+    public function Maptoprestasibidang($start,$end,$bidang)
+    {
+        $bidang = str_replace("%20"," ",$bidang);
+        $bidang = str_replace("~","/",$bidang);    
+
+        $listData = [];
+
+        $data = $this->db->query("SELECT Nama,prestasikompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasikompetisi.Perlombaan,prestasikompetisi.Tahun,prestasikompetisi.Penyelenggara,prestasikompetisi.Kategori,prestasikompetisi.Tingkat,prestasikompetisi.Pencapaian FROM  user
+        INNER JOIN 
+        prestasikompetisi
+        ON prestasikompetisi.PeraihPrestasi=user.IDPengenal
+        WHERE user.Role='Mahasiswa' AND prestasikompetisi.Bidang='".$bidang."' AND prestasikompetisi.Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
+
+        $i = 1;
+
+        foreach ($data as $k) {
+            $data = array(
+                'No' => $i,
+                'Nama' => $k['Nama'],
+                'NIM' => $k['NIM'],
+                'Fakultas' => $k['Fakultas'],
+                'ProgramStudi' => $k['ProgramStudi'],
+                'Perlombaan' => $k['Perlombaan'],
+                'Tahun' => $k['Tahun'],
+                'Penyelenggara' => $k['Penyelenggara'],
+                'Kategori' => $k['Kategori'],
+                'Tingkat' => $k['Tingkat'],
+                'Pencapaian' => $k['Pencapaian']);
+            $listData[] =  $data;
+            $i+=1;
+        }
+        return $listData;
+
     }
 
 

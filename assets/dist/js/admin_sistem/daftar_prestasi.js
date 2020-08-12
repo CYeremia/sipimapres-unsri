@@ -7,12 +7,9 @@ var start = year[0];
 var end = year[1];
 var fakultas = year[2];
 
-
 currUrl.pop();
 currUrl.pop();
 var globalUrl = currUrl.join('/');
-
-
 
 var daftarP;
 
