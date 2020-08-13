@@ -71,7 +71,23 @@ daftarP = $('#perestasikompetisi').DataTable({
         data: {Total : "Total", Bidang : "Bidang"},
         "render": function(data, type, full, meta){
             if(type === 'display'){
-                data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+data.Bidang+'">' + data.Total + '</a>';
+
+                var bidang = data.Bidang;
+                var length = (bidang.split('/').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace("/","~");
+                }
+
+                var length = (bidang.split(',').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace(",","`");
+                }
+
+                data = '<a href="Prestasi_Bidang/' + start + '-'+end+'-'+bidang+'">' + data.Total + '</a>';
             }
 
             return data;

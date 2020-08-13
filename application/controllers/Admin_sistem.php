@@ -614,11 +614,11 @@ class Admin_sistem  extends CI_Controller
      //json prestasi mahasiswa berdasarkan tahun dan fakultas
      public function prestasibidang($start,$end,$bidang)
      {
+
          $result = [
              'data' => $this->Maptoprestasibidang($start,$end,$bidang),
              'status' => true,
-             'status_code' => 200,
-             'bidang' => $bidang
+             'status_code' => 200
          ];
  
          header('Content-Type: application/json');
@@ -630,16 +630,35 @@ class Admin_sistem  extends CI_Controller
     // data prestasi bidang mahasiswa
     public function Maptoprestasibidang($start,$end,$bidang)
     {
+        $bidang = str_replace("%60",",",$bidang);
         $bidang = str_replace("%20"," ",$bidang);
         $bidang = str_replace("~","/",$bidang);    
 
         $listData = [];
+        $data;
 
+        $jenisbidang = $this->db->query("SELECT bidangprestasi.JalurPencapaian FROM bidangprestasi WHERE Bidang='".$bidang."'")->result_array();
+        foreach ($jenisbidang as $k) {
+            $jenisbidang = $k['JalurPencapaian'];
+        }
+
+        if($jenisbidang == 'Kompetisi')
+        {
         $data = $this->db->query("SELECT Nama,prestasikompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasikompetisi.Perlombaan,prestasikompetisi.Tahun,prestasikompetisi.Penyelenggara,prestasikompetisi.Kategori,prestasikompetisi.Tingkat,prestasikompetisi.Pencapaian FROM  user
         INNER JOIN 
         prestasikompetisi
         ON prestasikompetisi.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' AND prestasikompetisi.Bidang='".$bidang."' AND prestasikompetisi.Status='Diterima' AND Tahun BETWEEN ".$start." AND ".$end." ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
+        }
+        else if($jenisbidang == 'Non Kompetisi')
+        {
+        $data = $this->db->query("SELECT 
+        Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan,prestasinonkompetisi.Tahun,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
+        INNER JOIN 
+        prestasinonkompetisi
+        ON prestasinonkompetisi.PeraihPrestasi=user.IDPengenal
+        WHERE user.Role='Mahasiswa' AND prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Bidang='".$bidang."' AND Tahun BETWEEN ".$start." AND ".$end)->result_array();
+        }
 
         $i = 1;
 
@@ -650,7 +669,6 @@ class Admin_sistem  extends CI_Controller
                 'NIM' => $k['NIM'],
                 'Fakultas' => $k['Fakultas'],
                 'ProgramStudi' => $k['ProgramStudi'],
-                'Perlombaan' => $k['Perlombaan'],
                 'Tahun' => $k['Tahun'],
                 'Penyelenggara' => $k['Penyelenggara'],
                 'Kategori' => $k['Kategori'],
@@ -662,8 +680,6 @@ class Admin_sistem  extends CI_Controller
         return $listData;
 
     }
-
-
 
     //Manage User
     public function kelola_user()
