@@ -625,8 +625,6 @@ class Admin_sistem  extends CI_Controller
          echo json_encode($result);
      }
 
-
-
     // data prestasi bidang mahasiswa
     public function Maptoprestasibidang($start,$end,$bidang)
     {
@@ -678,8 +676,114 @@ class Admin_sistem  extends CI_Controller
             $i+=1;
         }
         return $listData;
-
     }
+
+    //json prestasi bidang berdasarkan jenis prestasi (kompetisi / non kompetisi)
+    public function prestasibidangjenisprestasi($start,$end,$jenisprestasi)
+    {
+        $result = [
+            'data' => $this->Maptoprestasibidangjenisprestasi($start,$end,$jenisprestasi),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //data prestasi bidang berdasarkan jenis prestasi (kompetisi / non kompetisi)
+    public function Maptoprestasibidangjenisprestasi($start,$end,$jenisprestasi)
+    {
+        $jenisprestasi = str_replace("%20"," ",$jenisprestasi);
+        $listData = [];
+        $data;
+
+        if($jenisprestasi == 'Kompetisi')
+        {
+            $data = $this->db->query("SELECT bidangprestasi.Bidang, IFNULL(t2.Total,0) AS Total FROM bidangprestasi
+            LEFT JOIN
+            (SELECT prestasikompetisi.Bidang AS Bidang, COUNT(Status) AS Total FROM prestasikompetisi 
+             WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN ".$start." AND ".$end."
+             GROUP BY Bidang
+            )t2
+            ON bidangprestasi.Bidang=t2.Bidang
+            WHERE bidangprestasi.JalurPencapaian='Kompetisi'")->result_array();
+        }
+        else if($jenisprestasi == 'Non Kompetisi')
+        {
+            $data = $this->db->query("SELECT bidangprestasi.Bidang, IFNULL(t2.Total,0) AS Total FROM bidangprestasi
+            LEFT JOIN
+            (SELECT prestasinonkompetisi.Bidang AS Bidang, COUNT(Status) AS Total FROM prestasinonkompetisi 
+            WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN ".$start." AND ".$end."
+            GROUP BY Bidang) t2
+            ON bidangprestasi.Bidang=t2.Bidang
+            WHERE bidangprestasi.JalurPencapaian='Non Kompetisi'")->result_array();
+        }
+
+        $i = 1;
+
+        foreach ($data as $k) {
+            $data = array(
+                'No' => $i,
+                'Bidang' => $k['Bidang'],
+                'Total' => $k['Total']);
+            $listData[] =  $data;
+            $i+=1;
+        }
+
+        return $listData;
+    }
+
+    //json prestasi bidang berdasarkan bidang
+    public function prestasibidangjenisbidang($start,$end,$jenisbidang)
+    {
+        $result = [
+            'data' => $this->Maptoprestasibidangjenisbidang($start,$end,$jenisbidang),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //data prestasi bidang berdasarkan jenis prestasi (kompetisi / non kompetisi)
+    public function Maptoprestasibidangjenisbidang($start,$end,$jenisbidang)
+    {
+        $jenisbidang = str_replace("%60",",",$jenisbidang);
+        $jenisbidang = str_replace("%20"," ",$jenisbidang);
+        $jenisbidang = str_replace("~","/",$jenisbidang);    
+
+        $listData = [];
+        $data = $this->db->query("SELECT bidangprestasi.Bidang, IFNULL(t2.Total,0) AS Total FROM bidangprestasi
+        LEFT JOIN
+        (SELECT prestasikompetisi.Bidang AS Bidang, COUNT(Status) AS Total FROM prestasikompetisi 
+         WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN ".$start." AND ".$end."
+         GROUP BY Bidang 
+        UNION ALL
+         SELECT prestasinonkompetisi.Bidang AS Bidang, COUNT(Status) AS Total FROM prestasinonkompetisi 
+        WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN ".$start." AND ".$end."
+        GROUP BY Bidang
+        )t2
+        ON bidangprestasi.Bidang=t2.Bidang
+        WHERE bidangprestasi.Bidang='".$jenisbidang."'")->result_array();
+
+        $i = 1;
+
+        foreach ($data as $k) {
+            $data = array(
+                'No' => $i,
+                'Bidang' => $k['Bidang'],
+                'Total' => $k['Total']);
+            $listData[] =  $data;
+            $i+=1;
+        }
+
+        return $listData;
+    }
+
+
+
 
     //Manage User
     public function kelola_user()

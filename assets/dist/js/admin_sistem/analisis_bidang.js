@@ -38,7 +38,7 @@ $('#jenisprestasi').on('change', function () {
             // Empty the target field
             $('#pilihan_bidang').empty();
             // <option selected disabled>Pilih Jenis Prestasi</option>
-            $('#pilihan_bidang').append("<option selected disabled'>Pilih Jenis Prestasi</option>");
+            $('#pilihan_bidang').append("<option disabled='disabled' SELECTED>Pilih Bidang</option>");
             for (i = 0; i < response.data.length; i++) {
                 // Output choice in the target field
                 $('#pilihan_bidang').append("<option value='" + response.data[i].Bidang + "'>" + response.data[i].Bidang + "</option>");
@@ -56,6 +56,106 @@ function tabel(start,end)
 daftarP = $('#perestasikompetisi').DataTable({
     ajax: {
         url: globalUrl + '/peringkatbidang/'+start+'/'+end,
+        type: 'POST',
+        data: function (d) { }
+    },
+    columns: [{
+        data: "No",
+        "targets": 0
+    },
+    {
+        data: "Bidang",
+        "targets": 1
+    },
+    {
+        data: {Total : "Total", Bidang : "Bidang"},
+        "render": function(data, type, full, meta){
+            if(type === 'display'){
+
+                var bidang = data.Bidang;
+                var length = (bidang.split('/').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace("/","~");
+                }
+
+                var length = (bidang.split(',').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace(",","`");
+                }
+
+                data = '<a href="Prestasi_Bidang/' + start + '-'+end+'-'+bidang+'">' + data.Total + '</a>';
+            }
+
+            return data;
+         },
+        "targets": 2
+    },
+    ],
+    order: [0, 'asc']
+});
+}
+
+//tabel berdasarkan jenis prestasi
+function tabeljenisprestasi(start,end,jenisprestasi)
+{
+//tabel peringkat fakultas berdasarkan prestasi
+daftarP = $('#perestasikompetisi').DataTable({
+    ajax: {
+        url: globalUrl + '/prestasibidangjenisprestasi/'+start+'/'+end+'/'+jenisprestasi,
+        type: 'POST',
+        data: function (d) { }
+    },
+    columns: [{
+        data: "No",
+        "targets": 0
+    },
+    {
+        data: "Bidang",
+        "targets": 1
+    },
+    {
+        data: {Total : "Total", Bidang : "Bidang"},
+        "render": function(data, type, full, meta){
+            if(type === 'display'){
+
+                var bidang = data.Bidang;
+                var length = (bidang.split('/').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace("/","~");
+                }
+
+                var length = (bidang.split(',').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    bidang = bidang.replace(",","`");
+                }
+
+                data = '<a href="Prestasi_Bidang/' + start + '-'+end+'-'+bidang+'">' + data.Total + '</a>';
+            }
+
+            return data;
+         },
+        "targets": 2
+    },
+    ],
+    order: [0, 'asc']
+});
+}
+
+
+function tabeljenisbidang(start,end,jenisbidang)
+{
+    //tabel peringkat fakultas berdasarkan prestasi
+daftarP = $('#perestasikompetisi').DataTable({
+    ajax: {
+        url: globalUrl + '/prestasibidangjenisbidang/'+start+'/'+end+'/'+jenisbidang,
         type: 'POST',
         data: function (d) { }
     },
@@ -118,8 +218,6 @@ $('#filter').click(function (e) {
     var jenisprestasiindex = document.getElementById("jenisprestasi"); //select ID jenis prestasi
     var jenisprestasi = jenisprestasiindex.options[jenisprestasiindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 
-    console.log(jenisprestasi);
-
     if(jenisprestasiindex.selectedIndex == 0) //tidak memilih jenis prestasi
     {
         $('#perestasikompetisi').dataTable().fnDestroy();
@@ -127,10 +225,38 @@ $('#filter').click(function (e) {
     }
     else //ketika memilih jenis prestasi
     {   
-        $('#perestasikompetisi').dataTable().fnDestroy();
-        satuperingkatfakultasprestasi(start,end,fakultas); //panggil tabel
-    }
+        var jenisbidangindex = document.getElementById("pilihan_bidang"); //Select ID Jenisbidang
+        
+        if(jenisbidangindex.selectedIndex==0) //ketika jenis bidang tidak dipilih
+        {
+            $('#perestasikompetisi').dataTable().fnDestroy();
+            tabeljenisprestasi(start,end,jenisprestasi);
+        }
 
+        else if(jenisbidangindex.selectedIndex !=0) //ketika jenis bidang dipilih
+        {
+            var jenisbidang = jenisbidangindex.options[jenisbidangindex.selectedIndex].value; //get value berdasarkan index yang dipilih
+
+            var length = (jenisbidang.split('/').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    jenisbidang = jenisbidang.replace("/","~");
+                }
+
+                var length = (jenisbidang.split(',').length-1);
+                
+                for(var i = 0; i<length; i++)
+                {
+                    jenisbidang = jenisbidang.replace(",","`");
+                }
+
+                //panggil tabel
+
+                $('#perestasikompetisi').dataTable().fnDestroy();
+                tabeljenisbidang(start,end,jenisbidang);
+        }    
+    }
 });
 
 //on click reset filter
@@ -138,10 +264,10 @@ $('#resetfilter').click(function (e) {
 
     $('#perestasikompetisi').dataTable().fnDestroy();
 
-
     document.getElementById("tahun").value="Tahun";
     document.getElementById("tahun2").value="Tahun";
-    document.getElementById("fakultas").value="Pilih Fakultas";
+    document.getElementById("jenisprestasi").value ="Pilih Jenis Prestasi";
+    document.getElementById("pilihan_bidang").value ="Pilih Bidang";
 
     tabel(end,end);
 });
