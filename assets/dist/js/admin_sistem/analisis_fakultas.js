@@ -44,8 +44,40 @@ function tabel(start,end)
         {
             data: {Total : "Total", Fakultas : "Fakultas"},
             "render": function(data, type, full, meta){
+
+                var fakultas = data.Fakultas;
+
+                //mengubah special character agar bisa lewat url
+                var length = (fakultas.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    fakultas = fakultas.replace("(","{");
+                }
+
+                length = (fakultas.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    fakultas = fakultas.replace(")","}");
+                }
+
+                length = (fakultas.split(',').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace , menjadi `
+                {
+                    fakultas = fakultas.replace(",","`");
+                }
+
+                length = (fakultas.split('/').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace / menjadi ~
+                {
+                    fakultas = fakultas.replace("/","~");
+                }
+
                 if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+data.Fakultas+'">' + data.Total + '</a>';
+                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+fakultas+'">' + data.Total + '</a>';
                 }
     
                 return data;
@@ -70,8 +102,41 @@ function tabel(start,end)
         {
             data: {TotalMahasiswa : "TotalMahasiswa", Fakultas : "Fakultas"},
             "render": function(data, type, full, meta){
+
+
+                var fakultas = data.Fakultas;
+
+                //mengubah special character agar bisa lewat url
+                var length = (fakultas.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    fakultas = fakultas.replace("(","{");
+                }
+
+                length = (fakultas.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    fakultas = fakultas.replace(")","}");
+                }
+
+                length = (fakultas.split(',').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace , menjadi `
+                {
+                    fakultas = fakultas.replace(",","`");
+                }
+
+                length = (fakultas.split('/').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace / menjadi ~
+                {
+                    fakultas = fakultas.replace("/","~");
+                }
+
                 if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+data.Fakultas+'">' + data.TotalMahasiswa + '</a>';
+                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+fakultas+'">' + data.TotalMahasiswa + '</a>';
                 }
     
                 return data;
@@ -108,8 +173,40 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
         {
             data: {Total : "Total", Fakultas : "Fakultas"},
             "render": function(data, type, full, meta){
+
+                var fakultas = data.Fakultas;
+
+                //mengubah special character agar bisa lewat url
+                var length = (fakultas.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    fakultas = fakultas.replace("(","{");
+                }
+
+                length = (fakultas.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    fakultas = fakultas.replace(")","}");
+                }
+
+                length = (fakultas.split(',').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace , menjadi `
+                {
+                    fakultas = fakultas.replace(",","`");
+                }
+
+                length = (fakultas.split('/').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace / menjadi ~
+                {
+                    fakultas = fakultas.replace("/","~");
+                }
+
                 if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+data.Fakultas+'">' + data.Total + '</a>';
+                    data = '<a href="daftarPrestasi_Fakultas/' + start + '-'+end+'-'+fakultas+'">' + data.Total + '</a>';
                 }
     
                 return data;
@@ -134,8 +231,40 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
         {
             data: {TotalMahasiswa : "TotalMahasiswa", Fakultas : "Fakultas"},
             "render": function(data, type, full, meta){
+
+                var fakultas = data.Fakultas;
+
+                //mengubah special character agar bisa lewat url
+                var length = (fakultas.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    fakultas = fakultas.replace("(","{");
+                }
+
+                length = (fakultas.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    fakultas = fakultas.replace(")","}");
+                }
+
+                length = (fakultas.split(',').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace , menjadi `
+                {
+                    fakultas = fakultas.replace(",","`");
+                }
+
+                length = (fakultas.split('/').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace / menjadi ~
+                {
+                    fakultas = fakultas.replace("/","~");
+                }
+
                 if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+data.Fakultas+'">' + data.TotalMahasiswa + '</a>';
+                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+fakultas+'">' + data.TotalMahasiswa + '</a>';
                 }
     
                 return data;

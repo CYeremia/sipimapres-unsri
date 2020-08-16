@@ -73,16 +73,32 @@ daftarP = $('#perestasikompetisi').DataTable({
             if(type === 'display'){
 
                 var bidang = data.Bidang;
+
+                //mengubah special character agar bisa lewat url
+                var length = (bidang.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    bidang = bidang.replace("(","{");
+                }
+
+                length = (bidang.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    bidang = bidang.replace(")","}");
+                }
+
                 var length = (bidang.split('/').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace / menjadi ~
                 {
                     bidang = bidang.replace("/","~");
                 }
 
-                var length = (bidang.split(',').length-1);
+                length = (bidang.split(',').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace , menjadi `
                 {
                     bidang = bidang.replace(",","`");
                 }
@@ -123,16 +139,32 @@ daftarP = $('#perestasikompetisi').DataTable({
             if(type === 'display'){
 
                 var bidang = data.Bidang;
+
+                //mengubah special character agar bisa lewat url
+                var length = (bidang.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    bidang = bidang.replace("(","{");
+                }
+
+                length = (bidang.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    bidang = bidang.replace(")","}");
+                }
+
                 var length = (bidang.split('/').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace / menjadi ~
                 {
                     bidang = bidang.replace("/","~");
                 }
 
-                var length = (bidang.split(',').length-1);
+                length = (bidang.split(',').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace , menjadi `
                 {
                     bidang = bidang.replace(",","`");
                 }
@@ -173,16 +205,32 @@ daftarP = $('#perestasikompetisi').DataTable({
             if(type === 'display'){
 
                 var bidang = data.Bidang;
+
+                //mengubah special character agar bisa lewat url
+                var length = (bidang.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+                {
+                    bidang = bidang.replace("(","{");
+                }
+
+                length = (bidang.split(')').length-1); 
+
+                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+                {
+                    bidang = bidang.replace(")","}");
+                }
+
                 var length = (bidang.split('/').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace / menjadi ~
                 {
                     bidang = bidang.replace("/","~");
                 }
 
-                var length = (bidang.split(',').length-1);
+                length = (bidang.split(',').length-1);
                 
-                for(var i = 0; i<length; i++)
+                for(var i = 0; i<length; i++) //replace , menjadi `
                 {
                     bidang = bidang.replace(",","`");
                 }
@@ -250,6 +298,20 @@ $('#filter').click(function (e) {
                 {
                     jenisbidang = jenisbidang.replace(",","`");
                 }
+
+                length = (jenisbidang.split('(').length-1);
+
+                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
+               {
+                   jenisbidang = jenisbidang.replace("(","{");
+               }
+
+               length = (jenisbidang.split(')').length-1); 
+
+               for(var i = 0 ; i<length ; i++) //replace ) menjadi }
+               {
+                   jenisbidang = jenisbidang.replace(")","}");
+               }
 
                 //panggil tabel
 

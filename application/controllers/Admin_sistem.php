@@ -370,7 +370,11 @@ class Admin_sistem  extends CI_Controller
      public function Maptosatuperingkatfakultasprestasi($start,$end,$fakultas)
      {
  
-         $fakultas = str_replace("%20"," ",$fakultas);   
+        $fakultas = str_replace("%20"," ",$fakultas);
+        $fakultas = str_replace("%60",",",$fakultas);
+        $fakultas = str_replace("%7B","(",$fakultas);
+        $fakultas = str_replace("%7D",")",$fakultas);
+        $fakultas = str_replace("~","/",$fakultas);    
          $listData = [];
  
          $data = $this->db->query("SELECT fakultas.Fakultas, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi,IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM fakultas
@@ -412,7 +416,11 @@ class Admin_sistem  extends CI_Controller
      //untuk menampilkan data prestasi mahasiswa berdasarkan fakultas
      public function Maptoprestasifakultas($start,$end,$fakultas)
      {
-        $fakultas = str_replace("%20"," ",$fakultas);   
+        $fakultas = str_replace("%20"," ",$fakultas);
+        $fakultas = str_replace("%60",",",$fakultas);
+        $fakultas = str_replace("%7B","(",$fakultas);
+        $fakultas = str_replace("%7D",")",$fakultas);
+        $fakultas = str_replace("~","/",$fakultas);    
         $listData = [];   
 
         $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.Tahun,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
@@ -498,7 +506,11 @@ class Admin_sistem  extends CI_Controller
     //data untuk peringkat fakultas berdasarkan jumlah mahasiswa (hanya satu fakultas)
     public function Maptosatuperingkatfakultasmahasiswa($start,$end,$fakultas)
     {
-        $fakultas = str_replace("%20"," ",$fakultas);  
+        $fakultas = str_replace("%20"," ",$fakultas);
+        $fakultas = str_replace("%60",",",$fakultas);
+        $fakultas = str_replace("%7B","(",$fakultas);
+        $fakultas = str_replace("%7D",")",$fakultas);
+        $fakultas = str_replace("~","/",$fakultas);   
         $listData = [];
         
         $data= $this->db->query("SELECT fakultas.Fakultas,IFNULL(t3.TotalMahasiswa,0) AS TotalMahasiswa FROM fakultas
@@ -538,7 +550,11 @@ class Admin_sistem  extends CI_Controller
     //data untuk prestasi mahasiswa berdasarkan tahun dan fakultas
     public function Maptoprestasimahasiswa($start,$end,$fakultas)
     {
-        $fakultas = str_replace("%20"," ",$fakultas);  
+        $fakultas = str_replace("%20"," ",$fakultas);
+        $fakultas = str_replace("%60",",",$fakultas);
+        $fakultas = str_replace("%7B","(",$fakultas);
+        $fakultas = str_replace("%7D",")",$fakultas);
+        $fakultas = str_replace("~","/",$fakultas); 
         $listData = [];
 
         $data = $this->db->query("SELECT Nama, IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
@@ -629,8 +645,10 @@ class Admin_sistem  extends CI_Controller
     public function Maptoprestasibidang($start,$end,$bidang)
     {
         $bidang = str_replace("%60",",",$bidang);
-        $bidang = str_replace("%20"," ",$bidang);
-        $bidang = str_replace("~","/",$bidang);    
+         $bidang = str_replace("%20"," ",$bidang);
+         $bidang = str_replace("~","/",$bidang);
+         $bidang = str_replace("%7B","(",$bidang);
+         $bidang = str_replace("%7D",")",$bidang);   
 
         $listData = [];
         $data;
@@ -651,7 +669,7 @@ class Admin_sistem  extends CI_Controller
         else if($jenisbidang == 'Non Kompetisi')
         {
         $data = $this->db->query("SELECT 
-        Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan,prestasinonkompetisi.Tahun,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
+        Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan AS Perlombaan,prestasinonkompetisi.Tahun,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
         INNER JOIN 
         prestasinonkompetisi
         ON prestasinonkompetisi.PeraihPrestasi=user.IDPengenal
@@ -661,12 +679,19 @@ class Admin_sistem  extends CI_Controller
         $i = 1;
 
         foreach ($data as $k) {
+
+            // if($k['Perlombaan'] == null)
+            // {
+            //     $k['Perlombaan'] == 'kosong';
+            // }
+
             $data = array(
                 'No' => $i,
                 'Nama' => $k['Nama'],
                 'NIM' => $k['NIM'],
                 'Fakultas' => $k['Fakultas'],
                 'ProgramStudi' => $k['ProgramStudi'],
+                'Perlombaan' => $k['Perlombaan'],
                 'Tahun' => $k['Tahun'],
                 'Penyelenggara' => $k['Penyelenggara'],
                 'Kategori' => $k['Kategori'],
@@ -694,7 +719,11 @@ class Admin_sistem  extends CI_Controller
     //data prestasi bidang berdasarkan jenis prestasi (kompetisi / non kompetisi)
     public function Maptoprestasibidangjenisprestasi($start,$end,$jenisprestasi)
     {
+        $jenisprestasi = str_replace("%60",",",$jenisprestasi);
         $jenisprestasi = str_replace("%20"," ",$jenisprestasi);
+        $jenisprestasi = str_replace("~","/",$jenisprestasi);
+        $jenisprestasi = str_replace("%7B","(",$jenisprestasi);
+        $jenisprestasi = str_replace("%7D",")",$jenisprestasi);
         $listData = [];
         $data;
 
@@ -751,8 +780,10 @@ class Admin_sistem  extends CI_Controller
     public function Maptoprestasibidangjenisbidang($start,$end,$jenisbidang)
     {
         $jenisbidang = str_replace("%60",",",$jenisbidang);
-        $jenisbidang = str_replace("%20"," ",$jenisbidang);
-        $jenisbidang = str_replace("~","/",$jenisbidang);    
+         $jenisbidang = str_replace("%20"," ",$jenisbidang);
+         $jenisbidang = str_replace("~","/",$jenisbidang); 
+         $jenisbidang = str_replace("%7B","(",$jenisbidang);
+         $jenisbidang = str_replace("%7D",")",$jenisbidang);   
 
         $listData = [];
         $data = $this->db->query("SELECT bidangprestasi.Bidang, IFNULL(t2.Total,0) AS Total FROM bidangprestasi

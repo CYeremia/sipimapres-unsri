@@ -50,7 +50,7 @@
                                         <i class="fas fa-university"></i>
                                     </span>
                                 </div>
-                                <select name="role" id="role" class="form-control show-tick" required>
+                                <select name="role" id="prodi" class="form-control show-tick" required>
                                     <option selected disabled>Pilih Prodi</option>
                                     <?php foreach ($prodi as $value) { ?>
                                         <option value="<?= $value->Prodi ?>"><?= $value->Prodi ?></option>
@@ -60,8 +60,8 @@
                         </div>
                         <!-- /.input group -->
 
-                        <button type="button" id="filterhistory" style="margin-right:2em; " class="btn bg-green waves-effect">APPLY FILTER</button>
-                        <button type="button" id="resetdate" class="btn bg-red waves-effect">RESET FILTER</button>
+                        <button type="button" id="filter" style="margin-right:2em; " class="btn bg-green waves-effect">APPLY FILTER</button>
+                        <button type="button" id="resetfilter" class="btn bg-red waves-effect">RESET FILTER</button>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -108,7 +108,7 @@
             <!-- /.card-header -->
             <div class=" card-body">
                 <div class="table-responsive">
-                    <table id="perestasikompetisi" class="table table-bordered table-striped">
+                    <table id="perestasikompetisimahasiswa" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Nama Prodi</th>

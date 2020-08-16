@@ -29,6 +29,7 @@
                                 <th>NIM</th>
                                 <th>Fakultas</th>
                                 <th>Program Studi</th>
+                                <th>Perlombaan</th>
                                 <th>Tahun</th>
                                 <th>Penyelenggara</th>
                                 <th>Kategori</th>

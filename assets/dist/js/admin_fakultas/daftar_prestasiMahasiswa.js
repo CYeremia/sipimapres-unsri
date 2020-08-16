@@ -7,6 +7,7 @@ var start = year[0];
 var end = year[1];
 var prodi = year[2];
 
+
 currUrl.pop();
 currUrl.pop();
 var globalUrl = currUrl.join('/');
@@ -14,9 +15,9 @@ var globalUrl = currUrl.join('/');
 var daftarP;
 
 $(document).ready(function () {
-    daftarP = $('#daftarPrestasi').DataTable({
+    daftarP = $('#daftarPrestasi_M').DataTable({
         ajax: {
-            url: globalUrl + '/prestasiprodi/'+start+'/'+end+'/'+prodi,
+            url: globalUrl + '/prestasimahasiswa/'+start+'/'+end+'/'+prodi,
             type: 'POST',
             data: function (d) { }
         },
@@ -26,32 +27,20 @@ $(document).ready(function () {
             "targets": 0
         },
         {
-            data: "Bidang",
+            data: "Nama",
             "targets": 1
         },
         {
-            data: "Perlombaan",
+            data: "PrestasiKompetisi",
             "targets": 2
         },
         {
-            data: "Tahun",
+            data: "PrestasiNonKompetisi",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "Total",
             "targets": 4
-        },
-        {
-            data: "Kategori",
-            "targets": 5
-        },
-        {
-            data: "Tingkat",
-            "targets": 6
-        },
-        {
-            data: "Pencapaian",
-            "targets": 7
         },
         ],
         order: [0, 'asc']

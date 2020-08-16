@@ -95,24 +95,28 @@ function tabel(start,end,bidang)
             "targets": 4
         },
         {
-            data: "Tahun",
+            data: "Perlombaan",
             "targets": 5
         },
         {
-            data: "Penyelenggara",
+            data: "Tahun",
             "targets": 6
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 7
         },
         {
-            data: "Tingkat",
+            data: "Kategori",
             "targets": 8
         },
         {
-            data: "Pencapaian",
+            data: "Tingkat",
             "targets": 9
+        },
+        {
+            data: "Pencapaian",
+            "targets": 10
         },
         ],
         order: [0, 'asc']
