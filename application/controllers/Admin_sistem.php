@@ -431,7 +431,7 @@ class Admin_sistem  extends CI_Controller
         INNER JOIN 
         (SELECT PeraihPrestasi,Bidang,Perlombaan,Tahun,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . "
         UNION ALL
-        SELECT PeraihPrestasi,'Non-Kompetisi' AS Bidang, Kegiatan AS Perlombaan,Tahun,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . "
+        SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,Tahun,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . "
         )t1
         ON t1.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $fakultas . "' ORDER BY t1.Pencapaian DESC")->result_array();
