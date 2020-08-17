@@ -263,7 +263,7 @@ class admin_fakultas  extends CI_Controller
 
     public function profile()
     {
-        $this->data['active'] = 5;
+        $this->data['active'] = 7;
         $this->data['title'] = 'Admin Fakultas | Profile ';
         $this->data['content'] = 'profile';
         $this->load->view('admin_fakultas/template/template', $this->data);

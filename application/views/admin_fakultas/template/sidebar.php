@@ -110,7 +110,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('admin_fakultas/profile') ?>" class="nav-link <?php if ($active == 5) {
+                    <a href="<?= site_url('admin_fakultas/profile') ?>" class="nav-link <?php if ($active == 7) {
                                                                                             echo "active";
                                                                                         } ?> ">
                         <i class="nav-icon fas fa-user-cog"></i>
