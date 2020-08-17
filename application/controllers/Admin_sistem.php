@@ -292,13 +292,23 @@ class Admin_sistem  extends CI_Controller
     {
         $listData = [];
         $year = date("Y");
-        $data = $this->db->query("SELECT fakultas.fakultas AS Fakultas, t1.kompetisi AS `PrestasiKompetisi` ,t2.kompetisi AS `Prestasinonkompetisi` FROM fakultas INNER JOIN
-       (SELECT user.fakultas, COUNT(prestasikompetisi.Status) AS `Kompetisi`  FROM `user`
-       LEFT JOIN prestasikompetisi ON user.IDPengenal=prestasikompetisi.PeraihPrestasi
-       WHERE user.fakultas IS NOT NULL AND prestasikompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t1 ON t1.fakultas=fakultas.fakultas
-       INNER JOIN (SELECT user.fakultas, COUNT(prestasinonkompetisi.Status) AS Kompetisi  FROM user
-       LEFT JOIN prestasinonkompetisi ON user.IDPengenal=prestasinonkompetisi.PeraihPrestasi
-       WHERE user.fakultas IS NOT NULL AND prestasinonkompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t2 ON t2.fakultas=fakultas.fakultas")->result_array();
+        $data = $this->db->query("SELECT Fakultas.fakultas AS Fakultas, IFNULL(t1.kompetisi,0) AS PrestasiKompetisi , IFNULL(t2.kompetisi,0) AS Prestasinonkompetisi FROM fakultas 
+        LEFT JOIN
+        (SELECT user.fakultas, COUNT(prestasikompetisi.Status) AS Kompetisi  FROM user
+        LEFT JOIN prestasikompetisi ON user.IDPengenal=prestasikompetisi.PeraihPrestasi
+        WHERE user.fakultas IS NOT NULL AND prestasikompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t1 
+        ON t1.fakultas=Fakultas.fakultas
+        LEFT JOIN (SELECT user.fakultas, COUNT(prestasinonkompetisi.Status) AS Kompetisi  FROM user
+        LEFT JOIN prestasinonkompetisi ON user.IDPengenal=prestasinonkompetisi.PeraihPrestasi
+        WHERE user.fakultas IS NOT NULL AND prestasinonkompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t2 
+        ON t2.fakultas=Fakultas.fakultas")->result_array();
+        //     $data = $this->db->query("SELECT fakultas.fakultas AS Fakultas, t1.kompetisi AS `PrestasiKompetisi` ,t2.kompetisi AS `Prestasinonkompetisi` FROM fakultas INNER JOIN
+        //    (SELECT user.fakultas, COUNT(prestasikompetisi.Status) AS `Kompetisi`  FROM `user`
+        //    LEFT JOIN prestasikompetisi ON user.IDPengenal=prestasikompetisi.PeraihPrestasi
+        //    WHERE user.fakultas IS NOT NULL AND prestasikompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t1 ON t1.fakultas=fakultas.fakultas
+        //    INNER JOIN (SELECT user.fakultas, COUNT(prestasinonkompetisi.Status) AS Kompetisi  FROM user
+        //    LEFT JOIN prestasinonkompetisi ON user.IDPengenal=prestasinonkompetisi.PeraihPrestasi
+        //    WHERE user.fakultas IS NOT NULL AND prestasinonkompetisi.Status='Diterima' AND Tahun=" . $year . " GROUP BY user.Fakultas) t2 ON t2.fakultas=fakultas.fakultas")->result_array();
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'Prestasinonkompetisi' => $k['Prestasinonkompetisi']);
