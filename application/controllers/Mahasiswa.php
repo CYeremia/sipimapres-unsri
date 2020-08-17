@@ -76,6 +76,36 @@ class Mahasiswa extends CI_Controller
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
+    //get data select bidang untuk filter
+    public function getdataselect()
+    {
+        $pilihan = $this->input->post('pilihan');
+
+        $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='$pilihan'";
+        $data = $this->db->query($sql)->result();
+        // print_r($data);
+        // die;
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Data_Kompetisi()
+    {
+        $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='Kompetisi'";
+        $databidang = $this->db->query($sql)->result();
+        $this->data['databidang'] = $databidang;
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Mahasiswa | Tambah Data Kompetisi';
+        $this->data['content'] = 'data_kompetisi';
+        $this->load->view('mahasiswa/template/template', $this->data);
+    }
+
     public function Prestasi_NonKompetisi()
     {
         $this->data['active'] = 3;
@@ -84,7 +114,18 @@ class Mahasiswa extends CI_Controller
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
-    public function Data_Kompetisi()
+    public function Data_NonKompetisi()
+    {
+        $sql = "SELECT Bidang FROM bidangprestasi WHERE JalurPencapaian='Non Kompetisi'";
+        $databidang = $this->db->query($sql)->result();
+        $this->data['databidang'] = $databidang;
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
+        $this->data['content'] = 'data_nonkompetisi';
+        $this->load->view('mahasiswa/template/template', $this->data);
+    }
+
+    public function inputData_Kompetisi()
     {
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
@@ -111,7 +152,9 @@ class Mahasiswa extends CI_Controller
 
                 if (!$this->upload->do_upload('buktiprestasi')) {
                     $error = array('error' => $this->upload->display_errors());
-                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                    $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
+                    redirect('mahasiswa/Data_Kompetisi');
+                    // $this->load->view('mahasiswa/Data_Kompetisi', $error);
                 } else {
                     $data['PeraihPrestasi'] = $this->data['IDpengenal'];
                     $data['Bidang']        = $this->input->post('Bidang');
@@ -124,14 +167,11 @@ class Mahasiswa extends CI_Controller
                     $data['LinkBerita']       = $this->input->post('berita');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $this->db->insert('prestasikompetisi', $data);
+                    $this->flashmsg("Data Berhasil Ditambahkan", 'success');
                     redirect('mahasiswa/prestasi_kompetisi');
                 }
             }
         }
-        $this->data['active'] = 2;
-        $this->data['title'] = 'Mahasiswa | Tambah Data Kompetisi';
-        $this->data['content'] = 'data_kompetisi';
-        $this->load->view('mahasiswa/template/template', $this->data);
     }
 
     public function data_prestasi()
@@ -174,7 +214,7 @@ class Mahasiswa extends CI_Controller
         return $listData;
     }
 
-    public function Data_NonKompetisi()
+    public function inputData_NonKompetisi()
     {
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
@@ -200,9 +240,12 @@ class Mahasiswa extends CI_Controller
 
                 if (!$this->upload->do_upload('buktiprestasi')) {
                     $error = array('error' => $this->upload->display_errors());
-                    $this->load->view('mahasiswa/Data_Kompetisi', $error);
+                    $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
+                    redirect('mahasiswa/Data_NonKompetisi');
+                    // $this->load->view('mahasiswa/Data_NonKompetisi', $error);
                 } else {
                     $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+                    $data['Bidang']        = $this->input->post('Bidang');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
                     $data['Tahun']       = $this->input->post('tahun');
                     $data['Penyelenggara']       = $this->input->post('Penyelenggara');
@@ -211,15 +254,11 @@ class Mahasiswa extends CI_Controller
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
                     $this->db->insert('prestasinonkompetisi', $data);
+                    $this->flashmsg("Data Berhasil Ditambahkan", 'success');
                     redirect('mahasiswa/prestasi_nonkompetisi');
                 }
             }
         }
-
-        $this->data['active'] = 3;
-        $this->data['title'] = 'Mahasiswa | Tambah Data Non Kompetisi';
-        $this->data['content'] = 'data_nonkompetisi';
-        $this->load->view('mahasiswa/template/template', $this->data);
     }
 
     public function data_prestasiNon()
@@ -245,6 +284,7 @@ class Mahasiswa extends CI_Controller
             $Name = $this->db->query("SELECT `Nama` as nama From `user` WHERE IDPengenal = '$k->PeraihPrestasi' ")->row();
             $obj->Nama = $Name->nama;
             $obj->PeraihPrestasi = $k->PeraihPrestasi;
+            $obj->Bidang = $k->Bidang;
             $obj->Kegiatan = $k->Kegiatan;
             $obj->Tahun = $k->Tahun;
             $obj->Penyelenggara = $k->Penyelenggara;

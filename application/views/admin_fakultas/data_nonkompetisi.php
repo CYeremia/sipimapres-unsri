@@ -118,12 +118,38 @@
                                 <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita">
                             </div>
 
+                            <div class="input-group mb-4" style="z-index : 0">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-image"></span>
+                                    </div>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+
 
                         </div>
 
 
                         <!-- right -->
                         <div class="col-md-6">
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-code-branch"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Bidang" id="Bidang" required>
+                                    <option selected disabled>Bidang</option>
+                                    <?php foreach ($databidang as $value) { ?>
+                                        <option value="<?= $value->Bidang ?>"><?= $value->Bidang ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
@@ -157,18 +183,6 @@
                                     <option>Nasional</option>
                                     <option>Internasional</option>
                                 </select>
-                            </div>
-
-                            <div class="input-group mb-4" style="z-index : 0">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-image"></span>
-                                    </div>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                </div>
                             </div>
 
                         </div>

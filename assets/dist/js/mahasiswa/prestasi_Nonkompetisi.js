@@ -96,6 +96,10 @@ function format(d) {
         '<td>' + d.PeraihPrestasi + '</td>' +
         '</tr>' +
         '<tr>' +
+        '<td style="width: 15%">Bidang</td>' +
+        '<td>' + d.Bidang + '</td>' +
+        '</tr>' +
+        '<tr>' +
         '<td style="width: 15%">Tahun</td>' +
         '<td>' + d.Tahun + '</td>' +
         '</tr>' +

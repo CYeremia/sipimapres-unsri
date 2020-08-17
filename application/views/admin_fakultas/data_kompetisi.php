@@ -147,11 +147,9 @@
                                 </div>
                                 <select class="form-control" name="Bidang" id="Bidang" required>
                                     <option selected disabled>Bidang</option>
-                                    <option>Ilmiah /Akademik /Penalaran</option>
-                                    <option>Seni Budaya</option>
-                                    <option>Teknologi Sains</option>
-                                    <option>Keagamaan</option>
-                                    <option>Olah Raga</option>
+                                    <?php foreach ($databidang as $value) { ?>
+                                        <option value="<?= $value->Bidang ?>"><?= $value->Bidang ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
 

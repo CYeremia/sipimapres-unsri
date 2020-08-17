@@ -22,6 +22,9 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
+                <div class="header">
+                    <?= $this->session->flashdata('msg') ?>
+                </div>
                 <div class="card-header">
                     <h3 class="card-title">Data Prestasi Kompetisi, <?= $userdata->Nama ?></h3>
                     <a class="btn bg-green float-right" href="<?= base_url() ?>mahasiswa/Data_Kompetisi" class="btn bg-green">Tambah Data</a>

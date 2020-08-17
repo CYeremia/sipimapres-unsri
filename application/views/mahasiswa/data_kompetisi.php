@@ -40,7 +40,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <?= form_open_multipart('mahasiswa/Data_Kompetisi', ['class' => 'form-horizontal']) ?>
+                <?= form_open_multipart('mahasiswa/inputData_Kompetisi', ['class' => 'form-horizontal']) ?>
                 <!-- <form role="form"> -->
                 <div class="card-body">
                     <div class="row">
@@ -116,11 +116,9 @@
                                 </div>
                                 <select class="form-control" name="Bidang" id="Bidang" required>
                                     <option selected disabled>Bidang</option>
-                                    <option>Ilmiah /Akademik /Penalaran</option>
-                                    <option>Seni Budaya</option>
-                                    <option>Teknologi Sains</option>
-                                    <option>Keagamaan</option>
-                                    <option>Olah Raga</option>
+                                    <?php foreach ($databidang as $value) { ?>
+                                        <option value="<?= $value->Bidang ?>"><?= $value->Bidang ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
 

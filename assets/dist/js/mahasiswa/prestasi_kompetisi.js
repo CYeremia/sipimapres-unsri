@@ -55,6 +55,12 @@ $(document).ready(function () {
             "targets": 8
         },
         {
+            // "data": null,
+            // "orderable": false,
+            // "render": function (data, type, full, meta) {
+            //     var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\" style='font-size:25px'><i class='fas fa-plus-circle'></i></a>";
+            //     return actButt;
+            // },
             "className": 'details-control',
             "data": null,
             "orderable": false,
@@ -67,7 +73,7 @@ $(document).ready(function () {
     });
 
     //Get data detail
-    $('#perestasikompetisi tbody').on('click', 'td.details-control', function () {
+    $('#perestasikompetisi tbody').on('click', '.details-control', function () {
         var tr = $(this).closest('tr');
         var row = prestasi_kompetisi.row(tr);
 
@@ -78,6 +84,7 @@ $(document).ready(function () {
         }
         else {
             // Open this row (the format() function would return the data to be shown)
+            '<i class="fa fa-trash-o" aria-hidden="true"></i>';
             row.child(format(row.data())).show();
             tr.addClass('shown');
         }

@@ -48,7 +48,7 @@
             background-position: center;
         }
 
-        tr.shown td.details-control {
+        tr.shown .details-control {
             background-image: url('<?= base_url('assets') ?>/dist/img/cancel.png');
             cursor: pointer;
             background-size: 30%;
