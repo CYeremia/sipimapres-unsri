@@ -73,10 +73,10 @@ class Admin_sistem  extends CI_Controller
 
 
     //Get data peringkat mahasiswa
-    public function getpringkatM()
+    public function getpringkatM($tahun)
     {
         $result = [
-            'data' => $this->MapperingkatM(),
+            'data' => $this->MapperingkatM($tahun),
             'status' => true,
             'status_code' => 200
         ];
@@ -85,13 +85,18 @@ class Admin_sistem  extends CI_Controller
         echo json_encode($result);
     }
 
-    private function MapperingkatM()
+    private function MapperingkatM($tahun)
     {
         $listData = [];
-        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.IDPengenal, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi, user.IDPengenal, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
         FROM user
-        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
-        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' GROUP BY user.IDPengenal ORDER BY Skor DESC")->result_array();
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima' AND Tahun='" . $tahun . "' GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  AND Tahun='" . $tahun . "' GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi 
+        WHERE user.Role='Mahasiswa' GROUP BY user.IDPengenal ORDER BY Skor DESC")->result_array();
+        // $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.IDPengenal, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
+        // FROM user
+        // LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        // LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' GROUP BY user.IDPengenal ORDER BY Skor DESC")->result_array();
         $i = 1;
         foreach ($data as $k) {
             $obj = array(
