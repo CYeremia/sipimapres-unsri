@@ -314,6 +314,16 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
+    if(start == "Tahun") //jika tidak memilih tahun
+    {
+        start = new Date().getFullYear();
+    }
+
+    if(end == "Tahun") //jika tidak memilih tahun
+    {
+        end = new Date().getFullYear();
+    }
+
     var prodiindex = document.getElementById("prodi"); //select ID Prodi
     var prodi = prodiindex.options[prodiindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 

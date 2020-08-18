@@ -263,6 +263,16 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
+    if(start == "Tahun") //jika tidak memilih tahun
+    {
+        start = new Date().getFullYear();
+    }
+
+    if(end == "Tahun") //jika tidak memilih tahun
+    {
+        end = new Date().getFullYear();
+    }
+
     var jenisprestasiindex = document.getElementById("jenisprestasi"); //select ID jenis prestasi
     var jenisprestasi = jenisprestasiindex.options[jenisprestasiindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 

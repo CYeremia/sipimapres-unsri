@@ -1,5 +1,4 @@
 var currUrl = window.location.href.split('/');
-console.log(currUrl);
 var globalUrl = currUrl.join('/');
 
 $('#btSubmit').click(function (e) {

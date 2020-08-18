@@ -291,6 +291,18 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
+    if(start == "Tahun") //jika tidak memilih tahun
+    {
+        start = new Date().getFullYear();
+    }
+
+    if(end == "Tahun") //jika tidak memilih tahun
+    {
+        end = new Date().getFullYear();
+    }
+
+    console.log(start + " " +end);
+
     var fakultasindex = document.getElementById("fakultas"); //select ID Fakultas
     var fakultas = fakultasindex.options[fakultasindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 
