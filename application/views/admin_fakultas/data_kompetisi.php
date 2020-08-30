@@ -97,7 +97,7 @@
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-users"></span>
+                                        <span class="fas fa-user-friends"></span>
                                     </div>
                                 </div>
                                 <select class="form-control" name="Kategori" id="Kategori" required>
@@ -110,15 +110,19 @@
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-trophy"></span>
+                                        <span class="fas fa-users"></span>
                                     </div>
                                 </div>
-                                <select class="form-control" name="Pencapaian" id="Pencapaian" required>
-                                    <option selected disabled>Pencapaian</option>
-                                    <option>Juara 1</option>
-                                    <option>Juara 2</option>
-                                    <option>Juara 3</option>
-                                </select>
+                                <input type="text" class="form-control" name="JumlahPeserta" id="JumlahPeserta" placeholder="Jumlah Peserta" required>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-newspaper"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
                             </div>
 
                             <div class="input-group mb-4" style="z-index : 0">
@@ -178,6 +182,20 @@
                                     <option>Provinsi</option>
                                     <option>Nasional</option>
                                     <option>Internasional</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-trophy"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Pencapaian" id="Pencapaian" required>
+                                    <option selected disabled>Pencapaian</option>
+                                    <option>Juara 1</option>
+                                    <option>Juara 2</option>
+                                    <option>Juara 3</option>
                                 </select>
                             </div>
 

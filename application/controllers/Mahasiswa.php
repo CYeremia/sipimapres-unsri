@@ -165,6 +165,8 @@ class Mahasiswa extends CI_Controller
                     $data['Tingkat']       = $this->input->post('Tingkat');
                     $data['Pencapaian']       = $this->input->post('Pencapaian');
                     $data['LinkBerita']       = $this->input->post('berita');
+                    $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
+                    $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $this->db->insert('prestasikompetisi', $data);
                     $this->flashmsg("Data Berhasil Ditambahkan", 'success');
@@ -205,6 +207,8 @@ class Mahasiswa extends CI_Controller
             $obj->Tingkat = $k->Tingkat;
             $obj->Pencapaian = $k->Pencapaian;
             $obj->BuktiPrestasi = $k->BuktiPrestasi;
+            $obj->JumlahPeserta = $k->JumlahPeserta;
+            $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
             $obj->Status = $k->Status;
             $obj->LinkBerita = $k->LinkBerita;
 

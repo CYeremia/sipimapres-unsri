@@ -414,6 +414,8 @@ class admin_fakultas  extends CI_Controller
                     $data['Pencapaian']       = $this->input->post('Pencapaian');
                     $data['Status']       = "Diterima";
                     $data['LinkBerita']       = $this->input->post('berita');
+                    $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
+                    $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $this->db->insert('prestasikompetisi', $data);
                     $this->flashmsg("Data Berhasil Ditambahkan", 'success');

@@ -133,6 +133,12 @@ function format(d) {
         '<td style="width: 15%">Tingkat</td>' +
         '<td>' + d.Tingkat + '</td>' +
         '</tr>' +
+        '<td style="width: 15%">Jumlah Peserta</td>' +
+        '<td>' + d.JumlahPeserta + '</td>' +
+        '</tr>' +
+        '<td style="width: 15%">Jumlah Penghargaan</td>' +
+        '<td>' + d.JumlahPenghargaan + '</td>' +
+        '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Pencapaian</td>' +
         '<td>' + d.Pencapaian + '</td>' +
