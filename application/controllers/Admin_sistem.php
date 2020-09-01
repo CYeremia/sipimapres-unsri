@@ -61,11 +61,137 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    public function PeringkatUniv()
+    {
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Sistem | Peringkat Tertinggi Universitas';
+        $this->data['content'] = 'peringkat_univ';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
+    //Get data peringkat prestasi mahasiswa
+    public function getpringkatU($tahun)
+    {
+        $result = [
+            'data' => $this->MapperingkatU($tahun),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MapperingkatU($tahun)
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT user.IDPengenal AS NIM, user.Nama,User.Fakultas,user.ProgramStudi, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor
+        FROM user LEFT JOIN
+        (SELECT prestasikompetisi.PeraihPrestasi,SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun='" . $tahun . "' GROUP BY prestasikompetisi.PeraihPrestasi )t1
+        ON t1.PeraihPrestasi=user.IDPengenal
+        LEFT JOIN
+        (SELECT prestasinonkompetisi.PeraihPrestasi,SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasinonkompetisi WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun='" . $tahun . "' GROUP BY prestasinonkompetisi.PeraihPrestasi )t2
+        ON t2.PeraihPrestasi=user.IDPengenal WHERE user.Role='Mahasiswa' ORDER BY Skor DESC LIMIT 10")->result_array();
+
+        // $data = $this->db->query("SELECT user.IDPengenal AS NIM, user.Nama,User.Fakultas,user.ProgramStudi, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor
+        // FROM user LEFT JOIN
+        // (SELECT prestasikompetisi.PeraihPrestasi,SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN'" . $start . "' AND '" . $end . "' GROUP BY prestasikompetisi.PeraihPrestasi )t1
+        // ON t1.PeraihPrestasi=user.IDPengenal
+        // LEFT JOIN
+        // (SELECT prestasinonkompetisi.PeraihPrestasi,SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasinonkompetisi WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN'" . $start . "' AND '" . $end . "' GROUP BY prestasinonkompetisi.PeraihPrestasi )t2
+        // ON t2.PeraihPrestasi=user.IDPengenal WHERE user.Role='Mahasiswa' ORDER BY Skor DESC LIMIT 10")->result_array();
+        $i = 1;
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'NIM' => $k['NIM'],
+                'Nama' => $k['Nama'],
+                'Fakultas' => $k['Fakultas'],
+                'Prodi' => $k['ProgramStudi'],
+                'Skor' => $k['Skor']
+            );
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    public function dataPrestasi($NIM)
+    {
+        $sql = "SELECT IDPengenal,Nama,Fakultas,ProgramStudi FROM user WHERE IDPengenal='$NIM'";
+        $data = $this->db->query($sql)->row();
+        // $data = $this->db->query("SELECT IDPengenal,Nama,Fakultas,ProgramStudi FROM `user` WHERE `IDPengenal` ='" . $NIM . "'")->result();
+        $this->data['IDMahasiswa'] = $data;
+        $this->data['active'] = 2;
+        $this->data['title'] = 'Admin Sistem | Data Prestasi Mahasiswa';
+        $this->data['content'] = 'dataPrestasi';
+        $this->load->view('admin_sistem/template/template', $this->data);
+
+        // $result = [
+        //     'data' => $data,
+        //     'status' => true,
+        //     'status_code' => 200
+        // ];
+
+        // header('Content-Type: application/json');
+        // echo json_encode($result);
+    }
+
+    //Get data peringkat prestasi mahasiswa
+    public function getDataPrestasi($IDuser, $tahun)
+    {
+        $result = [
+            'data' => $this->MapDataPrestasiMahasiswa($IDuser, $tahun),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MapDataPrestasiMahasiswa($IDuser, $tahun)
+    {
+        $listData = [];
+        $data = $this->db->query("SELECT prestasikompetisi.Bidang,prestasikompetisi.Pencapaian,prestasikompetisi.Tahun,prestasikompetisi.Penyelenggara,prestasikompetisi.Kategori,prestasikompetisi.Tingkat,prestasikompetisi.JumlahPeserta,prestasikompetisi.JumlahPenghargaan,prestasikompetisi.Skor
+        FROM prestasikompetisi WHERE prestasikompetisi.Tahun='" . $tahun . "' AND prestasikompetisi.PeraihPrestasi='" . $IDuser . "' AND prestasikompetisi.Status='Diterima'
+        UNION ALL
+        SELECT prestasinonkompetisi.Bidang,prestasinonkompetisi.Peran AS Pencapaian,prestasinonkompetisi.Tahun,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,prestasinonkompetisi.JumlahPeserta,prestasinonkompetisi.JumlahPenghargaan, prestasinonkompetisi.Skor
+        FROM prestasinonkompetisi WHERE prestasinonkompetisi.Tahun='" . $tahun . "' AND prestasinonkompetisi.PeraihPrestasi='" . $IDuser . "' AND prestasinonkompetisi.Status='Diterima'
+        ORDER BY Skor DESC LIMIT 10")->result_array();
+
+        // $data = $this->db->query("SELECT user.IDPengenal AS NIM, user.Nama,User.Fakultas,user.ProgramStudi, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor
+        // FROM user LEFT JOIN
+        // (SELECT prestasikompetisi.PeraihPrestasi,SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN'" . $start . "' AND '" . $end . "' GROUP BY prestasikompetisi.PeraihPrestasi )t1
+        // ON t1.PeraihPrestasi=user.IDPengenal
+        // LEFT JOIN
+        // (SELECT prestasinonkompetisi.PeraihPrestasi,SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasinonkompetisi WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN'" . $start . "' AND '" . $end . "' GROUP BY prestasinonkompetisi.PeraihPrestasi )t2
+        // ON t2.PeraihPrestasi=user.IDPengenal WHERE user.Role='Mahasiswa' ORDER BY Skor DESC LIMIT 10")->result_array();
+        $i = 1;
+        $l = "-";
+        foreach ($data as $k) {
+            $obj = array(
+                'no' => $i,
+                'Bidang' => $k['Bidang'],
+                'Pencapaian' => $k['Pencapaian'],
+                'Tahun' => $k['Tahun'],
+                'Penyelenggara' => $k['Penyelenggara'],
+                'Kategori' => $k['Kategori'],
+                'Tingkat' => $k['Tingkat'],
+                'JumlahPeserta' => $k['JumlahPeserta'],
+                'JumlahPenghargaan' => $k['JumlahPenghargaan'],
+                'Skor' => $k['Skor']
+            );
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
     public function Peringkat_Mahasiswa()
     {
-        // 09021381621094
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
-        $this->data['active'] = 2;
+        $this->data['active'] = 3;
         $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
         $this->data['content'] = 'peringkat_mahasiswa';
         $this->load->view('admin_sistem/template/template', $this->data);
@@ -157,7 +283,7 @@ class Admin_sistem  extends CI_Controller
     public function Analisis_PeringkatFakultas()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
-        $this->data['active'] = 3;
+        $this->data['active'] = 4;
         $this->data['title'] = 'Admin Sistem | Analisis Peringkat Fakultas';
         $this->data['content'] = 'analisis_fakultas';
         $this->load->view('admin_sistem/template/template', $this->data);
@@ -168,7 +294,7 @@ class Admin_sistem  extends CI_Controller
         if ($parameters == null) {
             redirect('Admin_sistem/Analisis_PeringkatFakultas');
         } else {
-            $this->data['active'] = 3;
+            $this->data['active'] = 4;
             $this->data['title'] = 'Admin Sistem | Daftar Prestasi Fakultas ';
             $this->data['content'] = 'daftar_prestasi';
             $this->load->view('admin_sistem/template/template', $this->data);
@@ -181,7 +307,7 @@ class Admin_sistem  extends CI_Controller
         if ($parameters == null) {
             redirect('Admin_sistem/Analisis_PeringkatFakultas');
         } else {
-            $this->data['active'] = 3;
+            $this->data['active'] = 4;
             $this->data['title'] = 'Admin Sistem | Daftar Prestasi Mahasiswa ';
             $this->data['content'] = 'daftar_prestasiMahasiswa';
             $this->load->view('admin_sistem/template/template', $this->data);
@@ -191,7 +317,7 @@ class Admin_sistem  extends CI_Controller
     //Menampilkan analisis peringkat berdasarkan bidang
     public function Analisis_PeringkatBidang()
     {
-        $this->data['active'] = 4;
+        $this->data['active'] = 5;
         $this->data['title'] = 'Admin Sistem | Analisis Peringkat Bidang ';
         $this->data['content'] = 'analisis_bidang';
         $this->load->view('admin_sistem/template/template', $this->data);
@@ -203,7 +329,7 @@ class Admin_sistem  extends CI_Controller
         if ($parameters == null) {
             redirect('Admin_sistem/Analisis_PeringkatBidang');
         } else {
-            $this->data['active'] = 4;
+            $this->data['active'] = 5;
             $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
             $this->data['content'] = 'prestasi_bidang';
             $this->load->view('admin_sistem/template/template', $this->data);
@@ -829,7 +955,7 @@ class Admin_sistem  extends CI_Controller
     public function kelola_user()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
-        $this->data['active'] = 5;
+        $this->data['active'] = 6;
         $this->data['title'] = 'Admin Sistem | Kelola User ';
         $this->data['content'] = 'manage_user';
         $this->load->view('admin_sistem/template/template', $this->data);
@@ -1009,7 +1135,7 @@ class Admin_sistem  extends CI_Controller
     //Kelola Bidang
     public function kelola_bidang()
     {
-        $this->data['active'] = 6;
+        $this->data['active'] = 7;
         $this->data['title'] = 'Admin Sistem | Kelola Bidang ';
         $this->data['content'] = 'manage_bidang';
         $this->load->view('admin_sistem/template/template', $this->data);

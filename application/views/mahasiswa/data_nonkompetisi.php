@@ -68,24 +68,29 @@
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-users"></span>
+                                        <!-- <span class="fas fa-people-arrows"></span> -->
+                                        <span class="fas fa-street-view"></span>
                                     </div>
                                 </div>
-                                <select class="form-control" name="Kategori" id="Kategori" required>
-                                    <option selected disabled>Kategori</option>
-                                    <option>Individu</option>
-                                    <option>Kelompok</option>
-                                </select>
+                                <input type="text" class="form-control" name="Peran" id="Peran" placeholder="Peran / Pengakuan" required>
                             </div>
 
                             <div class="input-group mb-4">
-                                <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-link"></span>
+                                        <span class="fas fa-users"></span>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
+                                <input type="text" class="form-control" name="JumlahPeserta" id="JumlahPeserta" placeholder="Jumlah Peserta" required>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-newspaper"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
                             </div>
 
                             <div class="input-group mb-4" style="z-index : 0">
@@ -122,22 +127,26 @@
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <!-- <span class="fas fa-people-arrows"></span> -->
-                                        <span class="fas fa-street-view"></span>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" name="Peran" id="Peran" placeholder="Peran / Pengakuan" required>
-                            </div>
-
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
                                         <span class="fas fa-calendar-alt"></span>
                                     </div>
                                 </div>
                                 <select class="form-control" name="tahun" id="tahun" required>
                                 </select>
                             </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user-friends"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Kategori" id="Kategori" required>
+                                    <option selected disabled>Kategori</option>
+                                    <option>Individu</option>
+                                    <option>Kelompok</option>
+                                </select>
+                            </div>
+
 
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
@@ -154,7 +163,15 @@
                                 </select>
                             </div>
 
-
+                            <div class="input-group mb-4">
+                                <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-link"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
+                            </div>
 
                         </div>
 

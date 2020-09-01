@@ -252,9 +252,12 @@ class Mahasiswa extends CI_Controller
                     $data['Bidang']        = $this->input->post('Bidang');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
                     $data['Tahun']       = $this->input->post('tahun');
+                    $data['Peran']       = $this->input->post('Peran');
                     $data['Penyelenggara']       = $this->input->post('Penyelenggara');
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
+                    $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
                     $this->db->insert('prestasinonkompetisi', $data);
@@ -294,9 +297,12 @@ class Mahasiswa extends CI_Controller
             $obj->Penyelenggara = $k->Penyelenggara;
             $obj->Kategori = $k->Kategori;
             $obj->Tingkat = $k->Tingkat;
+            $obj->JumlahPeserta = $k->JumlahPeserta;
+            $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
             $obj->BuktiPrestasi = $k->BuktiPrestasi;
             $obj->Status = $k->Status;
             $obj->LinkBerita = $k->LinkBerita;
+            $obj->Peran = $k->Peran;
 
             $listData[] = $obj;
             $i = $i + 1;

@@ -40,7 +40,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('admin_sistem/Peringkat_Mahasiswa') ?>" class="nav-link <?php if ($active == 2) {
+                    <a href="<?= site_url('admin_sistem/PeringkatUniv') ?>" class="nav-link <?php if ($active == 2) {
+                                                                                                echo "active";
+                                                                                            } ?> ">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Peringkat Tertinggi Univ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url('admin_sistem/Peringkat_Mahasiswa') ?>" class="nav-link <?php if ($active == 3) {
                                                                                                         echo "active";
                                                                                                     } ?> ">
                         <i class="nav-icon fas fa-user-edit"></i>
@@ -51,7 +61,7 @@
                 </li>
 
                 <li class="nav-item has-treeview menu-close">
-                    <a href="#" class="nav-link <?php if ($active == 3 || $active == 4) {
+                    <a href="#" class="nav-link <?php if ($active == 4 || $active == 5) {
                                                     echo "active";
                                                 } ?> ">
                         <i class="nav-icon fas fa-file-signature"></i>
@@ -62,7 +72,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatFakultas') ?>" class="nav-link <?php if ($active == 3) {
+                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatFakultas') ?>" class="nav-link <?php if ($active == 4) {
                                                                                                                         echo "active";
                                                                                                                     } ?> ">
                                 <i class="nav-icon fas fa-trophy"></i>
@@ -70,7 +80,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatBidang') ?>" class="nav-link <?php if ($active == 4) {
+                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatBidang') ?>" class="nav-link <?php if ($active == 5) {
                                                                                                                     echo "active";
                                                                                                                 } ?> ">
                                 <i class="nav-icon fas fa-award"></i>
@@ -80,7 +90,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('admin_sistem/kelola_user') ?>" class="nav-link <?php if ($active == 5) {
+                    <a href="<?= site_url('admin_sistem/kelola_user') ?>" class="nav-link <?php if ($active == 6) {
                                                                                                 echo "active";
                                                                                             } ?> ">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -90,7 +100,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('admin_sistem/kelola_bidang') ?>" class="nav-link <?php if ($active == 6) {
+                    <a href="<?= site_url('admin_sistem/kelola_bidang') ?>" class="nav-link <?php if ($active == 7) {
                                                                                                 echo "active";
                                                                                             } ?> ">
                         <i class="nav-icon fas fa-clipboard-list"></i>

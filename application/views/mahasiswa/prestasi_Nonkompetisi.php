@@ -60,3 +60,16 @@
     </section>
     <!-- /.content -->
 </div>
+
+<!-- The Modal -->
+<div class="modal" id="Modal-Img">
+    <div class="modal-header">
+        <button type="button" id="closemodal" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <span id="closeimg" class="close">&times;</span> -->
+    </div>
+    <div class="modal-body">
+        <center><img style="margin-top: 5%; width: auto; height: auto;" class="modal-content" id="img"></center>
+    </div>
+</div>

@@ -112,8 +112,18 @@ function format(d) {
         '<td>' + d.Tingkat + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Tingkat</td>' +
+        '<td style="width: 15%">Peran</td>' +
+        '<td>' + d.Peran + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Kategori</td>' +
         '<td>' + d.Kategori + '</td>' +
+        '</tr>' +
+        '<td style="width: 15%">Jumlah Peserta</td>' +
+        '<td>' + d.JumlahPeserta + '</td>' +
+        '</tr>' +
+        '<td style="width: 15%">Jumlah Penghargaan</td>' +
+        '<td>' + d.JumlahPenghargaan + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Status</td>' +
@@ -121,9 +131,24 @@ function format(d) {
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
+        '<td><img onclick="BuktiPrestasi(\'' + d.BuktiPrestasi + '\')" style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
+        // '<td><img style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
         // '<td><img width="100 " src="<?php echo base_url(); ?>uploads/<?php echo' + d.BuktiPrestasi + ' ?>/"></td>' +
         // '<td <img width="" 500px height="500px" src=" <?php echo base_url(uploads/)' + d.BuktiPrestasi + '"?>"/></td>' +
         '</tr>' +
         '</table></div>';
 }
+
+function BuktiPrestasi(gambar) {
+    var modal = document.getElementById("Modal-Img");
+    var modalImg = document.getElementById("img");
+
+    modal.style.display = "block";
+    modalImg.src = this.src = url + gambar;
+    $('#Modal-Img').modal('show');
+}
+
+$('#closemodal').click(function (e) {
+    var modal = document.getElementById("Modal-Img");
+    modal.style.display = "none";
+});

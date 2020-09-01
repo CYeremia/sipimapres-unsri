@@ -27,7 +27,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Daftar User</h3>
-                    <a class="btn bg-green float-right" href="<?= base_url() ?>admin_sistem/tambahuser" class="btn bg-green">Tambah Data</a>
+                    <a class="btn bg-green float-right" href="<?= base_url() ?>admin_sistem/tambahuser">Tambah Data</a>
                 </div>
                 <!-- /.card-header -->
                 <div class=" card-body">

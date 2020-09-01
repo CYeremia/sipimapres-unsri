@@ -464,9 +464,12 @@ class admin_fakultas  extends CI_Controller
                     $data['Bidang']        = $this->input->post('Bidang');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
                     $data['Tahun']       = $this->input->post('tahun');
+                    $data['Peran']       = $this->input->post('Peran');
                     $data['Penyelenggara']       = $this->input->post('Penyelenggara');
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
+                    $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
+                    $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['Status']       = "Diterima";
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
