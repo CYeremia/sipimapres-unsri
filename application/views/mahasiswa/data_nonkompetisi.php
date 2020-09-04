@@ -24,29 +24,30 @@
     <!-- Main content -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Tambah Prestasi Non Kompetisi</h3>
-                </div>
-                <div class="header">
-                    <?= $this->session->flashdata('msg') ?>
-                    <?php
-                    if (isset($error)) {
-                        echo "ERROR UPLOAD : <br/>";
-                        print_r($error);
-                        echo "<hr/>";
-                    }
-                    ?>
-                </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <?= form_open_multipart('mahasiswa/inputData_NonKompetisi', ['class' => 'form-horizontal']) ?>
-                <!-- <form role="form"> -->
-                <div class="card-body">
-                    <div class="row">
+            <div class="col-md-8">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah Prestasi Non Kompetisi</h3>
+                    </div>
+                    <div class="header">
+                        <?= $this->session->flashdata('msg') ?>
+                        <?php
+                        if (isset($error)) {
+                            echo "ERROR UPLOAD : <br/>";
+                            print_r($error);
+                            echo "<hr/>";
+                        }
+                        ?>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <?= form_open_multipart('mahasiswa/inputData_NonKompetisi', ['class' => 'form-horizontal']) ?>
+                    <!-- <form role="form"> -->
+                    <div class="card-body">
+                        <div class="row">
 
-                        <!-- left -->
-                        <div class="col-md-6">
+                            <!-- left -->
+                            <!-- <div class="col-md-8"> -->
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
@@ -68,11 +69,81 @@
                             <div class="input-group mb-4">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
+                                        <span class="fas fa-calendar-alt"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="tahun" id="tahun" required>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-code-branch"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Bidang" id="Bidang" required>
+                                    <option selected disabled>Pilih Bidang</option>
+                                    <?php foreach ($databidang as $value) { ?>
+                                        <option value="<?= $value->Bidang ?>"><?= $value->Bidang ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user-friends"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Kategori" id="Kategori" required>
+                                    <option selected disabled>Pilih Kategori</option>
+                                    <option>Individu</option>
+                                    <option>Kelompok</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-4" id="peran">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
                                         <!-- <span class="fas fa-people-arrows"></span> -->
                                         <span class="fas fa-street-view"></span>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" name="Peran" id="Peran" placeholder="Peran / Pengakuan" required>
+                                <input type="text" class="form-control" name="Peran" id="Peran" placeholder="Peran / Pengakuan">
+                            </div>
+
+                            <div class="input-group mb-0" style="display: none;" id="jabatan">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-street-view"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="peran_organisasi" id="peran_organisasi" required>
+                                    <option selected disabled>Pilih Jabatan</option>
+                                    <option>Ketua</option>
+                                    <option>Pengurus Harian</option>
+                                </select>
+                                <div class="input-group" style="color: red;">
+                                    <p>*Pengurus Harian : Sekretaris/Bendahara/Pembantu Umum / Ketua Panitia Kegiatan</p>
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-globe-americas"></span>
+                                    </div>
+                                </div>
+                                <select class="form-control" name="Tingkat" id="Tingkat" required>
+                                    <option selected disabled>Pilih Tingkat</option>
+                                    <option>Internasional</option>
+                                    <option>Regional</option>
+                                    <option>Nasional</option>
+                                    <option>Wilayah</option>
+                                    <option>PT/Provinsi</option>
+                                    <option>Fakultas/Prodi</option>
+                                </select>
                             </div>
 
                             <div class="input-group mb-4">
@@ -93,76 +164,6 @@
                                 <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
                             </div>
 
-                            <div class="input-group mb-4" style="z-index : 0">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-image"></span>
-                                    </div>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <!-- right -->
-                        <div class="col-md-6">
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-code-branch"></span>
-                                    </div>
-                                </div>
-                                <select class="form-control" name="Bidang" id="Bidang" required>
-                                    <option selected disabled>Bidang</option>
-                                    <?php foreach ($databidang as $value) { ?>
-                                        <option value="<?= $value->Bidang ?>"><?= $value->Bidang ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-calendar-alt"></span>
-                                    </div>
-                                </div>
-                                <select class="form-control" name="tahun" id="tahun" required>
-                                </select>
-                            </div>
-
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user-friends"></span>
-                                    </div>
-                                </div>
-                                <select class="form-control" name="Kategori" id="Kategori" required>
-                                    <option selected disabled>Kategori</option>
-                                    <option>Individu</option>
-                                    <option>Kelompok</option>
-                                </select>
-                            </div>
-
-
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-globe-americas"></span>
-                                    </div>
-                                </div>
-                                <select class="form-control" name="Tingkat" id="Tingkat" required>
-                                    <option selected disabled>Tingkat</option>
-                                    <option>Regional</option>
-                                    <option>Provinsi</option>
-                                    <option>Nasional</option>
-                                    <option>Internasional</option>
-                                </select>
-                            </div>
-
                             <div class="input-group mb-4">
                                 <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
                                 <div class="input-group-append">
@@ -173,17 +174,34 @@
                                 <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
                             </div>
 
+                            <div class="input-group" style="z-index : 0">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-image"></span>
+                                    </div>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <div class="input-group" style="color: red;">
+                                    <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
+                                </div>
+                            </div>
+
                         </div>
 
+                        <!-- right -->
+                        <!-- <div class="col-md-6">
+                        </div> -->
+                        <!-- </div> -->
+
+                        <input type="submit" name="submit" class="btn btn-primary float-right"></input>
                     </div>
-
-
-                    <input type="submit" name="submit" class="btn btn-primary float-right"></input>
+                    <!-- /.card-body -->
+                    <?= form_close() ?>
                 </div>
-                <!-- /.card-body -->
-                <?= form_close() ?>
             </div>
-
 
         </div>
         <!-- /.container-fluid -->

@@ -436,7 +436,7 @@ class admin_fakultas  extends CI_Controller
             $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
             $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
             $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
-            $this->form_validation->set_rules('Peran', 'Peran', 'required|trim');
+            $this->form_validation->set_rules('Peran', 'Peran', 'trim');
 
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
             $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
@@ -460,11 +460,16 @@ class admin_fakultas  extends CI_Controller
                     $this->flashmsg("Failed Insert Data, The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
                     redirect('admin_fakultas/input_Prestasi');
                 } else {
+                    $peran = $this->input->post('Peran');
                     $data['PeraihPrestasi'] = $this->input->post('NIM');
                     $data['Bidang']        = $this->input->post('Bidang');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
                     $data['Tahun']       = $this->input->post('tahun');
-                    $data['Peran']       = $this->input->post('Peran');
+                    if ($peran != null) {
+                        $data['Peran']       = $this->input->post('Peran');
+                    } else {
+                        $data['Peran']       = $this->input->post('peran_organisasi');
+                    }
                     $data['Penyelenggara']       = $this->input->post('Penyelenggara');
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');

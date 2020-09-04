@@ -1000,7 +1000,7 @@ class Admin_sistem  extends CI_Controller
     public function tambahuser()
     {
         $this->data['fakultas'] = $this->db->get('fakultas')->result();
-        $this->data['active'] = 5;
+        $this->data['active'] = 6;
         $this->data['title'] = 'Admin Sistem | Tambah User ';
         $this->data['content'] = 'tambah_user';
         $this->load->view('admin_sistem/template/template', $this->data);
