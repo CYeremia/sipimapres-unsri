@@ -417,6 +417,13 @@ class admin_fakultas  extends CI_Controller
                     $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
                     $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
+                    // Hitung Score
+                    $ParamTingkat = $this->input->post('Tingkat');        //Internasional/nasional/regional/provinsi
+                    $ParamPencapaian = $this->input->post('Pencapaian');  //juara1/2/3/umum
+                    $ParamKategori = $this->input->post('Kategori');      //individu/kelompok
+                    //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
+                    $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$ParamTingkat' AND penilaian.Pencapaian='$ParamPencapaian' AND Kategori='$ParamKategori'";
+                    $data['Skor'] = $this->db->query($sql)->row('Nilai');
                     $this->db->insert('prestasikompetisi', $data);
                     $this->flashmsg("Data Berhasil Ditambahkan", 'success');
                     redirect('admin_fakultas/input_Prestasi');
@@ -478,6 +485,24 @@ class admin_fakultas  extends CI_Controller
                     $data['Status']       = "Diterima";
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
+                    // Hitung Score
+                    $ParamPeran = $data['Peran'];
+                    $ParamBidang = $data['Bidang'];
+                    $ParamTingkat = $this->input->post('Tingkat');        //Internasional/nasional/regional/provinsi
+                    $ParamKategori = $this->input->post('Kategori');      //individu/kelompok
+                    $organisasi = "Organisasi kemahasiswaan/lembaga kemahasiswaan: Badan Eksekutif Mahasiswa, Senat Mahasiswa, Dewan Perwakilan Mahasiswa, Majelis Permusyawaratan Mahasiswa, Himpunan Mahasiswa";
+                    $unit = "Unit Kegiatan Mahasiswa";
+                    $Otonom = "Badan Semi Otonom";
+                    $profesi = "Organisasi profesi mahasiswa";
+                    $sosial = "Organisasi sosial kemasyarakatan";
+                    if ($ParamBidang == $Otonom) {
+                        $sql = "SELECT Nilai FROM penilaian WHERE Tingkat='$ParamTingkat' AND Kategori='Golongan 2' AND Pencapaian='$ParamPeran'";
+                    } else if ($ParamBidang == $organisasi || $ParamBidang == $unit || $ParamBidang == $profesi || $ParamBidang == $sosial) {
+                        $sql = "SELECT Nilai FROM penilaian WHERE Tingkat='$ParamTingkat' AND Kategori='Golongan 1' AND Pencapaian='$ParamPeran'";
+                    } else {
+                        $sql = "SELECT Nilai FROM penilaian WHERE Jenis='Penghargaan/Pengakuan' AND Tingkat='$ParamTingkat' AND Kategori='$ParamKategori'";
+                    }
+                    $data['Skor'] = $this->db->query($sql)->row('Nilai');
                     $this->db->insert('prestasinonkompetisi', $data);
                     $this->flashmsg("Data Berhasil Ditambahkan", 'success');
                     redirect('admin_fakultas/input_Prestasi');

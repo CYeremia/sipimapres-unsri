@@ -164,13 +164,7 @@
                                         </div>
                                     </div>
                                     <select class="form-control" name="Tingkat" id="Tingkat" required>
-                                        <option selected disabled>Tingkat</option>
-                                        <option>Internasional</option>
-                                        <option>Regional</option>
-                                        <option>Nasional</option>
-                                        <option>Wilayah</option>
-                                        <option>PT/Provinsi</option>
-                                        <option>Fakultas/Prodi</option>
+                                        <option selected disabled>Pilih Tingkat</option>
                                     </select>
                                 </div>
 
