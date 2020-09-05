@@ -85,7 +85,7 @@ function tabel(start,end)
             "targets": 3
         },
         ],
-        order: [0, 'asc']
+        order: [3, 'asc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
@@ -144,7 +144,7 @@ function tabel(start,end)
             "targets": 1
         },
         ],
-        order: [0, 'asc']
+        order: [1, 'asc']
     });
 }
 
@@ -214,7 +214,7 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
             "targets": 3
         },
         ],
-        order: [0, 'asc']
+        order: [3, 'asc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
@@ -272,7 +272,7 @@ function satuperingkatfakultasprestasi(start,end,fakultas)
             "targets": 1
         },
         ],
-        order: [0, 'asc']
+        order: [1, 'asc']
     });
 }
 

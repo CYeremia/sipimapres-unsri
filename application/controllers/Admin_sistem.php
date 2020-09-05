@@ -85,7 +85,7 @@ class Admin_sistem  extends CI_Controller
     private function MapperingkatU($tahun)
     {
         $listData = [];
-        $data = $this->db->query("SELECT user.IDPengenal AS NIM, user.Nama,User.Fakultas,user.ProgramStudi, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor
+        $data = $this->db->query("SELECT user.IDPengenal AS NIM, user.Nama,user.Fakultas,user.ProgramStudi, IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor
         FROM user LEFT JOIN
         (SELECT prestasikompetisi.PeraihPrestasi,SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun='" . $tahun . "' GROUP BY prestasikompetisi.PeraihPrestasi )t1
         ON t1.PeraihPrestasi=user.IDPengenal
