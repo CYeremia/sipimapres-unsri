@@ -225,14 +225,14 @@ class Mahasiswa extends CI_Controller
         return $listData;
     }
 
-    public function checkbidang()
+    public function checkbidang($cek)
     {
-        $cek = $this->input->post("selectbidang");
+        // $cek = $this->input->post("selectbidang");
         $cekbidang = str_replace("%20", " ", $cek);
 
         $data['jp'] = $this->db->query("SELECT JenisPenilaian  FROM `bidangprestasi` WHERE Bidang = '$cekbidang'")->result();
 
-        if ($data['jp'] == "Organisasi") {
+        if ($data['jp'][0]->JenisPenilaian == "Organisasi") {
             $result['status'] = true;
         } else {
             $result['status'] = false;
