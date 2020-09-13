@@ -478,10 +478,12 @@ class Admin_sistem  extends CI_Controller
         ON t2.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' GROUP BY Fakultas )t3
         ON fakultas.Fakultas=t3.fakultas ORDER BY total DESC")->result_array();
+        $i = 1;
 
         foreach ($data as $k) {
-            $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
             $listData[] =  $data;
+            $i = $i + 1;
         }
         return $listData;
     }
@@ -525,8 +527,10 @@ class Admin_sistem  extends CI_Controller
          ON fakultas.Fakultas=t3.Fakultas
          WHERE fakultas.Fakultas='" . $fakultas . "'")->result_array();
 
+        $i = 1;
         foreach ($data as $k) {
-            $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $i = $i + 1;
             $listData[] =  $data;
         }
         return $listData;
@@ -616,10 +620,12 @@ class Admin_sistem  extends CI_Controller
         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1)t2
         ON t2.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' GROUP BY Fakultas)t3
-        ON t3.Fakultas=fakultas.Fakultas")->result_array();
+        ON t3.Fakultas=fakultas.Fakultas ORDER BY TotalMahasiswa DESC")->result_array();
 
+        $i = 1;
         foreach ($data as $k) {
-            $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
+            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
+            $i = $i + 1;
             $listData[] =  $data;
         }
         return $listData;
@@ -661,8 +667,10 @@ class Admin_sistem  extends CI_Controller
         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $fakultas . "')t3
         ON t3.Fakultas=fakultas.Fakultas WHERE fakultas.Fakultas='" . $fakultas . "'")->result_array();
 
+        $i = 1;
         foreach ($data as $k) {
-            $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
+            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
+            $i = $i + 1;
             $listData[] =  $data;
         }
         return $listData;

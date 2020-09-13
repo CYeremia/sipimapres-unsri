@@ -15,293 +15,314 @@ var globalUrl = currUrl.join('/');
 var daftarP;
 
 //tabel default
-function tabel(start,end)
-{
+function tabel(start, end) {
     //tabel peringkat fakultas berdasarkan prestasi
     daftarP = $('#perestasikompetisi').DataTable({
         ajax: {
-            url: globalUrl + '/peringkatprodiprestasi/'+start+'/'+end,
+            url: globalUrl + '/peringkatprodiprestasi/' + start + '/' + end,
             type: 'POST',
             data: function (d) { }
         },
-        columns: [{
-            data: "ProgramStudi",
-            "targets": 0
-        },
-        {
-            data: "PrestasiKompetisi",
-            "targets": 1
-        },
-        {
-            data: "PrestasiNonKompetisi",
-            "targets": 2
-        },
-        {
-            data: {Total : "Total", ProgramStudi : "ProgramStudi"},
-            "render": function(data, type, full, meta){
+        columns: [
+            {
+                data: "No",
+                "targets": 0
+            },
+            {
+                data: "ProgramStudi",
+                "targets": 1
+            },
+            {
+                data: "PrestasiKompetisi",
+                "targets": 2
+            },
+            {
+                data: "PrestasiNonKompetisi",
+                "targets": 3
+            },
+            {
+                data: { Total: "Total", ProgramStudi: "ProgramStudi" },
+                "render": function (data, type, full, meta) {
 
-                var prodi = data.ProgramStudi;
+                    var prodi = data.ProgramStudi;
 
-                //mengubah special character agar bisa lewat url
-                var length = (prodi.split('(').length-1);
+                    //mengubah special character agar bisa lewat url
+                    var length = (prodi.split('(').length - 1);
 
-                for(var i = 0 ; i<length ; i++) // replace ( menjadi {
-                {
-                    prodi = prodi.replace("(","{");
-                }
+                    for (var i = 0; i < length; i++) // replace ( menjadi {
+                    {
+                        prodi = prodi.replace("(", "{");
+                    }
 
-                length = (prodi.split(')').length-1); 
+                    length = (prodi.split(')').length - 1);
 
-                for(var i = 0 ; i<length ; i++) //replace ) menjadi }
-                {
-                    prodi = prodi.replace(")","}");
-                }
+                    for (var i = 0; i < length; i++) //replace ) menjadi }
+                    {
+                        prodi = prodi.replace(")", "}");
+                    }
 
-                length = (prodi.split(',').length-1); 
+                    length = (prodi.split(',').length - 1);
 
-                for(var i = 0 ; i<length ; i++) //replace , menjadi `
-                {
-                    prodi = prodi.replace(",","`");
-                }
+                    for (var i = 0; i < length; i++) //replace , menjadi `
+                    {
+                        prodi = prodi.replace(",", "`");
+                    }
 
-                length = (prodi.split('/').length-1); 
+                    length = (prodi.split('/').length - 1);
 
-                for(var i = 0 ; i<length ; i++) //replace / menjadi ~
-                {
-                    prodi = prodi.replace("/","~");
-                }
+                    for (var i = 0; i < length; i++) //replace / menjadi ~
+                    {
+                        prodi = prodi.replace("/", "~");
+                    }
 
-                if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Prodi/' + start + '-'+end+'-'+prodi+'">' + data.Total + '</a>';
-                }
-    
-                return data;
-             },
-            "targets": 3
-        },
+                    if (type === 'display') {
+                        data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
+                    }
+                    return data;
+                },
+                "orderable": false,
+                "targets": 4
+            },
         ],
-        order: [3, 'asc']
+        order: [0, 'asc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
     daftarP = $('#perestasikompetisimahasiswa').DataTable({
         ajax: {
-            url: globalUrl + '/peringkatprodimahasiswa/'+start+'/'+end,
+            url: globalUrl + '/peringkatprodimahasiswa/' + start + '/' + end,
             type: 'POST',
             data: function (d) { }
         },
-        columns: [{
-            data: "ProgramStudi",
-            "targets": 0
-        },
-        {
-            data: {TotalMahasiswa : "TotalMahasiswa", ProgramStudi : "ProgramStudi"},
-            "render": function(data, type, full, meta){
-                if(type === 'display'){
+        columns: [
+            {
+                data: "No",
+                "target": 0
+            },
+            {
+                data: "ProgramStudi",
+                "targets": 1
+            },
+            {
+                data: { TotalMahasiswa: "TotalMahasiswa", ProgramStudi: "ProgramStudi" },
+                "render": function (data, type, full, meta) {
+                    if (type === 'display') {
 
-                var prodi = data.ProgramStudi;
+                        var prodi = data.ProgramStudi;
 
-                 //mengubah special character agar bisa lewat url
-                 var length = (prodi.split('(').length-1);
+                        //mengubah special character agar bisa lewat url
+                        var length = (prodi.split('(').length - 1);
 
-                 for(var i = 0 ; i<length ; i++) // replace ( menjadi {
-                 {
-                     prodi = prodi.replace("(","{");
-                 }
- 
-                 length = (prodi.split(')').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace ) menjadi }
-                 {
-                     prodi = prodi.replace(")","}");
-                 }
- 
-                 length = (prodi.split(',').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace , menjadi `
-                 {
-                     prodi = prodi.replace(",","`");
-                 }
- 
-                 length = (prodi.split('/').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace / menjadi ~
-                 {
-                     prodi = prodi.replace("/","~");
-                 }
+                        for (var i = 0; i < length; i++) // replace ( menjadi {
+                        {
+                            prodi = prodi.replace("(", "{");
+                        }
 
-                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+prodi+'">' + data.TotalMahasiswa + '</a>';
-                }
-    
-                return data;
-             },
-            "targets": 1
-        },
+                        length = (prodi.split(')').length - 1);
+
+                        for (var i = 0; i < length; i++) //replace ) menjadi }
+                        {
+                            prodi = prodi.replace(")", "}");
+                        }
+
+                        length = (prodi.split(',').length - 1);
+
+                        for (var i = 0; i < length; i++) //replace , menjadi `
+                        {
+                            prodi = prodi.replace(",", "`");
+                        }
+
+                        length = (prodi.split('/').length - 1);
+
+                        for (var i = 0; i < length; i++) //replace / menjadi ~
+                        {
+                            prodi = prodi.replace("/", "~");
+                        }
+
+                        data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-' + end + '-' + prodi + '">' + data.TotalMahasiswa + '</a>';
+                    }
+
+                    return data;
+                },
+                "orderable": false,
+                "targets": 2
+            },
         ],
-        order: [1, 'asc']
+        order: [0, 'asc']
     });
 }
 
 //tabel peringkat prodi berdasarkan prestasi (hanya satu prodi)
-function satuperingkatprodiprestasi(start,end,prodi)
-{
-     //mengubah special character agar bisa lewat url
-     var length = (prodi.split('(').length-1);
+function satuperingkatprodiprestasi(start, end, prodi) {
+    //mengubah special character agar bisa lewat url
+    var length = (prodi.split('(').length - 1);
 
-     for(var i = 0 ; i<length ; i++) // replace ( menjadi {
-     {
-         prodi = prodi.replace("(","{");
-     }
+    for (var i = 0; i < length; i++) // replace ( menjadi {
+    {
+        prodi = prodi.replace("(", "{");
+    }
 
-     length = (prodi.split(')').length-1); 
+    length = (prodi.split(')').length - 1);
 
-     for(var i = 0 ; i<length ; i++) //replace ) menjadi }
-     {
-         prodi = prodi.replace(")","}");
-     }
+    for (var i = 0; i < length; i++) //replace ) menjadi }
+    {
+        prodi = prodi.replace(")", "}");
+    }
 
-     length = (prodi.split(',').length-1); 
+    length = (prodi.split(',').length - 1);
 
-     for(var i = 0 ; i<length ; i++) //replace , menjadi `
-     {
-         prodi = prodi.replace(",","`");
-     }
+    for (var i = 0; i < length; i++) //replace , menjadi `
+    {
+        prodi = prodi.replace(",", "`");
+    }
 
-     length = (prodi.split('/').length-1); 
+    length = (prodi.split('/').length - 1);
 
-     for(var i = 0 ; i<length ; i++) //replace / menjadi ~
-     {
-         prodi = prodi.replace("/","~");
-     }
+    for (var i = 0; i < length; i++) //replace / menjadi ~
+    {
+        prodi = prodi.replace("/", "~");
+    }
 
     //tabel peringkat fakultas berdasarkan prestasi
     daftarP = $('#perestasikompetisi').DataTable({
         ajax: {
-            url: globalUrl + '/satuperingkatprodiprestasi/'+start+'/'+end+'/'+prodi,
+            url: globalUrl + '/satuperingkatprodiprestasi/' + start + '/' + end + '/' + prodi,
             type: 'POST',
             data: function (d) { }
         },
-        columns: [{
-            data: "ProgramStudi",
-            "targets": 0
-        },
-        {
-            data: "PrestasiKompetisi",
-            "targets": 1
-        },
-        {
-            data: "PrestasiNonKompetisi",
-            "targets": 2
-        },
-        {
-            data: {Total : "Total", ProgramStudi : "ProgramStudi"},
-            "render": function(data, type, full, meta){
+        columns: [
+            {
+                data: "No",
+                "targets": 0
+            },
+            {
+                data: "ProgramStudi",
+                "targets": 1
+            },
+            {
+                data: "PrestasiKompetisi",
+                "targets": 2
+            },
+            {
+                data: "PrestasiNonKompetisi",
+                "targets": 3
+            },
+            {
+                data: { Total: "Total", ProgramStudi: "ProgramStudi" },
+                "render": function (data, type, full, meta) {
 
-                var prodi = data.ProgramStudi;
+                    var prodi = data.ProgramStudi;
 
-                 //mengubah special character agar bisa lewat url
-                 var length = (prodi.split('(').length-1);
+                    //mengubah special character agar bisa lewat url
+                    var length = (prodi.split('(').length - 1);
 
-                 for(var i = 0 ; i<length ; i++) // replace ( menjadi {
-                 {
-                     prodi = prodi.replace("(","{");
-                 }
- 
-                 length = (prodi.split(')').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace ) menjadi }
-                 {
-                     prodi = prodi.replace(")","}");
-                 }
- 
-                 length = (prodi.split(',').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace , menjadi `
-                 {
-                     prodi = prodi.replace(",","`");
-                 }
- 
-                 length = (prodi.split('/').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace / menjadi ~
-                 {
-                     prodi = prodi.replace("/","~");
-                 }
+                    for (var i = 0; i < length; i++) // replace ( menjadi {
+                    {
+                        prodi = prodi.replace("(", "{");
+                    }
 
-                if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Prodi/' + start + '-'+end+'-'+prodi+'">' + data.Total + '</a>';
-                }
-    
-                return data;
-             },
-            "targets": 3
-        },
+                    length = (prodi.split(')').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace ) menjadi }
+                    {
+                        prodi = prodi.replace(")", "}");
+                    }
+
+                    length = (prodi.split(',').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace , menjadi `
+                    {
+                        prodi = prodi.replace(",", "`");
+                    }
+
+                    length = (prodi.split('/').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace / menjadi ~
+                    {
+                        prodi = prodi.replace("/", "~");
+                    }
+
+                    if (type === 'display') {
+                        data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
+                    }
+
+                    return data;
+                },
+                "Orderable": false,
+                "targets": 4
+            },
         ],
-        order: [3, 'asc']
+        order: [0, 'asc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
     daftarP = $('#perestasikompetisimahasiswa').DataTable({
         ajax: {
-            url: globalUrl + '/satuperingkatprodimahasiswa/'+start+'/'+end+'/'+prodi,
+            url: globalUrl + '/satuperingkatprodimahasiswa/' + start + '/' + end + '/' + prodi,
             type: 'POST',
             data: function (d) { }
         },
-        columns: [{
-            data: "ProgramStudi",
-            "targets": 0
-        },
-        {
-            data: {TotalMahasiswa : "TotalMahasiswa", ProgramStudi : "ProgramStudi"},
-            "render": function(data, type, full, meta){
+        columns: [
+            {
+                data: "No",
+                "targets": 0
+            },
+            {
+                data: "ProgramStudi",
+                "targets": 1
+            },
+            {
+                data: { TotalMahasiswa: "TotalMahasiswa", ProgramStudi: "ProgramStudi" },
+                "render": function (data, type, full, meta) {
 
-                var prodi = data.ProgramStudi;
+                    var prodi = data.ProgramStudi;
 
-                 //mengubah special character agar bisa lewat url
-                 var length = (prodi.split('(').length-1);
+                    //mengubah special character agar bisa lewat url
+                    var length = (prodi.split('(').length - 1);
 
-                 for(var i = 0 ; i<length ; i++) // replace ( menjadi {
-                 {
-                     prodi = prodi.replace("(","{");
-                 }
- 
-                 length = (prodi.split(')').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace ) menjadi }
-                 {
-                     prodi = prodi.replace(")","}");
-                 }
- 
-                 length = (prodi.split(',').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace , menjadi `
-                 {
-                     prodi = prodi.replace(",","`");
-                 }
- 
-                 length = (prodi.split('/').length-1); 
- 
-                 for(var i = 0 ; i<length ; i++) //replace / menjadi ~
-                 {
-                     prodi = prodi.replace("/","~");
-                 }
+                    for (var i = 0; i < length; i++) // replace ( menjadi {
+                    {
+                        prodi = prodi.replace("(", "{");
+                    }
 
-                if(type === 'display'){
-                    data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-'+end+'-'+prodi+'">' + data.TotalMahasiswa + '</a>';
-                }
-    
-                return data;
-             },
-            "targets": 1
-        },
+                    length = (prodi.split(')').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace ) menjadi }
+                    {
+                        prodi = prodi.replace(")", "}");
+                    }
+
+                    length = (prodi.split(',').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace , menjadi `
+                    {
+                        prodi = prodi.replace(",", "`");
+                    }
+
+                    length = (prodi.split('/').length - 1);
+
+                    for (var i = 0; i < length; i++) //replace / menjadi ~
+                    {
+                        prodi = prodi.replace("/", "~");
+                    }
+
+                    if (type === 'display') {
+                        data = '<a href="daftarPrestasi_Mahasiswa/' + start + '-' + end + '-' + prodi + '">' + data.TotalMahasiswa + '</a>';
+                    }
+
+                    return data;
+                },
+                "Orderable": false,
+                "targets": 2
+            },
         ],
-        order: [1, 'asc']
+        order: [0, 'asc']
     });
 }
 
 $(document).ready(function () {
 
-    tabel(end,end);
+    tabel(end, end);
 
 });
 
@@ -314,12 +335,12 @@ $('#filter').click(function (e) {
     var endindex = document.getElementById("tahun2");
     var end = endindex.options[endindex.selectedIndex].value;
 
-    if(start == "Tahun") //jika tidak memilih tahun
+    if (start == "Tahun") //jika tidak memilih tahun
     {
         start = new Date().getFullYear();
     }
 
-    if(end == "Tahun") //jika tidak memilih tahun
+    if (end == "Tahun") //jika tidak memilih tahun
     {
         end = new Date().getFullYear();
     }
@@ -327,17 +348,17 @@ $('#filter').click(function (e) {
     var prodiindex = document.getElementById("prodi"); //select ID Prodi
     var prodi = prodiindex.options[prodiindex.selectedIndex].value; //get value berdasarkan index yang dipilih
 
-    if(prodiindex.selectedIndex == 0) //tidak memilih prodi apapun
+    if (prodiindex.selectedIndex == 0) //tidak memilih prodi apapun
     {
         $('#perestasikompetisi').dataTable().fnDestroy();
         $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
-        tabel(start,end); //panggil tabel
+        tabel(start, end); //panggil tabel
     }
     else //ketika memilih prodi
-    {   
+    {
         $('#perestasikompetisi').dataTable().fnDestroy();
         $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
-        satuperingkatprodiprestasi(start,end,prodi); //panggil tabel
+        satuperingkatprodiprestasi(start, end, prodi); //panggil tabel
     }
 
 });
@@ -348,10 +369,10 @@ $('#resetfilter').click(function (e) {
     $('#perestasikompetisi').dataTable().fnDestroy();
     $('#perestasikompetisimahasiswa').dataTable().fnDestroy();
 
-    document.getElementById("tahun").value="Tahun";
-    document.getElementById("tahun2").value="Tahun";
-    document.getElementById("prodi").value="Pilih Prodi";
+    document.getElementById("tahun").value = "Tahun";
+    document.getElementById("tahun2").value = "Tahun";
+    document.getElementById("prodi").value = "Pilih Prodi";
 
-    tabel(end,end);
+    tabel(end, end);
 });
 

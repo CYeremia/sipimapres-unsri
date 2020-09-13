@@ -79,6 +79,7 @@
                     <table id="perestasikompetisi" class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Nama Fakultas</th>
                                 <th>Jumlah Prestasi Kompetisi</th>
                                 <th>Jumlah Prestasi Non Kompetisi</th>
@@ -87,10 +88,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Fakultas Ilmu Komputer</td>
+                                <!-- <td>Fakultas Ilmu Komputer</td>
                                 <td>150</td>
                                 <td>50</td>
-                                <td>200</td>
+                                <td>200</td> -->
                             </tr>
                         </tbody>
                         <tfoot></tfoot>
@@ -111,14 +112,15 @@
                     <table id="perestasikompetisimahasiswa" class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Nama Fakultas</th>
                                 <th>Jumlah Mahasiswa</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Fakultas Ilmu Komputer</td>
-                                <td>200</td>
+                                <!-- <td>Fakultas Ilmu Komputer</td>
+                                <td>200</td> -->
                             </tr>
                         </tbody>
                         <tfoot></tfoot>
