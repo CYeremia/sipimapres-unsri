@@ -1177,6 +1177,7 @@ class Admin_sistem  extends CI_Controller
             $obj->No = $i;
             $obj->IDPrestasi = $k->IDPrestasi;
             $obj->Jenis_Prestasi = $k->JalurPencapaian;
+            $obj->JenisPenilaian = $k->JenisPenilaian;
             $obj->Nama_bidang = $k->Bidang;
 
             $listData[] = $obj;
@@ -1189,8 +1190,16 @@ class Admin_sistem  extends CI_Controller
     public function tambahbidang()
     {
         if ($this->input->post('tambahdata')) {
-            $input['JalurPencapaian'] = $this->input->post('jalurPencapaian');
-            $input['Bidang'] = $this->input->post('namabidang');
+            $jpencapaian = $this->input->post('jalurPrestasi');
+            if ($jpencapaian == "Kompetisi") {
+                $input['JalurPencapaian'] = $jpencapaian;
+                $input['JenisPenilaian'] = "Kompetisi";
+                $input['Bidang'] = $this->input->post('namabidang');
+            } else {
+                $input['JalurPencapaian'] = $jpencapaian;
+                $input['JenisPenilaian'] = $this->input->post('Kategori');
+                $input['Bidang'] = $this->input->post('namabidang');
+            }
             $this->Bidang_prestasi->insert($input);
             $this->flashmsg('Data Bidang Telah Berhasil Ditambah');
         }
@@ -1217,8 +1226,16 @@ class Admin_sistem  extends CI_Controller
     public function updatebidang()
     {
         if ($this->input->post('updatedata')) {
-            $input['JalurPencapaian'] = $this->input->post('Jalur_Pencapaian');
-            $input['Bidang'] = $this->input->post('nama_bidang');
+            $jpencapaian = $this->input->post('Jalur_Pencapaian');
+            if ($jpencapaian == "Kompetisi") {
+                $input['JalurPencapaian'] = $jpencapaian;
+                $input['Bidang'] = $this->input->post('nama_bidang');
+                $input['JenisPenilaian'] = "Kompetisi";
+            } else {
+                $input['JalurPencapaian'] = $jpencapaian;
+                $input['Bidang'] = $this->input->post('nama_bidang');
+                $input['JenisPenilaian'] = $this->input->post('K_Prestasi');
+            }
             $this->db->where('IDPrestasi', $this->input->post('detector'));
             $this->db->update('bidangprestasi', $input);
             $this->flashmsg('Data Bidang Telah Berhasil Diubah');

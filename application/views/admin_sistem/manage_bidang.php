@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Jenis Prestasi</th>
+                                    <th>Kategori Prestasi</th>
                                     <th>Nama Bidang</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -76,18 +77,6 @@
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_sistem/tambahbidang', ['class' => 'form-horizontal']) ?>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-id-badge"></span>
-                                </div>
-                            </div>
-                            <select class="form-control" name="jalurPencapaian" id="jalurPencapaian">
-                                <option selected disabled>Pilih Prestasi</option>
-                                <option value="Kompetisi">Kompetisi</option>
-                                <option value="Non Kompetisi">Non Kompetisi</option>
-                            </select>
-                        </div>
 
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
@@ -97,6 +86,33 @@
                             </div>
                             <input type="text" class="form-control" name="namabidang" id="namabidang" placeholder="Nama Bidang">
                         </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-badge"></span>
+                                </div>
+                            </div>
+                            <select class="form-control" name="jalurPrestasi" id="jalurPrestasi">
+                                <option selected disabled>Pilih Prestasi</option>
+                                <option value="Kompetisi">Kompetisi</option>
+                                <option value="Non Kompetisi">Non Kompetisi</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3" style="display: none;" id="Kategori_prestasi">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-medal"></span>
+                                </div>
+                            </div>
+                            <select class="form-control" name="Kategori" id="Kategori">
+                                <option selected disabled>Pilih Kategori Prestasi</option>
+                                <option value="Organisasi">Organisasi</option>
+                                <option value="Penghargaan/Pengakuan">Penghargaan/Pengakuan</option>
+                            </select>
+                        </div>
+
 
                         <div class="col-4 mt-2 float-right">
                             <div class="form-group">
@@ -129,6 +145,15 @@
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_sistem/updatebidang', ['class' => 'form-horizontal']) ?>
 
+                        <div class="input-group mb-3" id="fakultas_select">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-university"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="nama_bidang" id="nama_bidang">
+                        </div>
+
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -139,13 +164,14 @@
                             </select>
                         </div>
 
-                        <div class="input-group mb-3" id="fakultas_select">
+                        <div class="input-group mb-3" style="display: none;" id="Kategori_P">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-medal"></span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" name="nama_bidang" id="nama_bidang">
+                            <select class="form-control" name="K_Prestasi" id="K_Prestasi">
+                            </select>
                         </div>
 
                         <div class="col-4 mt-2 float-right">

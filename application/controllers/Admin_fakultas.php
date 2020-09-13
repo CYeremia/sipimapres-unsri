@@ -259,8 +259,6 @@ class admin_fakultas  extends CI_Controller
         }
     }
 
-
-
     public function profile()
     {
         $this->data['active'] = 7;
@@ -434,6 +432,23 @@ class admin_fakultas  extends CI_Controller
         $this->data['title'] = 'Admin Fakultas | Tambah Data Kompetisi';
         $this->data['content'] = 'data_kompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //Seleksi Bidang Non kompetisi
+    public function checkbidang()
+    {
+        $cek = $this->input->post("selectbidang");
+        $cekbidang = str_replace("%20", " ", $cek);
+
+        $data = $this->db->query("SELECT JenisPenilaian  FROM `bidangprestasi` WHERE Bidang = '$cekbidang'")->result();
+
+        if ($data[0]->JenisPenilaian == "Organisasi") {
+            $result['status'] = true;
+        } else {
+            $result['status'] = false;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($result);
     }
 
     //menambahkan data prestasi Non kompetisi mahasiswa

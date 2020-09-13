@@ -8,17 +8,10 @@ $(document).ready(function () {
     //Pemilihan Bidang
     $('#Bidang').on('change', function () {
         var selectedvalue = $(this).val();
-        console.log(selectedvalue);
-        var organisasi = "Organisasi kemahasiswaan/lembaga kemahasiswaan: Badan Eksekutif Mahasiswa, Senat Mahasiswa, Dewan Perwakilan Mahasiswa, Majelis Permusyawaratan Mahasiswa, Himpunan Mahasiswa";
-        var unit = "Unit Kegiatan Mahasiswa";
-        var Otonom = "Badan Semi Otonom";
-        var profesi = "Organisasi profesi mahasiswa";
-        var sosial = "Organisasi sosial kemasyarakatan";
         var opsitingkat = "";
 
         $.ajax({
             type: "POST",
-            // url: globalUrl + "/checkbidang/" + selectedvalue,
             url: globalUrl + "/checkbidang",
             data: {
                 selectbidang: selectedvalue,
@@ -52,32 +45,6 @@ $(document).ready(function () {
                 }
             }
         });
-
-        //jika memilih role seperti variable diatas maka input field peran akan di hide
-        // if (selectedvalue == organisasi || selectedvalue == unit || selectedvalue == Otonom || selectedvalue == profesi || selectedvalue == sosial) {
-        //     $("#peran").hide();
-        //     $("#jabatan").show();
-        //     opsitingkat = "";
-        //     opsitingkat += "<option selected disabled>Pilih Tingkat</option>";
-        //     opsitingkat += "<option >Internasional</option>";
-        //     opsitingkat += "<option >Regional</option>";
-        //     opsitingkat += "<option >Nasional</option>";
-        //     opsitingkat += "<option >Wilayah</option>";
-        //     opsitingkat += "<option >PT/Provinsi</option>";
-        //     opsitingkat += "<option >Fakultas/Prodi</option>";
-        //     document.getElementById("Tingkat").innerHTML = opsitingkat;
-        //     document.getElementById("Peran").value = "";
-        // } else { //jika tidak memilih role seperti variable diatas maka input field akan di tampilkan
-        //     $("#peran").show();
-        //     $("#jabatan").hide();
-        //     opsitingkat = "";
-        //     opsitingkat += "<option selected disabled>Pilih Tingkat</option>";
-        //     opsitingkat += "<option >Internasional</option>";
-        //     opsitingkat += "<option >Regional</option>";
-        //     opsitingkat += "<option >Nasional</option>";
-        //     opsitingkat += "<option >PT/Provinsi</option>";
-        //     document.getElementById("Tingkat").innerHTML = opsitingkat;
-        // }
     });
 });
 

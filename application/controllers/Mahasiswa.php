@@ -225,22 +225,22 @@ class Mahasiswa extends CI_Controller
         return $listData;
     }
 
-    public function checkbidang($cek)
+    //Seleksi Bidang Non kompetisi
+    public function checkbidang()
     {
-        // $cek = $this->input->post("selectbidang");
+        $cek = $this->input->post("selectbidang");
         $cekbidang = str_replace("%20", " ", $cek);
 
-        $data['jp'] = $this->db->query("SELECT JenisPenilaian  FROM `bidangprestasi` WHERE Bidang = '$cekbidang'")->result();
+        $data = $this->db->query("SELECT JenisPenilaian  FROM `bidangprestasi` WHERE Bidang = '$cekbidang'")->result();
 
-        if ($data['jp'][0]->JenisPenilaian == "Organisasi") {
+        if ($data[0]->JenisPenilaian == "Organisasi") {
             $result['status'] = true;
         } else {
             $result['status'] = false;
         }
         header('Content-Type: application/json');
-        echo json_encode($data);
+        echo json_encode($result);
     }
-
 
     public function inputData_NonKompetisi()
     {
