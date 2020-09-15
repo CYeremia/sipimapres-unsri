@@ -26,7 +26,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Daftar User</h3>
+                    <h3 class="card-title">Daftar Bidang</h3>
                     <button class="btn bg-green float-right" name="tambahdata" id="tambahdata">Tambah Data</button>
                     <!-- <a class="btn bg-green float-right" href="<?= base_url() ?>admin_sistem/tambahuser" class="btn bg-green">Tambah Data</a> -->
                 </div>
