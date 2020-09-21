@@ -79,7 +79,7 @@
                     <table id="perestasikompetisi" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <!-- <th>No</th> -->
                                 <th>Nama Fakultas</th>
                                 <th>Jumlah Prestasi Kompetisi</th>
                                 <th>Jumlah Prestasi Non Kompetisi</th>
@@ -112,7 +112,7 @@
                     <table id="perestasikompetisimahasiswa" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <!-- <th>No</th> -->
                                 <th>Nama Fakultas</th>
                                 <th>Jumlah Mahasiswa</th>
                             </tr>

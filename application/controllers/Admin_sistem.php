@@ -481,7 +481,7 @@ class Admin_sistem  extends CI_Controller
         $i = 1;
 
         foreach ($data as $k) {
-            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
             $listData[] =  $data;
             $i = $i + 1;
         }
@@ -527,10 +527,8 @@ class Admin_sistem  extends CI_Controller
          ON fakultas.Fakultas=t3.Fakultas
          WHERE fakultas.Fakultas='" . $fakultas . "'")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
-            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
-            $i = $i + 1;
+            $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
             $listData[] =  $data;
         }
         return $listData;
@@ -622,10 +620,8 @@ class Admin_sistem  extends CI_Controller
         WHERE user.Role='Mahasiswa' GROUP BY Fakultas)t3
         ON t3.Fakultas=fakultas.Fakultas ORDER BY TotalMahasiswa DESC")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
-            $data = array('No' => $i, 'Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
-            $i = $i + 1;
+            $data = array('Fakultas' => $k['Fakultas'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
             $listData[] =  $data;
         }
         return $listData;

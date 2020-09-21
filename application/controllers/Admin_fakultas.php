@@ -737,16 +737,13 @@ class admin_fakultas  extends CI_Controller
          ON t3.ProgramStudi=prodi.Prodi 
          WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
             $data = array(
-                'No' => $i,
                 'ProgramStudi' => $k['ProgramStudi'],
                 'PrestasiKompetisi' => $k['PrestasiKompetisi'],
                 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'],
                 'Total' => $k['Total']
             );
-            $i = $i + 1;
             $listData[] =  $data;
         }
         return $listData;
@@ -792,16 +789,13 @@ class admin_fakultas  extends CI_Controller
           ON t3.ProgramStudi=prodi.Prodi
           WHERE prodi.Prodi='" . $prodi . "'")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
             $data = array(
-                'No' => $i,
                 'ProgramStudi' => $k['ProgramStudi'],
                 'PrestasiKompetisi' => $k['PrestasiKompetisi'],
                 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'],
                 'Total' => $k['Total']
             );
-            $i = $i + 1;
             $listData[] =  $data;
         }
         return $listData;
@@ -890,10 +884,8 @@ class admin_fakultas  extends CI_Controller
          WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi)t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY TotalMahasiswa DESC ")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
-            $data = array('No' => $i, 'ProgramStudi' => $k['ProgramStudi'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
-            $i = $i + 1;
+            $data = array('ProgramStudi' => $k['ProgramStudi'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
             $listData[] =  $data;
         }
         return $listData;
@@ -935,10 +927,8 @@ class admin_fakultas  extends CI_Controller
          WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "')t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Prodi='" . $prodi . "'ORDER BY TotalMahasiswa DESC")->result_array();
 
-        $i = 1;
         foreach ($data as $k) {
-            $data = array('No' => $i, 'ProgramStudi' => $k['ProgramStudi'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
-            $i = $i + 1;
+            $data = array('ProgramStudi' => $k['ProgramStudi'], 'TotalMahasiswa' => $k['TotalMahasiswa']);
             $listData[] =  $data;
         }
         return $listData;

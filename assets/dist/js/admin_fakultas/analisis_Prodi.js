@@ -25,20 +25,16 @@ function tabel(start, end) {
         },
         columns: [
             {
-                data: "No",
+                data: "ProgramStudi",
                 "targets": 0
             },
             {
-                data: "ProgramStudi",
+                data: "PrestasiKompetisi",
                 "targets": 1
             },
             {
-                data: "PrestasiKompetisi",
-                "targets": 2
-            },
-            {
                 data: "PrestasiNonKompetisi",
-                "targets": 3
+                "targets": 2
             },
             {
                 data: { Total: "Total", ProgramStudi: "ProgramStudi" },
@@ -75,16 +71,16 @@ function tabel(start, end) {
                         prodi = prodi.replace("/", "~");
                     }
 
-                    if (type === 'display') {
-                        data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
-                    }
+                    // if (type === 'display') {
+                    // }
+                    data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
                     return data;
                 },
-                "orderable": false,
-                "targets": 4
+                // "orderable": false,
+                "targets": 3
             },
         ],
-        order: [0, 'asc']
+        order: [3, 'dsc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
@@ -96,12 +92,8 @@ function tabel(start, end) {
         },
         columns: [
             {
-                data: "No",
-                "target": 0
-            },
-            {
                 data: "ProgramStudi",
-                "targets": 1
+                "targets": 0
             },
             {
                 data: { TotalMahasiswa: "TotalMahasiswa", ProgramStudi: "ProgramStudi" },
@@ -145,10 +137,10 @@ function tabel(start, end) {
                     return data;
                 },
                 "orderable": false,
-                "targets": 2
+                "targets": 1
             },
         ],
-        order: [0, 'asc']
+        order: [1, 'Dsc']
     });
 }
 
@@ -192,20 +184,16 @@ function satuperingkatprodiprestasi(start, end, prodi) {
         },
         columns: [
             {
-                data: "No",
+                data: "ProgramStudi",
                 "targets": 0
             },
             {
-                data: "ProgramStudi",
+                data: "PrestasiKompetisi",
                 "targets": 1
             },
             {
-                data: "PrestasiKompetisi",
-                "targets": 2
-            },
-            {
                 data: "PrestasiNonKompetisi",
-                "targets": 3
+                "targets": 2
             },
             {
                 data: { Total: "Total", ProgramStudi: "ProgramStudi" },
@@ -242,14 +230,14 @@ function satuperingkatprodiprestasi(start, end, prodi) {
                         prodi = prodi.replace("/", "~");
                     }
 
-                    if (type === 'display') {
-                        data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
-                    }
+                    // if (type === 'display') {
+                    // }
 
+                    data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
                     return data;
                 },
-                "Orderable": false,
-                "targets": 4
+                // "Orderable": false,
+                "targets": 3
             },
         ],
         order: [0, 'asc']
@@ -264,12 +252,8 @@ function satuperingkatprodiprestasi(start, end, prodi) {
         },
         columns: [
             {
-                data: "No",
-                "targets": 0
-            },
-            {
                 data: "ProgramStudi",
-                "targets": 1
+                "targets": 0
             },
             {
                 data: { TotalMahasiswa: "TotalMahasiswa", ProgramStudi: "ProgramStudi" },
@@ -313,10 +297,10 @@ function satuperingkatprodiprestasi(start, end, prodi) {
                     return data;
                 },
                 "Orderable": false,
-                "targets": 2
+                "targets": 1
             },
         ],
-        order: [0, 'asc']
+        order: [1, 'Dsc']
     });
 }
 
