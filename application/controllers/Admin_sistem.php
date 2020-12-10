@@ -506,7 +506,6 @@ class Admin_sistem  extends CI_Controller
     //data untuk peringkat satu fakultas berdasarkan prestasi
     public function Maptosatuperingkatfakultasprestasi($start, $end, $fakultas)
     {
-
         $fakultas = str_replace("%20", " ", $fakultas);
         $fakultas = str_replace("%60", ",", $fakultas);
         $fakultas = str_replace("%7B", "(", $fakultas);
