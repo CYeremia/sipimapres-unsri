@@ -32,6 +32,7 @@
 
         .card-login {
             background-color: rgba(255, 255, 255, 0.2);
+            height: 45px;
         }
 
         [type="checkbox"].filled-in:not(:checked)+label::after {
@@ -48,6 +49,7 @@
                     <a style="margin-top: 0px" href="<?= site_url('login') ?>">
                         <img src="<?= base_url('assets/dist/img/logo-full1.png') ?>" height="1000px" alt="">
                     </a>
+                    <?= $this->session->flashdata('msg') ?>
                     <!-- <a class="textlogo" href="javascript:void(0);"><b>Si-Pimampres</b></a> -->
                 </div>
                 <!-- /.login-logo -->
@@ -83,18 +85,18 @@
                                 </div> -->
                             </div>
                             <!-- /.col -->
-                            <div class="col-4 mt-2">
+                            <div class="col-4 mt-1">
                                 <button class="btn btn-block bg-blue waves-effect" id="btSubmit" type="submit">SIGN IN</button>
-                                <!-- <button class="btn btn-block" style="color: black; background-color: #D58E60;" id="btSubmit" type="submit">SIGN IN</button> -->
-                                <!-- <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button> -->
+                                <!-- <button class="btn btn-block" style="color: black; background-color: #D58E60;" id="btSubmit" type="submit">SIGN IN</button>
+                                <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button> -->
                             </div>
                             <!-- /.col -->
                         </div>
                     </form>
-                    <!-- <p class="mb-0">
+                    <p class="mb-0 mt-2">
                         Don't have an account?
-                        <a class="signup" href="<?= site_url('signup/newUser') ?>">SIGN UP</a>
-                    </p> -->
+                        <a class="signup" style="color:orange; font-size:large" href="<?= site_url('signup') ?>">SIGN UP</a>
+                    </p>
                 </div>
                 <!-- /.login-card-body -->
             </div>

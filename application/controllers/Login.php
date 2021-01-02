@@ -20,6 +20,11 @@ class Login extends CI_Controller
         }
     }
 
+    protected function flashmsg($msg, $type = 'success', $name = 'msg')
+    {
+        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable">' . $msg . '</div>');
+    }
+
     public function index()
     {
         $this->load->view('login');
