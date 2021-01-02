@@ -9,6 +9,7 @@ class Signup extends CI_Controller
         parent::__construct();
 
         $this->load->model('user_m');
+        $this->load->model('Mahasiswa_regis');
     }
 
     public function index()
@@ -140,9 +141,48 @@ class Signup extends CI_Controller
                 $input['Fakultas']  = $this->input->post('fakultas');
                 $input['ProgramStudi']   = $this->input->post('jurusan');
 
-                $this->user_m->insert($input);
-                $this->flashmsg('Anda Berhasil Mendaftar', 'success');
-                redirect('login');
+                //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
+                $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='".$input['IDPengenal']."'")->row();
+                $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='".$input['IDPengenal']."'")->row();
+
+                if($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
+                {
+                    $this->flashmsg('NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                    redirect('signup');
+                }
+                else // jika belum terdaftar
+                {
+                    $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+
+                        $checknumeric = is_numeric($input['IPK']);    
+                        
+                        if($checknumeric == true) // jika format IPK adalah angka
+                        {
+                        
+                            if($input['IPK'] > 4 || $input['IPK'] < 0  )
+                            {
+                                $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                redirect('signup');
+                            }
+                            else //jika format IPK benar
+                            {
+                                if($this->Mahasiswa_regis->insert($input))
+                                {
+                                    $this->flashmsg('Anda Berhasil Mendaftar', 'success');
+                                    redirect('login');
+                                }
+                            }
+
+                         }
+
+                         else //jika bukan format numerik
+                         {
+                            $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                            redirect('signup');
+                         }
+
+                }
+
             }
         }
     }

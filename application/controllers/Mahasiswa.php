@@ -32,10 +32,6 @@ class Mahasiswa extends CI_Controller
                 $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi` WHERE `PeraihPrestasi` = '" . $this->data['userdata']->IDPengenal . "' AND `Status` = 'Diterima'")->row()
             ];
 
-
-
-
-
         //     $this->data['jumlah'] = [
         //         "mantul" => $this->prestasi_kompetisi->get_num_row(['PeraihPrestasi' => $this->data['userdata']->IDPengenal , 'Status' => 'Diterima']), // Jumlah Prestasi Kompetisi
         //         $this->prestasi_nonkompetisi->get_num_row(['PeraihPrestasi' => $this->data['userdata']->IDPengenal , 'Status' => 'Diterima']) // Jumlah Prestasi Non Kompetisi

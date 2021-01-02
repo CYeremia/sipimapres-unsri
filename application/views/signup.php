@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="IPK" name="IPK" placeholder="IPK | Ex : 3.63" required>
+                        <input type="text" class="form-control" id="IPK" name="IPK" placeholder="IPK | Ex : 4.00" maxlength="4" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-star"></span>
