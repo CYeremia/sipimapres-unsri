@@ -236,6 +236,14 @@ img {
   margin : 10px;
 }
 
+.register-logo > a > img {
+  vertical-align: middle;
+  border-style: none;
+  width: auto;
+  height: 90px;
+  margin : 10px;
+}
+
 svg {
   overflow: hidden;
   vertical-align: middle;
@@ -20603,7 +20611,8 @@ html.maximized-card {
 .login-logo,
 .register-logo {
   /* font-size: 2.1rem; */
-  font-size: 2.1rem;
+  /* font-size: 2.1rem; */
+  font-size: 15px;
   /* color: white; */
   font-weight: 300;
   margin-bottom: .0rem;
