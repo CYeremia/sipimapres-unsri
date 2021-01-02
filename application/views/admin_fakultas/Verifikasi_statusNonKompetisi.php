@@ -19,7 +19,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Detail Data Prestasi</h3>
                 </div>
-
+                
                 <div class="card-body">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_fakultas/Verifikasi_status_Nonkompetisi', ['class' => 'form-horizontal']) ?>
