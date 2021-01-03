@@ -33,7 +33,7 @@
                                             <span class="fas fa-user"></span>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                    <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Nama Mahasiswa" required>
                                     <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                                 </div>
                                 <div class="input-group">
@@ -42,7 +42,7 @@
                                             <span class="fas fa-id-card-alt"></span>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                    <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Nim Mahasiswa" required>
                                     <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                                 </div>
                             </div>
