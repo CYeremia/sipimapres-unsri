@@ -34,24 +34,28 @@ $(document).ready(function () {
             "targets": 2
         },
         {
-            data: "Tahun",
+            data: "TanggalMulai",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 4
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 5
         },
         {
-            data: "Tingkat",
+            data: "Kategori",
             "targets": 6
         },
         {
-            data: "Pencapaian",
+            data: "Tingkat",
             "targets": 7
+        },
+        {
+            data: "Pencapaian",
+            "targets": 8
         },
         ],
         order: [0, 'asc']
