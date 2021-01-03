@@ -573,13 +573,13 @@ class admin_fakultas  extends CI_Controller
             $queryprestasikompetisi = $this->db->query("SELECT COUNT(*) AS Kompetisi FROM prestasikompetisi
                 INNER JOIN user ON
                 prestasikompetisi.PeraihPrestasi = user.IDPengenal
-                WHERE Role = 'Mahasiswa' AND (YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year.") AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+                WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =".$year." AND YEAR(TanggalAkhir) =".$year." AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
             $prestasikompetisi = $queryprestasikompetisi['Kompetisi'];
 
             $queryprestasinonkompetisi = $this->db->query("SELECT COUNT(*) AS NonKompetisi FROM prestasinonkompetisi
             INNER JOIN user ON
             prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND (YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year.") AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+            WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =".$year." AND YEAR(TanggalAkhir) =".$year." AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
@@ -724,18 +724,31 @@ class admin_fakultas  extends CI_Controller
 
         $listData = [];
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi ,IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi ,IFNULL(t3.total,0) AS Total FROM prodi
-         LEFT JOIN
-         (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
-         LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
-         ON t1.PeraihPrestasi=user.IDPengenal
-         LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
-         ON t2.PeraihPrestasi=user.IDPengenal
-         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi )t3
-         ON t3.ProgramStudi=prodi.Prodi 
-         WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
+        // $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi ,IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi ,IFNULL(t3.total,0) AS Total FROM prodi
+        //  LEFT JOIN
+        //  (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
+        //  LEFT JOIN 
+        //  (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." OR YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+        //  ON t1.PeraihPrestasi=user.IDPengenal
+        //  LEFT JOIN 
+        //  (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." OR YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+        //  ON t2.PeraihPrestasi=user.IDPengenal
+        //  WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi )t3
+        //  ON t3.ProgramStudi=prodi.Prodi 
+        //  WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
+
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        LEFT JOIN
+        (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
+        LEFT JOIN 
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+        ON t1.PeraihPrestasi=user.IDPengenal
+        LEFT JOIN 
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+        ON t2.PeraihPrestasi=user.IDPengenal
+        WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi)t3
+        ON t3.ProgramStudi=prodi.Prodi
+        WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
 
         foreach ($data as $k) {
             $data = array(
@@ -780,10 +793,10 @@ class admin_fakultas  extends CI_Controller
           LEFT JOIN
           (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
           LEFT JOIN 
-          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
+          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
           ON t1.PeraihPrestasi=user.IDPengenal
           LEFT JOIN 
-          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
+          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
           ON t2.PeraihPrestasi=user.IDPengenal
           WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' GROUP BY Fakultas)t3
           ON t3.ProgramStudi=prodi.Prodi
@@ -827,9 +840,9 @@ class admin_fakultas  extends CI_Controller
 
         $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.TanggalMulai,t1.TanggalAkhir,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
          INNER JOIN 
-         (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+         (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
          UNION ALL
-         SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+         SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
          )t1
          ON t1.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' ORDER BY t1.Pencapaian DESC")->result_array();
@@ -841,8 +854,8 @@ class admin_fakultas  extends CI_Controller
                 'No' => $i,
                 'Bidang' => $k['Bidang'],
                 'Perlombaan' => $k['Perlombaan'],
-                'TanggalMulai' => $k['TanggalMulai'],
-                'TanggalAkhir' => $k['TanggalAkhir'],
+                'TanggalMulai' => date_format(date_create($k['TanggalMulai']), "d F Y"),
+                'TanggalAkhir' => date_format(date_create($k['TanggalAkhir']), "d F Y"),
                 'Penyelenggara' => $k['Penyelenggara'],
                 'Kategori' => $k['Kategori'],
                 'Tingkat' => $k['Tingkat'],
@@ -878,9 +891,9 @@ class admin_fakultas  extends CI_Controller
          (SELECT ProgramStudi,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
          INNER JOIN 
          (SELECT DISTINCT(t1.PeraihPrestasi) FROM
-         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
+         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
          UNION ALL
-         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
+         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi)t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY TotalMahasiswa DESC ")->result_array();
@@ -921,9 +934,9 @@ class admin_fakultas  extends CI_Controller
          (SELECT ProgramStudi,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
          INNER JOIN 
          (SELECT DISTINCT(t1.PeraihPrestasi) FROM
-         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi
+         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
          UNION ALL
-         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun  BETWEEN  " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1)t2
+         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "')t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Prodi='" . $prodi . "'ORDER BY TotalMahasiswa DESC")->result_array();
@@ -962,10 +975,10 @@ class admin_fakultas  extends CI_Controller
 
         $data = $this->db->query("SELECT Nama, IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
          LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
          ON t1.PeraihPrestasi=user.IDPengenal
          LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' AND (t1.total!=0 OR t2.total!=0 ) GROUP BY user.Nama ORDER BY total DESC")->result_array();
 
@@ -1008,9 +1021,9 @@ class admin_fakultas  extends CI_Controller
          LEFT JOIN
          (SELECT t1.Bidang, COUNT(t1.Bidang) AS Total FROM user
          INNER JOIN
-         (SELECT PeraihPrestasi,Bidang FROM prestasikompetisi WHERE Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . "
+         (SELECT PeraihPrestasi,Bidang FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
          UNION ALL
-         SELECT PeraihPrestasi,Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  Tahun BETWEEN " . $start . " AND " . $end . ")t1
+         SELECT PeraihPrestasi,Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
          ON user.IDPengenal=t1.PeraihPrestasi 
          WHERE user.Fakultas='" . $this->data['userdata']->Fakultas . "'
          GROUP BY t1.Bidang)t2
@@ -1063,18 +1076,18 @@ class admin_fakultas  extends CI_Controller
         }
 
         if ($jenisbidang == 'Kompetisi') {
-            $data = $this->db->query("SELECT Nama,prestasikompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasikompetisi.Perlombaan,prestasikompetisi.Tahun,prestasikompetisi.Penyelenggara,prestasikompetisi.Kategori,prestasikompetisi.Tingkat,prestasikompetisi.Pencapaian FROM  user
+            $data = $this->db->query("SELECT Nama,prestasikompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasikompetisi.Perlombaan,prestasikompetisi.TanggalMulai,prestasikompetisi.TanggalAkhir,prestasikompetisi.Penyelenggara,prestasikompetisi.Kategori,prestasikompetisi.Tingkat,prestasikompetisi.Pencapaian FROM  user
          INNER JOIN 
          prestasikompetisi
          ON prestasikompetisi.PeraihPrestasi=user.IDPengenal
-         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Bidang='" . $bidang . "' AND prestasikompetisi.Status='Diterima' AND Tahun BETWEEN " . $start . " AND " . $end . " ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
+         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Bidang='" . $bidang . "' AND prestasikompetisi.Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
         } else if ($jenisbidang == 'Non Kompetisi') {
             $data = $this->db->query("SELECT 
-         Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan AS Perlombaan,prestasinonkompetisi.Tahun,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
+         Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan AS Perlombaan,prestasinonkompetisi.TanggalMulai,prestasinonkompetisi.TanggalAkhir,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
          INNER JOIN 
          prestasinonkompetisi
          ON prestasinonkompetisi.PeraihPrestasi=user.IDPengenal
-         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Bidang='" . $bidang . "' AND Tahun BETWEEN " . $start . " AND " . $end)->result_array();
+         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Bidang='" . $bidang . "' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end)->result_array();
         }
 
         $i = 1;
@@ -1088,7 +1101,8 @@ class admin_fakultas  extends CI_Controller
                 'Fakultas' => $k['Fakultas'],
                 'ProgramStudi' => $k['ProgramStudi'],
                 'Perlombaan' => $k['Perlombaan'],
-                'Tahun' => $k['Tahun'],
+                'TanggalMulai' => date_format(date_create($k['TanggalMulai']), "d F Y"),
+                'TanggalAkhir' => date_format(date_create($k['TanggalAkhir']), "d F Y"),
                 'Penyelenggara' => $k['Penyelenggara'],
                 'Kategori' => $k['Kategori'],
                 'Tingkat' => $k['Tingkat'],
@@ -1130,23 +1144,23 @@ class admin_fakultas  extends CI_Controller
              (SELECT user.IDPengenal,t1.Bidang FROM user
              INNER JOIN
              (SELECT prestasikompetisi.PeraihPrestasi,prestasikompetisi.Bidang AS Bidang FROM prestasikompetisi 
-                 WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN " . $start . " AND " . $end . "
+                 WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end."
              )t1
                  ON t1.PeraihPrestasi=user.IDPengenal
                  WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
              ON t2.Bidang=bidangprestasi.Bidang WHERE bidangprestasi.JalurPencapaian='Kompetisi'
-             GROUP BY bidangprestasi.Bidang")->result_array();
+             GROUP BY bidangprestasi.Bidang ORDER BY Total DESC")->result_array();
         } else if ($jenisprestasi == 'Non Kompetisi') {
             $data = $this->db->query("SELECT bidangprestasi.Bidang,COUNT(t2.Bidang) AS Total FROM bidangprestasi
              LEFT JOIN
              (SELECT user.IDPengenal,t1.Bidang FROM user
              INNER JOIN
              (SELECT prestasinonkompetisi.PeraihPrestasi,prestasinonkompetisi.Bidang AS Bidang FROM prestasinonkompetisi 
-                 WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN " . $start . " AND " . $end . ")t1
+                 WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
                  ON t1.PeraihPrestasi=user.IDPengenal
                  WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
              ON t2.Bidang=bidangprestasi.Bidang WHERE bidangprestasi.JalurPencapaian='Non Kompetisi'
-             GROUP BY bidangprestasi.Bidang")->result_array();
+             GROUP BY bidangprestasi.Bidang ORDER BY Total DESC")->result_array();
         }
 
         $i = 1;
@@ -1192,10 +1206,10 @@ class admin_fakultas  extends CI_Controller
          (SELECT user.IDPengenal,t1.Bidang FROM user
          INNER JOIN
          (SELECT prestasikompetisi.PeraihPrestasi,prestasikompetisi.Bidang AS Bidang FROM prestasikompetisi 
-             WHERE prestasikompetisi.Status='Diterima' AND prestasikompetisi.Tahun BETWEEN " . $start . " AND " . $end . "
+             WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end."
          UNION ALL
          SELECT prestasinonkompetisi.PeraihPrestasi,prestasinonkompetisi.Bidang AS Bidang FROM prestasinonkompetisi 
-             WHERE prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Tahun BETWEEN " . $start . " AND " . $end . ")t1
+             WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
              ON t1.PeraihPrestasi=user.IDPengenal
              WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
          ON t2.Bidang=bidangprestasi.Bidang  WHERE bidangprestasi.Bidang='" . $jenisbidang . "'

@@ -76,7 +76,7 @@ function tabel(start, end) {
                     data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
                     return data;
                 },
-                // "orderable": false,
+                "orderable": false,
                 "targets": 3
             },
         ],
@@ -140,7 +140,7 @@ function tabel(start, end) {
                 "targets": 1
             },
         ],
-        order: [1, 'Dsc']
+        order: [1, 'dsc']
     });
 }
 
@@ -236,11 +236,11 @@ function satuperingkatprodiprestasi(start, end, prodi) {
                     data = '<a href="daftarPrestasi_Prodi/' + start + '-' + end + '-' + prodi + '">' + data.Total + '</a>';
                     return data;
                 },
-                // "Orderable": false,
+                "orderable": false,
                 "targets": 3
             },
         ],
-        order: [0, 'asc']
+        order: [3, 'dsc']
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
@@ -296,11 +296,11 @@ function satuperingkatprodiprestasi(start, end, prodi) {
 
                     return data;
                 },
-                "Orderable": false,
+                "orderable": false,
                 "targets": 1
             },
         ],
-        order: [1, 'Dsc']
+        order: [1, 'dsc']
     });
 }
 

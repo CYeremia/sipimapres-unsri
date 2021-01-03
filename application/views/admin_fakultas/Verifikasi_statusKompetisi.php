@@ -63,8 +63,13 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">Tahun</td>
-                                    <td><?php echo ($IDM->Tahun) ?></td>
+                                    <td style="width: 20%">TanggalMulai</td>
+                                    <td><?php echo date_format(date_create($IDM->TanggalMulai), "d F Y"); ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">TanggalAkhir</td>
+                                    <td><?php echo date_format(date_create($IDM->TanggalAkhir), "d F Y"); ?></td>
                                 </tr>
 
                                 <tr>

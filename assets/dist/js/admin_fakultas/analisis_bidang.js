@@ -108,10 +108,11 @@ daftarP = $('#perestasikompetisi').DataTable({
 
             return data;
          },
-        "targets": 2
+        "targets": 2,
+        "orderable": false
     },
     ],
-    order: [0, 'asc']
+    order: [2, 'dsc']
 });
 }
 
@@ -173,10 +174,11 @@ daftarP = $('#perestasikompetisi').DataTable({
 
             return data;
          },
-        "targets": 2
-    },
+        "targets": 2,
+        "orderable": false,
+        },
     ],
-    order: [0, 'asc']
+    order: [2, 'dsc']
 });
 }
 
@@ -238,10 +240,11 @@ daftarP = $('#perestasikompetisi').DataTable({
 
             return data;
          },
-        "targets": 2
+        "targets": 2,
+        "orderable": false
     },
     ],
-    order: [0, 'asc']
+    order: [2, 'dsc']
 });
 }
 
