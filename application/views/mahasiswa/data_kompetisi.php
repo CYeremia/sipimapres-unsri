@@ -45,10 +45,9 @@
                     <!-- <form role="form"> -->
                     <div class="card-body">
                         <div class="row">
-
                             <!-- left -->
                             <!-- <div class="col-md-6"> -->
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-dice-d20"></span>
@@ -57,7 +56,7 @@
                                 <input type="text" class="form-control" name="JudulLomba" id="JudulLomba" placeholder="Judul Perlombaan" required>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-university"></span>
@@ -66,17 +65,30 @@
                                 <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Penyelenggara" required>
                             </div>
 
-                            <div class="input-group mb-4">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-calendar-alt"></span>
+                            <div class="input-group mb-3">
+                                <div class="input-group col-md-6">
+                                    <div class="input-group date" id="tanggal" data-target-input="nearest">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
                                     </div>
                                 </div>
-                                <select class="form-control" name="tahun" id="tahun" required>
-                                </select>
+                                <!-- <span class="input-group-addon" style="padding: 0px 0px 0px 0px;">to</span> -->
+
+                                <div class="input-group date col-md-6" id="tanggal2" data-target-input="nearest">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
+                                </div>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-code-branch"></span>
@@ -90,7 +102,7 @@
                                 </select>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-user-friends"></span>
@@ -103,7 +115,48 @@
                                 </select>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <!-- Jika Memilih Kelompok -->
+                            <div class="card-body mb-3" id="dataanggota" style="border-style: solid none solid none; padding-top:0.8rem; display: none;">
+                                <div class="input-group col-md-12">
+                                    <label>Ketua :</label>
+                                </div>
+                                <div class="input-group mb-1 col-md-12">
+                                    <input type="text" class="form-control" name="NimKetua" id="NimKetua" readonly="true" placeholder="Nama Ketua">
+                                    <input type="text" class="form-control" name="NamaKetua" id="NimKetua" readonly="true" placeholder="Nim Ketua">
+                                </div>
+
+                                <div class="input-group col-md-12">
+                                    <label>Anggota :</label>
+                                </div>
+
+                                <div class="input-group mb-1 col-md-12">
+                                    <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Masukkan Nim Anggota" required>
+                                    <!-- <button type="button" name="TambahData" id="TambahData" class="btn btn-primary float-right">Tambah Data</button> -->
+                                    <input type="button" name="TambahData" id="TambahData" value="Tambah Data" class="btn btn-primary float-right"></input>
+                                </div>
+
+                                <div class="input-group col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="anggotaKelompok" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nim Anggota</th>
+                                                    <th>Nama Anggota</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                </tr>
+                                            </tbody>
+                                            <!-- <tfoot></tfoot> -->
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end -->
+
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-globe-americas"></span>
@@ -118,7 +171,7 @@
                                 </select>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-users"></span>
@@ -127,7 +180,7 @@
                                 <input type="text" class="form-control" name="JumlahPeserta" id="JumlahPeserta" placeholder="Jumlah Peserta" required>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-trophy"></span>
@@ -141,7 +194,7 @@
                                 </select>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-newspaper"></span>
@@ -150,7 +203,7 @@
                                 <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
                             </div>
 
-                            <div class="input-group mb-4">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-link"></span>
@@ -159,7 +212,7 @@
                                 <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
                             </div>
 
-                            <div class="input-group" style="z-index : 0">
+                            <div class="input-group col-md-12" style="z-index : 0">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-image"></span>
@@ -173,10 +226,6 @@
                                     <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
                                 </div>
                             </div>
-                            <!-- </div> -->
-                            <!-- right
-                            <div class="col-md-6">
-                         </div> -->
 
                         </div>
                         <input type="submit" name="submit" class="btn btn-primary float-right"></input>
@@ -185,10 +234,75 @@
                     <?= form_close() ?>
                 </div>
             </div>
-
-
         </div>
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+</div>
+
+<!-- Modal Form -->
+<div id="modal-form2" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border-style: none none solid none;">
+                <h3 class=" m-t-none m-b">Data Anggota</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="false" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <?= form_open_multipart('mahasiswa/seleksipage', ['class' => 'form-horizontal']) ?>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="namamahasiswa" id="namamahasiswa" placeholder="Nama Anggota" readonly="true">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-card-alt"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="Nimmahasiswa" id="Nimmahasiswa" placeholder="Nim Anggota" readonly="true">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-card-alt"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Program Studi" readonly="true">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-university"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas" readonly="true">
+                        </div>
+
+                        <!-- /.col -->
+                        <div class="col-4 mt-2 float-right">
+                            <input type="hidden" name="detector" id="id_modal">
+                            <div class="form-group">
+                                <!-- <div class="col-lg-offset-2 col-lg-10"> -->
+                                <input type="submit" name="datamahasiswa" value="Tambah Data Anggota" class="btn btn-sm btn-success float-right">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <?= form_close() ?>
+            </div>
+        </div>
+    </div>
 </div>
