@@ -27,24 +27,28 @@ $(document).ready(function () {
             "targets": 1
         },
         {
-            data: "Tahun",
-            "targets": 2,
+            data: "TanggalMulai",
+            "targets": 2
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 3
         },
         {
-            data: "Tingkat",
+            data: "Penyelenggara",
             "targets": 4
         },
         {
-            data: "Kategori",
+            data: "Tingkat",
             "targets": 5
         },
         {
-            data: "Status",
+            data: "Kategori",
             "targets": 6
+        },
+        {
+            data: "Status",
+            "targets": 7
         },
         {
             "className": 'details-control',
@@ -100,8 +104,13 @@ function format(d) {
         '<td>' + d.Bidang + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Tahun</td>' +
-        '<td>' + d.Tahun + '</td>' +
+        '<td style="width: 15%">Tanggal Mulai</td>' +
+        '<td>' + d.TanggalMulai + '</td>' +
+        '</tr>' +
+        
+        '<tr>' +
+        '<td style="width: 15%">Tanggal Akhir</td>' +
+        '<td>' + d.TanggalAkhir + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Penyelenggara</td>' +

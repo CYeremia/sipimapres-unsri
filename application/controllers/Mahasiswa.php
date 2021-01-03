@@ -204,7 +204,12 @@ class Mahasiswa extends CI_Controller
             $obj->PeraihPrestasi = $k->PeraihPrestasi;
             $obj->Bidang = $k->Bidang;
             $obj->Perlombaan = $k->Perlombaan;
-            $obj->Tahun = $k->Tahun;
+            $obj->TanggalMulai = date_format(date_create($k->TanggalMulai), "d F Y");
+            $obj->TanggalAkhir = date_format(date_create($k->TanggalAkhir), "d F Y");
+            // $obj->TanggalMulai = date_create($k->TanggalMulai);
+            // $obj->TanggalMulai = date_format($obj->TanggalMulai, "d F Y");
+            // $obj->TanggalAkhir = date_create($k->TanggalAkhir);
+            // $obj->TanggalAkhir = date_format($obj->TanggalMulai, "d F Y");
             $obj->Penyelenggara = $k->Penyelenggara;
             $obj->Kategori = $k->Kategori;
             $obj->Tingkat = $k->Tingkat;
@@ -338,7 +343,8 @@ class Mahasiswa extends CI_Controller
             $obj->PeraihPrestasi = $k->PeraihPrestasi;
             $obj->Bidang = $k->Bidang;
             $obj->Kegiatan = $k->Kegiatan;
-            $obj->Tahun = $k->Tahun;
+            $obj->TanggalMulai = date_format(date_create($k->TanggalMulai), "d F Y");
+            $obj->TanggalAkhir = date_format(date_create($k->TanggalAkhir), "d F Y");
             $obj->Penyelenggara = $k->Penyelenggara;
             $obj->Kategori = $k->Kategori;
             $obj->Tingkat = $k->Tingkat;

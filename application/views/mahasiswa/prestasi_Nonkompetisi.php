@@ -37,7 +37,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Kegiatan/Produk</th>
-                                    <th>Tahun</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Akhir</th>
                                     <th>Penyelenggara</th>
                                     <th>Tingkat</th>
                                     <th>Kategori</th>

@@ -31,28 +31,32 @@ $(document).ready(function () {
             "targets": 2,
         },
         {
-            data: "Tahun",
+            data: "TanggalMulai",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 4
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 5
         },
         {
-            data: "Tingkat",
+            data: "Kategori",
             "targets": 6
         },
         {
-            data: "Pencapaian",
+            data: "Tingkat",
             "targets": 7
         },
         {
-            data: "Status",
+            data: "Pencapaian",
             "targets": 8
+        },
+        {
+            data: "Status",
+            "targets": 9
         },
         {
             // "data": null,
@@ -113,14 +117,22 @@ function format(d) {
         '<td style="width: 15%">Bidang</td>' +
         '<td>' + d.Bidang + '</td>' +
         '</tr>' +
+        
         '<tr>' +
         '<td style="width: 15%">Perlombaan</td>' +
         '<td>' + d.Perlombaan + '</td>' +
         '</tr>' +
+
         '<tr>' +
-        '<td style="width: 15%">Tahun</td>' +
-        '<td>' + d.Tahun + '</td>' +
+        '<td style="width: 15%">Tanggal Mulai</td>' +
+        '<td>' + d.TanggalMulai + '</td>' +
         '</tr>' +
+        
+        '<tr>' +
+        '<td style="width: 15%">Tanggal Akhir</td>' +
+        '<td>' + d.TanggalAkhir + '</td>' +
+        '</tr>' +
+        
         '<tr>' +
         '<td style="width: 15%">Penyelenggara</td>' +
         '<td>' + d.Penyelenggara + '</td>' +
