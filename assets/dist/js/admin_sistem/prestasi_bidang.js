@@ -99,24 +99,28 @@ function tabel(start,end,bidang)
             "targets": 5
         },
         {
-            data: "Tahun",
+            data: "TanggalMulai",
             "targets": 6
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 7
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 8
         },
         {
-            data: "Tingkat",
+            data: "Kategori",
             "targets": 9
         },
         {
-            data: "Pencapaian",
+            data: "Tingkat",
             "targets": 10
+        },
+        {
+            data: "Pencapaian",
+            "targets": 11
         },
         ],
         order: [0, 'asc']

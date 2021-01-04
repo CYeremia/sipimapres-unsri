@@ -34,32 +34,36 @@ $(document).ready(function () {
             "targets": 2
         },
         {
-            data: "Tahun",
+            data: "TanggalMulai",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 4
         },
         {
-            data: "Kategori",
+            data: "Penyelenggara",
             "targets": 5
         },
         {
-            data: "Tingkat",
+            data: "Kategori",
             "targets": 6
         },
         {
-            data: "JumlahPeserta",
+            data: "Tingkat",
             "targets": 7
         },
         {
-            data: "JumlahPenghargaan",
+            data: "JumlahPeserta",
             "targets": 8
         },
         {
-            data: "Skor",
+            data: "JumlahPenghargaan",
             "targets": 9
+        },
+        {
+            data: "Skor",
+            "targets": 10
         },
         ],
         order: [0, 'asc']

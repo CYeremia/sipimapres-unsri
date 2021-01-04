@@ -65,11 +65,11 @@ class admin_fakultas  extends CI_Controller
 
             $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year)->row(), //jumlah prestasi kompetisi
+            WHERE `Role` = 'Mahasiswa' AND `Fakultas` = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND (YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year.")")->row(), //jumlah prestasi kompetisi
 
             $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year)->row() //jumlah prestasi non kompetisi
+            WHERE `Role` = 'Mahasiswa' AND `Fakultas` = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND (YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year.")")->row() //jumlah prestasi non kompetisi
         ];
     }
 

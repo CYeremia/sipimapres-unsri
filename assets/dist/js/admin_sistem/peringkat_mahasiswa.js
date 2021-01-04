@@ -110,12 +110,19 @@ $('#filterperingkat').click(function (e) {
     var fakultas = document.getElementById("fakultas"); //select ID Fakultas
     var selectfakultas = fakultas.options[fakultas.selectedIndex].value; //get value berdasarkan index yang dipilih
     // console.log(selectfakultas);
-    console.log(globalUrl + '/FilterPeringkatM/' + end + "/" + selectfakultas);
+    // console.log(globalUrl + '/FilterPeringkatM/' + end + "/" + selectfakultas);
 
     if (fakultas.selectedIndex == 0) { //tidak memilih fakultas
         $('#peringkatM').dataTable().fnDestroy();
+
+        if (selecttahun == "Tahun") 
+        {
+            selecttahun = new Date().getFullYear();
+        }
+
         tabeld(selecttahun); //panggil tabel
-    } else {
+    } 
+    else {
         $('#peringkatM').dataTable().fnDestroy();
         if (selecttahun == "Tahun") {
             selecttahun = new Date().getFullYear();

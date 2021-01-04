@@ -28,7 +28,7 @@
                                     <span class="fas fa-user"></span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($IDMahasiswa->Nama) ?>" placeholder="Judul Perlombaan" required>
+                            <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($IDMahasiswa->Nama) ?>" placeholder="Nama Mahasiswa" readonly = true required>
                             <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                         </div>
 
@@ -38,7 +38,7 @@
                                     <span class="fas fa-university"></span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" name="Fakultas" id="Fakultas" value="<?php echo ($IDMahasiswa->Fakultas) ?>" placeholder="Judul Perlombaan" required>
+                            <input type="text" class="form-control" name="Fakultas" id="Fakultas" value="<?php echo ($IDMahasiswa->Fakultas) ?>" placeholder="Fakultas" readonly = true required>
                             <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                     <span class="fas fa-id-card-alt"></span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($IDMahasiswa->IDPengenal) ?>" placeholder="Judul Perlombaan" required>
+                            <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($IDMahasiswa->IDPengenal) ?>" placeholder="NIM" readonly = true required>
                             <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                         </div>
 
@@ -60,7 +60,7 @@
                                     <span class="fas fa-graduation-cap"></span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" name="Prodi" id="Prodi" value="<?php echo ($IDMahasiswa->ProgramStudi) ?>" placeholder="Judul Perlombaan" required>
+                            <input type="text" class="form-control" name="Prodi" id="Prodi" value="<?php echo ($IDMahasiswa->ProgramStudi) ?>" placeholder="Program Studi" readonly = true required>
                             <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                         </div>
                     </div>
@@ -81,7 +81,8 @@
                                 <th>No</th>
                                 <th>Kegiatan</th>
                                 <th>Pencapaian/Peran</th>
-                                <th>Tahun</th>
+                                <th>TanggalMulai</th>
+                                <th>TanggalAkhir</th>
                                 <th>Penyelenggara</th>
                                 <th>Kategori</th>
                                 <th>Tingkat</th>
