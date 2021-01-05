@@ -121,63 +121,145 @@ class Mahasiswa extends CI_Controller
         $this->load->view('mahasiswa/template/template', $this->data);
     }
 
-    public function inputData_Kompetisi()
+    public function input_data_kompetisi()
     {
-        if ($this->input->post('submit')) {
-            $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
-            $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
-            $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
-            $this->form_validation->set_rules('Pencapaian', 'Pencapaian', 'required');
+        // baca foto jika dikirim
+        // $photo = $_POST['buktiprestasi']['name']; //foto opsional
+        $bool=false;
+		if (isset($_FILES['buktiprestasi'])) //jika foto dikirim
+		{
+            $photo = $_FILES['buktiprestasi']; //foto opsional
+            $bool=true;
+			// $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			// if (move_uploaded_file($_FILES['file']['tmp_name'], 'upload_dir/HDPhotoNote' . $TicketID . "." . $ext)) {
+			// 	$photo = 'HDPhotoNote' . $TicketID . "." . $ext; //set photo name
+			// }
+		}
 
-            $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
-            $this->form_validation->set_rules('tahun', 'tahun', 'required');
-            $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
-            $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+        // //get all header to var
+        $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
+        $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
+        $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
+        $TANGGALAWAL = $_SERVER['HTTP_TANGGALAWAL'];
+        $TANGGALAKHIR = $_SERVER['HTTP_TANGGALAKHIR'];
+        $BIDANG = $_SERVER['HTTP_BIDANG'];
+        $KATEGORI = $_SERVER['HTTP_KATEGORI'];
+        $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
+        $TINGKAT = $_SERVER['HTTP_TINGKAT'];
+        $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
+        $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
+        $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
+        $BERITA = $_SERVER['HTTP_BERITA'];
+        $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
 
-            if ($this->form_validation->run() == FALSE) {
-                $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
-            } else {
-                $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size']             = 1024;
-                $config['max_width']            = 1024;
-                $config['max_height']           = 768;
-                // $config['encrypt_name']			= TRUE;
-                $this->load->library('upload', $config);
-                $this->upload->initialize($config);
+        // // Hitung Score
+        // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
+        // $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
+        // $SKOR = $this->db->query($sql)->row('Nilai');
 
-                if (!$this->upload->do_upload('buktiprestasi')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
-                    redirect('mahasiswa/Data_Kompetisi');
-                    // $this->load->view('mahasiswa/Data_Kompetisi', $error);
-                } else {
-                    $data['PeraihPrestasi'] = $this->data['IDpengenal'];
-                    $data['Bidang']        = $this->input->post('Bidang');
-                    $data['Perlombaan']       = $this->input->post('JudulLomba');
-                    $data['Tahun']       = $this->input->post('tahun');
-                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
-                    $data['Kategori']       = $this->input->post('Kategori');
-                    $data['Tingkat']       = $this->input->post('Tingkat');
-                    $data['Pencapaian']       = $this->input->post('Pencapaian');
-                    $data['LinkBerita']       = $this->input->post('berita');
-                    $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
-                    $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
-                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
-                    // Hitung Score
-                    $ParamTingkat = $this->input->post('Tingkat');        //Internasional/nasional/regional/provinsi
-                    $ParamPencapaian = $this->input->post('Pencapaian');  //juara1/2/3/umum
-                    $ParamKategori = $this->input->post('Kategori');      //individu/kelompok
-                    //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
-                    $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$ParamTingkat' AND penilaian.Pencapaian='$ParamPencapaian' AND Kategori='$ParamKategori'";
-                    $data['Skor'] = $this->db->query($sql)->row('Nilai');
-                    $this->db->insert('prestasikompetisi', $data);
-                    $this->flashmsg("Data Berhasil Ditambahkan", 'success');
-                    redirect('mahasiswa/prestasi_kompetisi');
-                }
-            }
-        }
+        // // cek jika compatible
+        // if ($_FILES != null) {
+        // }
+
+        // // insert pelapor
+        $data['PeraihPrestasi'] = $NIMPELAPOR;
+        $data['Bidang']        = $BIDANG;
+        $data['Perlombaan']       = $JUDULLOMBA;
+        $data['TanggalMulai']       = $TANGGALAWAL;
+        $data['TanggalAkhir']       = $TANGGALAKHIR;
+        $data['Penyelenggara']       = $PENYELENGGARA;
+        $data['Kategori']       = $KATEGORI;
+        $data['StatusKategori']       = $STATUSKATEGORI;
+        $data['Tingkat']       = $TINGKAT;
+        $data['Pencapaian']       = $PENCAPAIAN;
+        $data['LinkBerita']       = $BERITA;
+        $data['JumlahPeserta']       = $JUMLAHPESERTA;
+        $data['JumlahPenghargaan']       = $JUMLAHPENGHARGAAN;
+        // $data['Skor'] = $SKOR;
+        // $data['BuktiPrestasi'] = $this->upload->data("file_name");
+        // if ($KATEGORI != 'Kelompok')
+        // $this->db->insert('prestasikompetisi', $data);
+        // else {
+        //         $data['StatusKategori']       = "Ketua";
+        //         $this->db->insert('prestasikompetisi', $data);
+        // }
+        // // insert jika ada anggota
+        // if ($KATEGORI == 'Kelompok') {
+        //     $data['StatusKategori'] = "Anggota";
+        //     $anggota = explode("#", $DAFTARANGGOTA);
+        //     foreach ($anggota as $k) {
+        //         $data['PeraihPrestasi'] = $k;
+        //         $this->db->insert('prestasikompetisi', $data);
+        //     }
+        // }
+
+
+        $result = [
+            'data' => $photo,
+            'status' => true,
+            'status_code' => 200
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($result);
     }
+
+    // public function inputData_Kompetisi()
+    // {
+    //     if ($this->input->post('submit')) {
+    //         $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
+    //         $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+    //         $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
+    //         $this->form_validation->set_rules('Pencapaian', 'Pencapaian', 'required');
+
+    //         $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
+    //         $this->form_validation->set_rules('tahun', 'tahun', 'required');
+    //         $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
+    //         $this->form_validation->set_rules('berita', 'berita', 'required|trim');
+
+    //         if ($this->form_validation->run() == FALSE) {
+    //             $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+    //         } else {
+    //             $config['upload_path']          = './uploads/';
+    //             $config['allowed_types']        = 'gif|jpg|png';
+    //             $config['max_size']             = 1024;
+    //             $config['max_width']            = 1024;
+    //             $config['max_height']           = 768;
+    //             // $config['encrypt_name']			= TRUE;
+    //             $this->load->library('upload', $config);
+    //             $this->upload->initialize($config);
+
+    //             if (!$this->upload->do_upload('buktiprestasi')) {
+    //                 $error = array('error' => $this->upload->display_errors());
+    //                 $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
+    //                 redirect('mahasiswa/Data_Kompetisi');
+    //                 // $this->load->view('mahasiswa/Data_Kompetisi', $error);
+    //             } else {
+    //                 $data['PeraihPrestasi'] = $this->data['IDpengenal'];
+    //                 $data['Bidang']        = $this->input->post('Bidang');
+    //                 $data['Perlombaan']       = $this->input->post('JudulLomba');
+    //                 $data['Tahun']       = $this->input->post('tahun');
+    //                 $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+    //                 $data['Kategori']       = $this->input->post('Kategori');
+    //                 $data['Tingkat']       = $this->input->post('Tingkat');
+    //                 $data['Pencapaian']       = $this->input->post('Pencapaian');
+    //                 $data['LinkBerita']       = $this->input->post('berita');
+    //                 $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
+    //                 $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
+    //                 $data['BuktiPrestasi'] = $this->upload->data("file_name");
+    //                 // Hitung Score
+    //                 $ParamTingkat = $this->input->post('Tingkat');        //Internasional/nasional/regional/provinsi
+    //                 $ParamPencapaian = $this->input->post('Pencapaian');  //juara1/2/3/umum
+    //                 $ParamKategori = $this->input->post('Kategori');      //individu/kelompok
+    //                 //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
+    //                 $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$ParamTingkat' AND penilaian.Pencapaian='$ParamPencapaian' AND Kategori='$ParamKategori'";
+    //                 $data['Skor'] = $this->db->query($sql)->row('Nilai');
+    //                 $this->db->insert('prestasikompetisi', $data);
+    //                 $this->flashmsg("Data Berhasil Ditambahkan", 'success');
+    //                 redirect('mahasiswa/prestasi_kompetisi');
+    //             }
+    //         }
+    //     }
+    // }
 
     public function data_prestasi()
     {
@@ -359,5 +441,19 @@ class Mahasiswa extends CI_Controller
             $i = $i + 1;
         }
         return $listData;
+    }
+
+    // get data untuk tambah anggota pada menu add prestasi kategori kelompok
+    public function getdataanggota($nim)
+    {
+        $data = new userobj();
+        $sql = "SELECT IDPengenal AS Nim, Nama,ProgramStudi,Fakultas FROM user WHERE IDPengenal='$nim'";
+        $fetchdata = $this->db->query($sql)->row();
+        $data->IDpengenal = $fetchdata->Nim;
+        $data->Nama = $fetchdata->Nama;
+        $data->Fakultas = $fetchdata->Fakultas;
+        $data->ProgramStudi = $fetchdata->ProgramStudi;
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }
