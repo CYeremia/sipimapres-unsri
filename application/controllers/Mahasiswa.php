@@ -123,82 +123,88 @@ class Mahasiswa extends CI_Controller
 
     public function input_data_kompetisi()
     {
-        // baca foto jika dikirim
+        // config format upload
         // $photo = $_POST['buktiprestasi']['name']; //foto opsional
-        $bool=false;
-		if (isset($_FILES['buktiprestasi'])) //jika foto dikirim
-		{
-            $photo = $_FILES['buktiprestasi']; //foto opsional
-            $bool=true;
-			// $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-			// if (move_uploaded_file($_FILES['file']['tmp_name'], 'upload_dir/HDPhotoNote' . $TicketID . "." . $ext)) {
-			// 	$photo = 'HDPhotoNote' . $TicketID . "." . $ext; //set photo name
-			// }
-		}
+        // if (isset($_FILES['buktiprestasi'])) //jika foto dikirim
+        // {
+        $config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 1024;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+        // $config['encrypt_name']			= TRUE;
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
-        // //get all header to var
-        $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
-        $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
-        $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
-        $TANGGALAWAL = $_SERVER['HTTP_TANGGALAWAL'];
-        $TANGGALAKHIR = $_SERVER['HTTP_TANGGALAKHIR'];
-        $BIDANG = $_SERVER['HTTP_BIDANG'];
-        $KATEGORI = $_SERVER['HTTP_KATEGORI'];
-        $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
-        $TINGKAT = $_SERVER['HTTP_TINGKAT'];
-        $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
-        $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
-        $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
-        $BERITA = $_SERVER['HTTP_BERITA'];
-        $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
+        if (!$this->upload->do_upload("buktiprestasi")) { //jika foto gagal diupload
+            $result = [
+                'data' => "Silahkan Periksa Kembali",
+                'status' => false,
+                'status_code' => 403
+            ];
+        } else {    //jika foto berhasil diupload
+            // tampung variable
+            $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
+            $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
+            $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
+            $TANGGALAWAL = $_SERVER['HTTP_TANGGALAWAL'];
+            $TANGGALAKHIR = $_SERVER['HTTP_TANGGALAKHIR'];
+            $BIDANG = $_SERVER['HTTP_BIDANG'];
+            $KATEGORI = $_SERVER['HTTP_KATEGORI'];
+            $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
+            $TINGKAT = $_SERVER['HTTP_TINGKAT'];
+            $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
+            $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
+            $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
+            $BERITA = $_SERVER['HTTP_BERITA'];
+            $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
+            $BUKTIPRESTASI = $this->upload->data("file_name");
 
-        // // Hitung Score
-        // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
-        // $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
-        // $SKOR = $this->db->query($sql)->row('Nilai');
+            // // Hitung Score
+            // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
+            $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
+            $SKOR = $this->db->query($sql)->row('Nilai');
 
-        // // cek jika compatible
-        // if ($_FILES != null) {
-        // }
+            // // insert pelapor
+            $data['PeraihPrestasi'] = $NIMPELAPOR;
+            $data['Bidang'] = $BIDANG;
+            $data['Perlombaan'] = $JUDULLOMBA;
+            $data['TanggalMulai'] = $TANGGALAWAL;
+            $data['TanggalAkhir'] = $TANGGALAKHIR;
+            $data['Penyelenggara'] = $PENYELENGGARA;
+            $data['Kategori'] = $KATEGORI;
+            $data['StatusKategori'] = $STATUSKATEGORI;
+            $data['Tingkat'] = $TINGKAT;
+            $data['Pencapaian'] = $PENCAPAIAN;
+            $data['LinkBerita'] = $BERITA;
+            $data['JumlahPeserta'] = $JUMLAHPESERTA;
+            $data['JumlahPenghargaan'] = $JUMLAHPENGHARGAAN;
+            $data['Skor'] = $SKOR;
+            $data['BuktiPrestasi'] = $BUKTIPRESTASI;
 
-        // // insert pelapor
-        $data['PeraihPrestasi'] = $NIMPELAPOR;
-        $data['Bidang']        = $BIDANG;
-        $data['Perlombaan']       = $JUDULLOMBA;
-        $data['TanggalMulai']       = $TANGGALAWAL;
-        $data['TanggalAkhir']       = $TANGGALAKHIR;
-        $data['Penyelenggara']       = $PENYELENGGARA;
-        $data['Kategori']       = $KATEGORI;
-        $data['StatusKategori']       = $STATUSKATEGORI;
-        $data['Tingkat']       = $TINGKAT;
-        $data['Pencapaian']       = $PENCAPAIAN;
-        $data['LinkBerita']       = $BERITA;
-        $data['JumlahPeserta']       = $JUMLAHPESERTA;
-        $data['JumlahPenghargaan']       = $JUMLAHPENGHARGAAN;
-        // $data['Skor'] = $SKOR;
-        // $data['BuktiPrestasi'] = $this->upload->data("file_name");
-        // if ($KATEGORI != 'Kelompok')
-        // $this->db->insert('prestasikompetisi', $data);
-        // else {
-        //         $data['StatusKategori']       = "Ketua";
-        //         $this->db->insert('prestasikompetisi', $data);
-        // }
-        // // insert jika ada anggota
-        // if ($KATEGORI == 'Kelompok') {
-        //     $data['StatusKategori'] = "Anggota";
-        //     $anggota = explode("#", $DAFTARANGGOTA);
-        //     foreach ($anggota as $k) {
-        //         $data['PeraihPrestasi'] = $k;
-        //         $this->db->insert('prestasikompetisi', $data);
-        //     }
-        // }
-
-
-        $result = [
-            'data' => $photo,
-            'status' => true,
-            'status_code' => 200
-        ];
+            if ($KATEGORI != 'Kelompok') { //jika kategori individu
+                $this->db->insert('prestasikompetisi', $data);
+            } else { //jika kategori kelompok
+                // insert ketua
+                $data['StatusKategori']       = "Ketua";
+                $this->db->insert('prestasikompetisi', $data);
+                // insert anggota
+                // jika ada anggota
+                if ($DAFTARANGGOTA != "") {
+                    $anggota = explode("#", $DAFTARANGGOTA);
+                    $data['StatusKategori'] = "Anggota";
+                    foreach ($anggota as $k) {
+                        $data['PeraihPrestasi'] = $k;
+                        $this->db->insert('prestasikompetisi', $data);
+                    }
+                }
+            }
+            $result = [
+                'data' => "Silahkan tekan tombol untuk kembali ke dashboard",
+                'status' => true,
+                'status_code' => 200
+            ];
+        }
         header('Content-Type: application/json');
         echo json_encode($result);
     }
@@ -447,12 +453,19 @@ class Mahasiswa extends CI_Controller
     public function getdataanggota($nim)
     {
         $data = new userobj();
-        $sql = "SELECT IDPengenal AS Nim, Nama,ProgramStudi,Fakultas FROM user WHERE IDPengenal='$nim'";
-        $fetchdata = $this->db->query($sql)->row();
-        $data->IDpengenal = $fetchdata->Nim;
-        $data->Nama = $fetchdata->Nama;
-        $data->Fakultas = $fetchdata->Fakultas;
-        $data->ProgramStudi = $fetchdata->ProgramStudi;
+        $sql = "SELECT COUNT(IDPengenal) AS jumlah FROM user WHERE IDPengenal='$nim'";
+        $fetchdata = $this->db->query($sql)->row('jumlah');
+        if($fetchdata!=0){
+            $sql = "SELECT IDPengenal AS Nim, Nama,ProgramStudi,Fakultas FROM user WHERE IDPengenal='$nim'";
+            $fetchdata = $this->db->query($sql)->row();
+            $data->IDpengenal = $fetchdata->Nim;
+            $data->Nama = $fetchdata->Nama;
+            $data->Fakultas = $fetchdata->Fakultas;
+            $data->ProgramStudi = $fetchdata->ProgramStudi;
+            $data->response_code="200";
+        }else{
+            $data->response_code="404";
+        }
         header('Content-Type: application/json');
         echo json_encode($data);
     }
