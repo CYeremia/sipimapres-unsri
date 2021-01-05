@@ -33,9 +33,9 @@ class admin_fakultas  extends CI_Controller
         //jumlah data untuk dashboard
         $this->data['jumlah'] = [
 
-            $this->db->query("SELECT COUNT() AS mahasiswa FROM user WHERE Role = 'Mahasiswa' AND Fakultas ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
+            $this->db->query("SELECT COUNT(*) AS mahasiswa FROM user WHERE Role = 'Mahasiswa' AND Fakultas ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
 
-            $this->db->query("SELECT COUNT() AS kompetisi FROM prestasikompetisi
+            $this->db->query("SELECT COUNT(*) AS kompetisi FROM prestasikompetisi
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
             WHERE `Role` = 'Mahasiswa' AND `Fakultas` = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ")")->row(), //jumlah prestasi kompetisi
 
