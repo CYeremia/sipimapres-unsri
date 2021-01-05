@@ -61,6 +61,9 @@
 
 <!-- javascript -->
 <script src="<?= base_url('assets') ?>/dist/js/mahasiswa/<?= $content ?>.js"></script>
+
+<!-- swal -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>
