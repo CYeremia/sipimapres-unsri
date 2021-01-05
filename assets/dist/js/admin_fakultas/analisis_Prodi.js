@@ -1,3 +1,8 @@
+var currUrl = window.location.href.split('/');
+currUrl.pop();
+var globalUrl = currUrl.join('/');
+var daftarP;
+
 var start = 2000;
 var end = new Date().getFullYear();
 var options = "";
@@ -8,11 +13,6 @@ for (var year = end; year >= start; year--) {
 }
 document.getElementById("tahun").innerHTML = options;
 document.getElementById("tahun2").innerHTML = options;
-
-var currUrl = window.location.href.split('/');
-currUrl.pop();
-var globalUrl = currUrl.join('/');
-var daftarP;
 
 //tabel default
 function tabel(start, end) {

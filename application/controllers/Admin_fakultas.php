@@ -20,34 +20,6 @@ class admin_fakultas  extends CI_Controller
             redirect('logout');
         }
 
-        // date_default_timezone_set("Asia/Bangkok"); // set timezone
-        // $this->data['IDPengenal'] = $this->session->userdata('IDpegenal');
-        // $this->data['Role'] = $this->session->userdata('Role');
-        // $this->db->select('Photo');
-        // $this->db->where('UserName', $this->data['username']);
-        // $this->data['Photo'] = $this->db->get('user');
-
-        // if (isset($this->data['username'], $this->data['id_role'])) {
-        //     if ($this->data['id_role'] != 1) {
-        //         redirect('logout');
-        //         exit;
-        //     }
-        // } else {
-        //     redirect('logout');
-        //     exit;
-        // }   
-        //     $this->data['IDpengenal'] = $this->session->userdata('IDpengenal');
-        //     $this->data['id_role'] = $this->session->userdata('id_role');
-        //     if (isset($this->data['IDpengenal'], $this->data['id_role'])) {
-        //         if ($this->data['id_role'] != 1) {
-        //             redirect('logout');
-        //             exit;
-        //         }
-        //     } else {
-        //         redirect('logout');
-        //         exit;
-        //     }
-
         $this->data['userdata'] = $this->db->query("SELECT `user`.`IDPengenal`, `user`.`Nama`, `user`.`Fakultas`, `user`.`ProgramStudi`, `user`.`Email`, `user`.`IPK`, `user`.`Telephone`, `role`.`Role` FROM `user` INNER JOIN `role` ON `user`.`Role` = `role`.`Role` WHERE `user`.`IDPengenal` = '" . $this->data['IDpengenal'] . "'")->row();
         // $this->data['user'] = $this->db->get_where('user', ['IDPengenal' => $this->session->userdata('IDPengenal')])->row_array();
         $this->load->model('user_m');
@@ -61,15 +33,15 @@ class admin_fakultas  extends CI_Controller
         //jumlah data untuk dashboard
         $this->data['jumlah'] = [
 
-            $this->db->query("SELECT COUNT(*) AS `mahasiswa` FROM `user` WHERE `Role` = 'Mahasiswa' AND `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
+            $this->db->query("SELECT COUNT() AS mahasiswa FROM user WHERE Role = 'Mahasiswa' AND Fakultas ='" . $this->data['userdata']->Fakultas . "'")->row(), //jumlah mahasiswa
 
-            $this->db->query("SELECT COUNT(*) AS `kompetisi` FROM `prestasikompetisi`
+            $this->db->query("SELECT COUNT() AS kompetisi FROM prestasikompetisi
             INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year)->row(), //jumlah prestasi kompetisi
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND Status = 'Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ")")->row(), //jumlah prestasi kompetisi
 
-            $this->db->query("SELECT COUNT(*) AS `nonkompetisi` FROM `prestasinonkompetisi`
+            $this->db->query("SELECT COUNT(*) AS nonkompetisi FROM prestasinonkompetisi
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND YEAR(TanggalMulai) =".$year." OR YEAR(TanggalAkhir) =".$year)->row() //jumlah prestasi non kompetisi
+            WHERE Role = 'Mahasiswa' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' AND Status = 'Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ")")->row() //jumlah prestasi non kompetisi
         ];
     }
 
@@ -95,12 +67,546 @@ class admin_fakultas  extends CI_Controller
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
 
+    //Keloa Akun mahasiswa
+    public function Kelola_akun_mahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Fakultas | Kelola Akun Mahasiswa ';
+        $this->data['content'] = 'kelola_akun';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //get Akun Mahasiswa yang terdaftar
+    public function getdataMahasiswa()
+    {
+        $result = [
+            'data' => $this->MaptodataAkunMahasiswa(),
+            'status => true',
+            'status_code' => 200
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MaptodataAkunMahasiswa()
+    {
+        $listData = [];
+        $sql = "SELECT `IDPengenal`,`Nama`,`ProgramStudi`,`IPK`,`Email`,`Telephone` FROM user WHERE Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "'";
+        $data = $this->db->query($sql)->result();
+        $i = 1;
+
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->No = $i;
+            $obj->NIM = $k->IDPengenal;
+            $obj->Nama = $k->Nama;
+            $obj->Program_studi = $k->ProgramStudi;
+            $obj->IPK = $k->IPK;
+            $obj->Email = $k->Email;
+            $obj->Telephone = $k->Telephone;
+
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    //Tambah Mahasiswa
+    public function Tambah_DataMahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Fakultas | Tambah Mahasiswa ';
+        $this->data['content'] = 'tambah_mahasiswa';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //Get Data Fakultas
+    public function getdataProdi()
+    {
+        $sql = "SELECT `Prodi` FROM prodi WHERE Fakultas='" . $this->data['userdata']->Fakultas . "'";
+        $data = $this->db->query($sql)->result();
+
+        $result = [
+            'data' => $data,
+            'status => true',
+            'status_code' => 200
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //Simpan Data Mahasiswa
+    public function tambahdatauser()
+    {
+        if ($this->input->post('tambahuser')) {
+            $this->form_validation->set_rules('password1', 'Password', 'required');
+            $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
+            if ($this->form_validation->run() == FALSE) {
+                $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
+                redirect("admin_fakultas/Tambah_DataMahasiswa");
+            } else {
+                $input['Nama'] = $this->input->post('namaMahasiswa');
+                $input['Role'] = 'Mahasiswa';
+                $input['IDPengenal'] = $this->input->post('NIM');
+                $input['Fakultas'] = $this->data['userdata']->Fakultas;
+                $input['ProgramStudi'] = $this->input->post('prodi');
+                $input['Email'] = $this->input->post('Email');
+                $input['IPK'] = $this->input->post('IPK');
+                $input['Telephone'] = $this->input->post('tlp');
+                $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+
+                //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
+                $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+                $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+
+                if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
+                {
+                    $this->flashmsg('NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                    redirect('admin_fakultas/Tambah_DataMahasiswa');
+                } else // jika belum terdaftar
+                {
+                    $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+
+                    $checknumeric = is_numeric($input['IPK']);
+                    $checknumericphone = is_numeric($input['Telephone']);
+                    $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                    if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                        if ($checknumeric == true || $checknumericphone == true) {
+                            if ($checknumeric == true) // jika format IPK adalah angka
+                            {
+                                if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                    $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                } else //jika format IPK benar
+                                {
+                                    if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                        if ($checknumericphone == true) { //jika format tlp adalah angka
+                                            if ($this->user_m->insert($input)) {
+                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Ditambah', 'success');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                            }
+                                        } else { //Jika tlp bukan numerik
+                                            $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
+                                            redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                        }
+                                    } else { //Jika NIM bukan numerik
+                                        $this->flashmsg('Format NIM tidak sesuai !', 'danger');
+                                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                    }
+                                }
+                            } else //jika bukan format numerik
+                            {
+                                $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            }
+                        } else { //jika format IPK dan Telephone bukan numerik
+                            $this->flashmsg('Format IPK dan Telephone tidak sesuai !', 'danger');
+                            redirect('admin_fakultas/Tambah_DataMahasiswa');
+                        }
+                    } else { //jika format NIM, IPK dan Telephone bukan numerik
+                        $this->flashmsg('Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                    }
+                }
+            }
+        }
+    }
+
+    //Edit Mahasiswa
+    public function edit_DataMahasiswa()
+    {
+        $this->data['active'] = 3;
+        $this->data['title'] = 'Admin Fakultas | Tambah Mahasiswa ';
+        $this->data['content'] = 'edit_dataMahasiswa';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //Get Detail Data
+    public function getdetailMahasiswa()
+    {
+        $id = $this->input->post('ID');
+        $sql = "SELECT `Nama`, `IDPengenal`, `ProgramStudi`,`Email`,`IPK`,`Telephone` FROM user WHERE IDPengenal = '" . $id . "' AND Fakultas='" . $this->data['userdata']->Fakultas . "'";
+        $data = $this->db->query($sql)->row();
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //Update Akun Mahasiswa
+    public function updateData()
+    {
+        if ($this->input->post('updateData')) {
+            $password1 = $this->input->post('password1');
+            $password2 = $this->input->post('password2');
+            $IDLama = $this->input->post('IDL');
+
+            $input['Nama'] = $this->input->post('namaMahasiswa');
+            $input['Role'] = 'Mahasiswa';
+            $input['IDPengenal'] = $this->input->post('NIM');
+            $input['Fakultas'] = $this->data['userdata']->Fakultas;
+            $input['ProgramStudi'] = $this->input->post('prodi');
+            $input['Email'] = $this->input->post('Email');
+            $input['IPK'] = $this->input->post('IPK');
+            $input['Telephone'] = $this->input->post('tlp');
+
+            //jika password tidak berubah
+            if ($password1 == '' && $password2 == '') {
+                //jika Nim Tidak Berubah
+                if ($input['IDPengenal'] == $IDLama) {
+                    $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                    $checknumeric = is_numeric($input['IPK']);
+                    $checknumericphone = is_numeric($input['Telephone']);
+                    $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                    if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                        if ($checknumeric == true || $checknumericphone == true) {
+                            if ($checknumeric == true) // jika format IPK adalah angka
+                            {
+                                if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                } else //jika format IPK benar
+                                {
+                                    if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                        if ($checknumericphone == true) { //jika format tlp adalah angka
+                                            // if ($this->user_m->insert($input)) {
+                                            $this->db->where('IDPengenal', $this->input->post('IDL'));
+                                            $this->db->update('user', $input);
+                                            $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                            // }
+                                        } else { //Jika tlp bukan numerik
+                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                        }
+                                    } else { //Jika NIM bukan numerik
+                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                    }
+                                }
+                            } else //jika bukan format numerik
+                            {
+                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                            }
+                        } else { //jika format IPK dan Telephone bukan numerik
+                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                        }
+                    } else { //jika format NIM, IPK dan Telephone bukan numerik
+                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                    }
+                } else { //Jika Nim berubah
+                    //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
+                    $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+                    $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+
+                    if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
+                    {
+                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                        redirect('admin_fakultas/edit_DataMahasiswa');
+                    } else {
+                        $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                        $checknumeric = is_numeric($input['IPK']);
+                        $checknumericphone = is_numeric($input['Telephone']);
+                        $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                        if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                            if ($checknumeric == true || $checknumericphone == true) {
+                                if ($checknumeric == true) // jika format IPK adalah angka
+                                {
+                                    if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                    } else //jika format IPK benar
+                                    {
+                                        if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                            if ($checknumericphone == true) { //jika format tlp adalah angka
+                                                // if ($this->user_m->insert($input)) {
+                                                $this->db->where('IDPengenal', $this->input->post('IDL'));
+                                                $this->db->update('user', $input);
+                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                                // }
+                                            } else { //Jika tlp bukan numerik
+                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                            }
+                                        } else { //Jika NIM bukan numerik
+                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                        }
+                                    }
+                                } else //jika bukan format numerik
+                                {
+                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                }
+                            } else { //jika format IPK dan Telephone bukan numerik
+                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                            }
+                        } else { //jika format NIM, IPK dan Telephone bukan numerik
+                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                        }
+                    }
+                }
+            } else { //jika password berubah
+                $this->form_validation->set_rules('password1', 'Password', 'required');
+                $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
+                if ($this->form_validation->run() == FALSE) {
+                    $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
+                    redirect("admin_fakultas/Tambah_DataMahasiswa");
+                } else {
+                    //Jika Nim Tidak Berubah dan password berubah
+                    if ($input['IDPengenal'] == $IDLama) {
+                        $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                        $checknumeric = is_numeric($input['IPK']);
+                        $checknumericphone = is_numeric($input['Telephone']);
+                        $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                        if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                            if ($checknumeric == true || $checknumericphone == true) {
+                                if ($checknumeric == true) // jika format IPK adalah angka
+                                {
+                                    if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                    } else //jika format IPK benar
+                                    {
+                                        if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                            if ($checknumericphone == true) { //jika format tlp adalah angka
+                                                //Update Password
+                                                $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                                                $this->db->where('IDPengenal', $this->input->post('IDL'));
+                                                $this->db->update('user', $input);
+                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                                // }
+                                            } else { //Jika tlp bukan numerik
+                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                            }
+                                        } else { //Jika NIM bukan numerik
+                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                        }
+                                    }
+                                } else //jika bukan format numerik
+                                {
+                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                }
+                            } else { //jika format IPK dan Telephone bukan numerik
+                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                            }
+                        } else { //jika format NIM, IPK dan Telephone bukan numerik
+                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                        }
+                    } else { //Jika Nim berubah
+                        //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
+                        $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+                        $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+
+                        if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
+                        {
+                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                            redirect('admin_fakultas/edit_DataMahasiswa');
+                        } else {
+                            $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                            $checknumeric = is_numeric($input['IPK']);
+                            $checknumericphone = is_numeric($input['Telephone']);
+                            $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                            if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                                if ($checknumeric == true || $checknumericphone == true) {
+                                    if ($checknumeric == true) // jika format IPK adalah angka
+                                    {
+                                        if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                            redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                        } else //jika format IPK benar
+                                        {
+                                            if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                                if ($checknumericphone == true) { //jika format tlp adalah angka
+                                                    //Update Password
+                                                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                                                    $this->db->where('IDPengenal', $this->input->post('IDL'));
+                                                    $this->db->update('user', $input);
+                                                    $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                                    // }
+                                                } else { //Jika tlp bukan numerik
+                                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                                }
+                                            } else { //Jika NIM bukan numerik
+                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                            }
+                                        }
+                                    } else //jika bukan format numerik
+                                    {
+                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                    }
+                                } else { //jika format IPK dan Telephone bukan numerik
+                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                                }
+                            } else { //jika format NIM, IPK dan Telephone bukan numerik
+                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Hapus Akun Mahasiswa
+    public function deletemahasiswa()
+    {
+        $id = $this->input->post('ID');
+        $data['IDPengenal'] = $id;
+        $userCek = $this->user_m->get_row($data);
+        // print_r($test);
+        if ($userCek != null) {
+            $this->db->where('IDPengenal', $id);
+            $this->db->delete('user');
+            $result['status'] = true;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //Verifikasi Akun Mahasiswa
+    public function Verifikasi_Akun_Mahasiswa()
+    {
+        $this->data['active'] = 4;
+        $this->data['title'] = 'Admin Fakultas | Verifikasi Akun Mahasiswa ';
+        $this->data['content'] = 'verifikasi_akun';
+        $this->load->view('admin_fakultas/template/template', $this->data);
+    }
+
+    //get Akun Mahasiswa yang registrasi
+    public function getdataRegistrasi()
+    {
+        $result = [
+            'data' => $this->MaptodataRegistrasiMahasiswa(),
+            'status => true',
+            'status_code' => 200
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    private function MaptodataRegistrasiMahasiswa()
+    {
+        $listData = [];
+        $sql = "SELECT `IDPengenal`,`Nama`,`ProgramStudi`,`IPK`,`Email`,`Telephone` FROM registrasi WHERE Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "'";
+        $data = $this->db->query($sql)->result();
+        $i = 1;
+
+        foreach ($data as $k) {
+            $obj = new UserObj();
+            $obj->No = $i;
+            $obj->NIM = $k->IDPengenal;
+            $obj->Nama = $k->Nama;
+            $obj->Program_studi = $k->ProgramStudi;
+            $obj->IPK = $k->IPK;
+            $obj->Email = $k->Email;
+            $obj->Status = 'Sedang Diverifikasi';
+            $obj->Telephone = $k->Telephone;
+
+
+            $listData[] = $obj;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    //Get Detail Data Registrasi
+    public function getdetailRegistrasiMahasiswa()
+    {
+        $id = $this->input->post('ID');
+        $sql = "SELECT `Nama`, `IDPengenal`, `ProgramStudi`,`Email`,`IPK`,`Telephone` FROM registrasi WHERE IDPengenal = '" . $id . "' AND Fakultas='" . $this->data['userdata']->Fakultas . "'";
+        $data = $this->db->query($sql)->row();
+        $result = [
+            'data' => $data,
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    //verifikasi akun mahasiswa
+    public function verifikasiData()
+    {
+        if ($this->input->post('verifikasi')) {
+            $input['Nama'] = $this->input->post('namamahasiswa');
+            $input['Role'] = 'Mahasiswa';
+            $input['IDPengenal'] = $this->input->post('NIM');
+            $input['Fakultas'] = $this->data['userdata']->Fakultas;
+            $input['ProgramStudi'] = $this->input->post('prodi');
+            $input['Email'] = $this->input->post('Email');
+            $input['IPK'] = $this->input->post('IPK');
+            $input['Telephone'] = $this->input->post('tlp');
+
+            // $sql = "SELECT `Password` FROM registrasi WHERE IDPengenal = '0901283717253'";
+            $sql = "SELECT `Password` FROM registrasi WHERE IDPengenal = '" .  $input['IDPengenal'] . "'";
+            // $sql = "SELECT `Password` FROM registrasi WHERE IDPengenal = '" .  $input['IDPengenal'] . "' AND Fakultas='" . $this->data['userdata']->Fakultas . "'";
+            $data = $this->db->query($sql)->row('Password');
+            $input['Password'] = $data;
+
+            $this->user_m->insert($input);
+            $this->flashmsg('Data Mahasiswa Telah Berhasil Diverifikasi', 'success');
+
+            $this->db->where('IDPengenal', $input['IDPengenal']);
+            $this->db->delete('registrasi');
+
+            redirect('admin_fakultas/Verifikasi_Akun_Mahasiswa');
+        }
+    }
+
+    //Hapus Akun Registrasi Mahasiswa
+    public function deleteRegistrasimahasiswa()
+    {
+        $id = $this->input->post('ID');
+        $data['IDPengenal'] = $id;
+        // $userCek = $this->user_m->get_row($data);
+        // print_r($test);
+        // if ($userCek != null) {
+        $this->db->where('IDPengenal', $id);
+        $this->db->delete('registrasi');
+        $result['status'] = true;
+        // }
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
     //Menampilkan Analisis Peringkat Berdasarkan Prodi
     public function Analisis_Peringkatprodi()
     {
         $data = $this->db->query("SELECT * FROM `prodi` WHERE `Fakultas` ='" . $this->data['userdata']->Fakultas . "'")->result();
         $this->data['prodi'] = $data;
-        $this->data['active'] = 3;
+        $this->data['active'] = 5;
         $this->data['title'] = 'Admin Sistem | Analisis Peringkat Prodi';
         $this->data['content'] = 'analisis_Prodi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -111,7 +617,7 @@ class admin_fakultas  extends CI_Controller
         if ($parameters == null) {
             redirect('admin_fakultas/Analisis_Peringkatprodi');
         } else {
-            $this->data['active'] = 3;
+            $this->data['active'] = 5;
             $this->data['title'] = 'Admin Sistem | Daftar Prestasi Prodi ';
             $this->data['content'] = 'daftar_prestasi';
             $this->load->view('admin_fakultas/template/template', $this->data);
@@ -123,7 +629,7 @@ class admin_fakultas  extends CI_Controller
         if ($parameters == null) {
             redirect('admin_fakultas/Analisis_Peringkatprodi');
         } else {
-            $this->data['active'] = 3;
+            $this->data['active'] = 5;
             $this->data['title'] = 'Admin Sistem | Daftar Prestasi Mahasiswa ';
             $this->data['content'] = 'daftar_prestasiMahasiswa';
             $this->load->view('admin_fakultas/template/template', $this->data);
@@ -133,7 +639,7 @@ class admin_fakultas  extends CI_Controller
     //Menampilkan analisis peringkat berdasarkan bidang
     public function Analisis_PeringkatBidang()
     {
-        $this->data['active'] = 4;
+        $this->data['active'] = 6;
         $this->data['title'] = 'Admin Sistem | Analisis Peringkat Bidang ';
         $this->data['content'] = 'analisis_bidang';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -164,7 +670,7 @@ class admin_fakultas  extends CI_Controller
         if ($parameters == null) {
             redirect('admin_fakultas/Analisis_PeringkatBidang');
         } else {
-            $this->data['active'] = 4;
+            $this->data['active'] = 6;
             $this->data['title'] = 'Admin Sistem | Peringkat Mahasiswa ';
             $this->data['content'] = 'prestasi_bidang';
             $this->load->view('admin_fakultas/template/template', $this->data);
@@ -174,7 +680,7 @@ class admin_fakultas  extends CI_Controller
     //Menampilkan Semua data Prestasi Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_kompetisi()
     {
-        $this->data['active'] = 5;
+        $this->data['active'] = 7;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Kompetisi ';
         $this->data['content'] = 'Verifikasi_kompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -192,8 +698,8 @@ class admin_fakultas  extends CI_Controller
 
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
-        $this->data['active'] = 5;
-        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
+        $this->data['active'] = 7;
+        $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Kompetisi ';
         $this->data['content'] = 'Verifikasi_statusKompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
     }
@@ -219,7 +725,7 @@ class admin_fakultas  extends CI_Controller
     //Menampilkan Semua data Prestasi Non Kompetisi Mahasiswa Berdasarkan Fakultas
     public function prestasi_Nonkompetisi()
     {
-        $this->data['active'] = 6;
+        $this->data['active'] = 8;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_Nonkompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -236,7 +742,7 @@ class admin_fakultas  extends CI_Controller
 
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
-        $this->data['active'] = 6;
+        $this->data['active'] = 8;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_statusNonKompetisi';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -261,7 +767,7 @@ class admin_fakultas  extends CI_Controller
 
     public function profile()
     {
-        $this->data['active'] = 7;
+        $this->data['active'] = 9;
         $this->data['title'] = 'Admin Fakultas | Profile ';
         $this->data['content'] = 'profile';
         $this->load->view('admin_fakultas/template/template', $this->data);
@@ -573,13 +1079,13 @@ class admin_fakultas  extends CI_Controller
             $queryprestasikompetisi = $this->db->query("SELECT COUNT(*) AS Kompetisi FROM prestasikompetisi
                 INNER JOIN user ON
                 prestasikompetisi.PeraihPrestasi = user.IDPengenal
-                WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =".$year." AND YEAR(TanggalAkhir) =".$year." AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+                WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =" . $year . " AND YEAR(TanggalAkhir) =" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
             $prestasikompetisi = $queryprestasikompetisi['Kompetisi'];
 
             $queryprestasinonkompetisi = $this->db->query("SELECT COUNT(*) AS NonKompetisi FROM prestasinonkompetisi
             INNER JOIN user ON
             prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
-            WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =".$year." AND YEAR(TanggalAkhir) =".$year." AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
+            WHERE Role = 'Mahasiswa' AND YEAR(TanggalMulai) =" . $year . " AND YEAR(TanggalAkhir) =" . $year . " AND ProgramStudi = '" . $prodi . "' AND Status='Diterima';")->row_array();
 
             $prestasinonkompetisi = $queryprestasinonkompetisi['NonKompetisi'];
 
@@ -741,10 +1247,10 @@ class admin_fakultas  extends CI_Controller
         LEFT JOIN
         (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
         LEFT JOIN 
-        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
         ON t1.PeraihPrestasi=user.IDPengenal
         LEFT JOIN 
-        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+        (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
         ON t2.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi)t3
         ON t3.ProgramStudi=prodi.Prodi
@@ -793,10 +1299,10 @@ class admin_fakultas  extends CI_Controller
           LEFT JOIN
           (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
           LEFT JOIN 
-          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
           ON t1.PeraihPrestasi=user.IDPengenal
           LEFT JOIN 
-          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+          (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
           ON t2.PeraihPrestasi=user.IDPengenal
           WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' GROUP BY Fakultas)t3
           ON t3.ProgramStudi=prodi.Prodi
@@ -840,9 +1346,9 @@ class admin_fakultas  extends CI_Controller
 
         $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.TanggalMulai,t1.TanggalAkhir,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
          INNER JOIN 
-         (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+         (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
          UNION ALL
-         SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+         SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
          )t1
          ON t1.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' ORDER BY t1.Pencapaian DESC")->result_array();
@@ -891,9 +1397,9 @@ class admin_fakultas  extends CI_Controller
          (SELECT ProgramStudi,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
          INNER JOIN 
          (SELECT DISTINCT(t1.PeraihPrestasi) FROM
-         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
+         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi
          UNION ALL
-         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
+         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' GROUP BY ProgramStudi)t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY TotalMahasiswa DESC ")->result_array();
@@ -934,9 +1440,9 @@ class admin_fakultas  extends CI_Controller
          (SELECT ProgramStudi,COUNT(Fakultas) AS TotalMahasiswa FROM  user 
          INNER JOIN 
          (SELECT DISTINCT(t1.PeraihPrestasi) FROM
-         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi
+         (SELECT PeraihPrestasi FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi
          UNION ALL
-         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1)t2
+         SELECT PeraihPrestasi FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "')t3
          ON t3.ProgramStudi=prodi.Prodi WHERE prodi.Prodi='" . $prodi . "'ORDER BY TotalMahasiswa DESC")->result_array();
@@ -975,10 +1481,10 @@ class admin_fakultas  extends CI_Controller
 
         $data = $this->db->query("SELECT Nama, IFNULL(SUM(t1.total),0) AS PrestasiKompetisi,IFNULL(SUM(t2.total),0) AS PrestasiNonKompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS Total FROM  user 
          LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t1
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
          ON t1.PeraihPrestasi=user.IDPengenal
          LEFT JOIN 
-         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." GROUP BY PeraihPrestasi)t2
+         (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
          ON t2.PeraihPrestasi=user.IDPengenal
          WHERE user.Role='Mahasiswa' AND Fakultas='" . $this->data['userdata']->Fakultas . "' AND ProgramStudi='" . $prodi . "' AND (t1.total!=0 OR t2.total!=0 ) GROUP BY user.Nama ORDER BY total DESC")->result_array();
 
@@ -1021,9 +1527,9 @@ class admin_fakultas  extends CI_Controller
          LEFT JOIN
          (SELECT t1.Bidang, COUNT(t1.Bidang) AS Total FROM user
          INNER JOIN
-         (SELECT PeraihPrestasi,Bidang FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+         (SELECT PeraihPrestasi,Bidang FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
          UNION ALL
-         SELECT PeraihPrestasi,Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
+         SELECT PeraihPrestasi,Bidang FROM prestasinonkompetisi WHERE Status='Diterima' AND  YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . ")t1
          ON user.IDPengenal=t1.PeraihPrestasi 
          WHERE user.Fakultas='" . $this->data['userdata']->Fakultas . "'
          GROUP BY t1.Bidang)t2
@@ -1080,14 +1586,14 @@ class admin_fakultas  extends CI_Controller
          INNER JOIN 
          prestasikompetisi
          ON prestasikompetisi.PeraihPrestasi=user.IDPengenal
-         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Bidang='" . $bidang . "' AND prestasikompetisi.Status='Diterima' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end." ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
+         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Bidang='" . $bidang . "' AND prestasikompetisi.Status='Diterima' AND YEAR(TanggalMulai) = " . $start . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " ORDER BY prestasikompetisi.Pencapaian DESC")->result_array();
         } else if ($jenisbidang == 'Non Kompetisi') {
             $data = $this->db->query("SELECT 
          Nama,prestasinonkompetisi.PeraihPrestasi AS NIM,Fakultas,ProgramStudi,prestasinonkompetisi.Kegiatan AS Perlombaan,prestasinonkompetisi.TanggalMulai,prestasinonkompetisi.TanggalAkhir,prestasinonkompetisi.Penyelenggara,prestasinonkompetisi.Kategori,prestasinonkompetisi.Tingkat,'-' AS Pencapaian FROM  user
          INNER JOIN 
          prestasinonkompetisi
          ON prestasinonkompetisi.PeraihPrestasi=user.IDPengenal
-         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Bidang='" . $bidang . "' AND YEAR(TanggalMulai) = ".$start." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end)->result_array();
+         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Diterima' AND prestasinonkompetisi.Bidang='" . $bidang . "' AND YEAR(TanggalMulai) = " . $start . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end)->result_array();
         }
 
         $i = 1;
@@ -1144,7 +1650,7 @@ class admin_fakultas  extends CI_Controller
              (SELECT user.IDPengenal,t1.Bidang FROM user
              INNER JOIN
              (SELECT prestasikompetisi.PeraihPrestasi,prestasikompetisi.Bidang AS Bidang FROM prestasikompetisi 
-                 WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end."
+                 WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
              )t1
                  ON t1.PeraihPrestasi=user.IDPengenal
                  WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
@@ -1156,7 +1662,7 @@ class admin_fakultas  extends CI_Controller
              (SELECT user.IDPengenal,t1.Bidang FROM user
              INNER JOIN
              (SELECT prestasinonkompetisi.PeraihPrestasi,prestasinonkompetisi.Bidang AS Bidang FROM prestasinonkompetisi 
-                 WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
+                 WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN " . $start . " AND " . $end . ")t1
                  ON t1.PeraihPrestasi=user.IDPengenal
                  WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
              ON t2.Bidang=bidangprestasi.Bidang WHERE bidangprestasi.JalurPencapaian='Non Kompetisi'
@@ -1206,10 +1712,10 @@ class admin_fakultas  extends CI_Controller
          (SELECT user.IDPengenal,t1.Bidang FROM user
          INNER JOIN
          (SELECT prestasikompetisi.PeraihPrestasi,prestasikompetisi.Bidang AS Bidang FROM prestasikompetisi 
-             WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end."
+             WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
          UNION ALL
          SELECT prestasinonkompetisi.PeraihPrestasi,prestasinonkompetisi.Bidang AS Bidang FROM prestasinonkompetisi 
-             WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN ".$start." AND ".$end.")t1
+             WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN " . $start . " AND " . $end . ")t1
              ON t1.PeraihPrestasi=user.IDPengenal
              WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $this->data['userdata']->Fakultas . "')t2
          ON t2.Bidang=bidangprestasi.Bidang  WHERE bidangprestasi.Bidang='" . $jenisbidang . "'
