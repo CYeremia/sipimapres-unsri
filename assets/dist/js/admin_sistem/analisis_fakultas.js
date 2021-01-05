@@ -18,6 +18,7 @@ var currUrl = window.location.href.split('/');
 currUrl.pop();
 var globalUrl = currUrl.join('/');
 var daftarP;
+var daftarPM;
 
 //tabel default
 function tabel(start, end) {
@@ -94,7 +95,7 @@ function tabel(start, end) {
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
-    daftarP = $('#perestasikompetisimahasiswa').DataTable({
+    daftarPM = $('#perestasikompetisimahasiswa').DataTable({
         ajax: {
             url: globalUrl + '/peringkatfakultasmahasiswa/' + start + '/' + end,
             type: 'POST',
@@ -224,7 +225,7 @@ function satuperingkatfakultasprestasi(start, end, fakultas) {
     });
 
     //tabel peringkat fakultas berdasarkan jumlah mahasiswa
-    daftarP = $('#perestasikompetisimahasiswa').DataTable({
+    daftarPM = $('#perestasikompetisimahasiswa').DataTable({
         ajax: {
             url: globalUrl + '/satuperingkatfakultasmahasiswa/' + start + '/' + end + '/' + fakultas,
             type: 'POST',
@@ -233,7 +234,7 @@ function satuperingkatfakultasprestasi(start, end, fakultas) {
         columns: [
             {
                 data: "Fakultas",
-                "targets": 1
+                "targets": 0
             },
             {
                 data: { TotalMahasiswa: "TotalMahasiswa", Fakultas: "Fakultas" },
@@ -277,10 +278,10 @@ function satuperingkatfakultasprestasi(start, end, fakultas) {
                     return data;
                 },
                 // "orderable": false,
-                "targets": 2
+                "targets": 1
             },
         ],
-        order: [2, 'Dsc']
+        order: [1, 'Dsc']
     });
 }
 
@@ -309,7 +310,7 @@ $('#filter').click(function (e) {
         end = new Date().getFullYear();
     }
 
-    console.log(start + " " + end);
+    // console.log(start + " " + end);
 
     var fakultasindex = document.getElementById("fakultas"); //select ID Fakultas
     var fakultas = fakultasindex.options[fakultasindex.selectedIndex].value; //get value berdasarkan index yang dipilih

@@ -41,8 +41,9 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <?= form_open_multipart('mahasiswa/inputData_Kompetisi', ['class' => 'form-horizontal']) ?>
+                    <!-- <?= form_open_multipart('mahasiswa/inputData_Kompetisi', ['class' => 'form-horizontal']) ?> -->
                     <!-- <form role="form"> -->
+                    <form>
                     <div class="card-body">
                         <div class="row">
                             <!-- left -->
@@ -73,7 +74,7 @@
                                                 <i class="fas fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
+                                        <input type="text" id="tanggalawal" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
                                     </div>
                                 </div>
                                 <!-- <span class="input-group-addon" style="padding: 0px 0px 0px 0px;">to</span> -->
@@ -84,7 +85,7 @@
                                             <i class="fas fa-calendar-alt"></i>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
+                                    <input type="text" id="tanggalakhir" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
                                 </div>
                             </div>
 
@@ -121,8 +122,8 @@
                                     <label>Ketua :</label>
                                 </div>
                                 <div class="input-group mb-1 col-md-12">
-                                    <input type="text" class="form-control" name="NimKetua" id="NimKetua" readonly="true" placeholder="Nama Ketua">
-                                    <input type="text" class="form-control" name="NamaKetua" id="NimKetua" readonly="true" placeholder="Nim Ketua">
+                                    <input type="text" class="form-control" name="NamaKetua" id="NamaKetua" readonly="true" placeholder="Nama Ketua">
+                                    <input type="text" class="form-control" name="NimKetua" id="NimKetua" readonly="true" placeholder="Nim Ketua">
                                 </div>
 
                                 <div class="input-group col-md-12">
@@ -130,7 +131,7 @@
                                 </div>
 
                                 <div class="input-group mb-1 col-md-12">
-                                    <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Masukkan Nim Anggota" required>
+                                    <input type="text" class="form-control" name="NimAnggota" id="NimAnggota" placeholder="Masukkan Nim Anggota" required>
                                     <!-- <button type="button" name="TambahData" id="TambahData" class="btn btn-primary float-right">Tambah Data</button> -->
                                     <input type="button" name="TambahData" id="TambahData" value="Tambah Data" class="btn btn-primary float-right"></input>
                                 </div>
@@ -228,10 +229,11 @@
                             </div>
 
                         </div>
-                        <input type="submit" name="submit" class="btn btn-primary float-right"></input>
+                        <input value="Submit "type="button" id="submitform" name="submit" class="btn btn-primary float-right"></input>
                     </div>
                     <!-- /.card-body -->
-                    <?= form_close() ?>
+                    <!-- <?= form_close() ?> -->
+                    </form>
                 </div>
             </div>
         </div>
@@ -295,7 +297,7 @@
                             <input type="hidden" name="detector" id="id_modal">
                             <div class="form-group">
                                 <!-- <div class="col-lg-offset-2 col-lg-10"> -->
-                                <input type="submit" name="datamahasiswa" value="Tambah Data Anggota" class="btn btn-sm btn-success float-right">
+                                <input type="button" id="tambahtotabel" name="datamahasiswa" value="Tambah Data Anggota" class="btn btn-sm btn-success float-right" data-dismiss="modal">
                             </div>
                         </div>
                     </div>

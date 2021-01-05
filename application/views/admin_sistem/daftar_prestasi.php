@@ -27,7 +27,8 @@
                                 <th>No</th>
                                 <th>Bidang</th>
                                 <th>Perlombaan</th>
-                                <th>Tahun</th>
+                                <th>TanggalMulai</th>
+                                <th>TanggalAkhir</th>
                                 <th>Penyelenggara</th>
                                 <th>Kategori</th>
                                 <th>Tingkat</th>

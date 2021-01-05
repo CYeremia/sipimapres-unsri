@@ -16,8 +16,8 @@
                 <!-- <a href="#" class="d-block"><?= $user['Nama'] ?> -->
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= $userdata->Nama ?></a>
-                <a href="#" class="d-block">(<?= $userdata->IDPengenal ?>)</a>
+                <a href="#" class="d-block" id="sidebarNama"><?= $userdata->Nama ?></a>
+                <a href="#" class="d-block" id="sidebarNim">(<?= $userdata->IDPengenal ?>)</a>
                 <!-- <a href="#" class="d-block"><?= $user['Nama'] ?></a>
                 <a href="#" class="d-block">(<?= $user['IDPengenal'] ?>)</a> -->
             </div>

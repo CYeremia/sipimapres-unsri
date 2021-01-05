@@ -107,7 +107,7 @@ function tabel(start, end) {
 
                 return data;
             },
-            // "orderable": false,
+            "orderable": false,
             "targets": 2
         },
         ],
@@ -173,6 +173,7 @@ function tabeljenisprestasi(start, end, jenisprestasi) {
 
                 return data;
             },
+            "orderable" : false,
             "targets": 2
         },
         ],
@@ -238,6 +239,7 @@ function tabeljenisbidang(start, end, jenisbidang) {
 
                 return data;
             },
+            "orderable" : false,
             "targets": 2
         },
         ],
