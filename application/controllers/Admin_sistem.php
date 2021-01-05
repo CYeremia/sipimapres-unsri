@@ -560,11 +560,11 @@ class Admin_sistem  extends CI_Controller
         $fakultas = str_replace("~", "/", $fakultas);
         $listData = [];
 
-        $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.Tahun,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
+        $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.TanggalMulai,t1.TanggalAkhir,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
         INNER JOIN 
-        (SELECT PeraihPrestasi,Bidang,Perlombaan,Tahun,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+        (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
         UNION ALL
-        SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,Tahun,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
+        SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN ".$start." AND ".$end." AND YEAR(TanggalAkhir) BETWEEN ".$start." AND ".$end."
         )t1
         ON t1.PeraihPrestasi=user.IDPengenal
         WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $fakultas . "' ORDER BY t1.Pencapaian DESC")->result_array();
@@ -576,7 +576,8 @@ class Admin_sistem  extends CI_Controller
                 'No' => $i,
                 'Bidang' => $k['Bidang'],
                 'Perlombaan' => $k['Perlombaan'],
-                'Tahun' => $k['Tahun'],
+                'TanggalMulai' => date_format(date_create($k['TanggalMulai']), "d F Y"),
+                'TanggalAkhir' => date_format(date_create($k['TanggalAkhir']), "d F Y"),
                 'Penyelenggara' => $k['Penyelenggara'],
                 'Kategori' => $k['Kategori'],
                 'Tingkat' => $k['Tingkat'],
