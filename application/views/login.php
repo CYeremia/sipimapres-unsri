@@ -42,14 +42,13 @@
 </head>
 
 <body>
-    <div class="login-page" style="margin-top: 150px;">
+    <div class="login-page" style="margin-top: 100px;">
         <div class="login-box">
             <div class="card-login" style="box-shadow: none;">
                 <div class="login-logo">
                     <a style="margin-top: 0px" href="<?= site_url('login') ?>">
                         <img src="<?= base_url('assets/dist/img/logo-full1.png') ?>" height="1000px" alt="">
                     </a>
-                    <?= $this->session->flashdata('msg') ?>
                     <!-- <a class="textlogo" href="javascript:void(0);"><b>Si-Pimampres</b></a> -->
                 </div>
                 <!-- /.login-logo -->

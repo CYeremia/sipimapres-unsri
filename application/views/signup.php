@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <div class="login-page" style="margin-top: 73px;">
+    <div class="login-page" style="margin-top: 50px;">
         <div class="login-box">
             <div class="card-login" style="box-shadow: none;">
                 <div class="register-logo">

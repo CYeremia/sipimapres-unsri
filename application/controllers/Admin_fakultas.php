@@ -270,7 +270,7 @@ class admin_fakultas  extends CI_Controller
                             if ($checknumeric == true) // jika format IPK adalah angka
                             {
                                 if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                 } else //jika format IPK benar
                                 {
@@ -279,29 +279,29 @@ class admin_fakultas  extends CI_Controller
                                             // if ($this->user_m->insert($input)) {
                                             $this->db->where('IDPengenal', $this->input->post('IDL'));
                                             $this->db->update('user', $input);
-                                            $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                            $this->flashmsg('Data Mahasiswa Berhasil Diperbaharui', 'success');
                                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                             // }
                                         } else { //Jika tlp bukan numerik
-                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format Telephone tidak sesuai !', 'danger');
                                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                         }
                                     } else { //Jika NIM bukan numerik
-                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM tidak sesuai !', 'danger');
                                         redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     }
                                 }
                             } else //jika bukan format numerik
                             {
-                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                             }
                         } else { //jika format IPK dan Telephone bukan numerik
-                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                         }
                     } else { //jika format NIM, IPK dan Telephone bukan numerik
-                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
                         redirect('admin_fakultas/Kelola_akun_mahasiswa');
                     }
                 } else { //Jika Nim berubah
@@ -311,7 +311,7 @@ class admin_fakultas  extends CI_Controller
 
                     if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
                     {
-                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
                         redirect('admin_fakultas/edit_DataMahasiswa');
                     } else {
                         $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
@@ -324,7 +324,7 @@ class admin_fakultas  extends CI_Controller
                                 if ($checknumeric == true) // jika format IPK adalah angka
                                 {
                                     if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                         redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     } else //jika format IPK benar
                                     {
@@ -333,29 +333,29 @@ class admin_fakultas  extends CI_Controller
                                                 // if ($this->user_m->insert($input)) {
                                                 $this->db->where('IDPengenal', $this->input->post('IDL'));
                                                 $this->db->update('user', $input);
-                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                                $this->flashmsg('Data Mahasiswa Berhasil Diperbaharui', 'success');
                                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                                 // }
                                             } else { //Jika tlp bukan numerik
-                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format Telephone tidak sesuai !', 'danger');
                                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                             }
                                         } else { //Jika NIM bukan numerik
-                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM tidak sesuai !', 'danger');
                                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                         }
                                     }
                                 } else //jika bukan format numerik
                                 {
-                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                 }
                             } else { //jika format IPK dan Telephone bukan numerik
-                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                             }
                         } else { //jika format NIM, IPK dan Telephone bukan numerik
-                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                         }
                     }
@@ -379,39 +379,39 @@ class admin_fakultas  extends CI_Controller
                                 if ($checknumeric == true) // jika format IPK adalah angka
                                 {
                                     if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                         redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     } else //jika format IPK benar
                                     {
-                                        if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                        if ($checknumericNIM == true) { //jika format nim adalah angka
                                             if ($checknumericphone == true) { //jika format tlp adalah angka
                                                 //Update Password
                                                 $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
                                                 $this->db->where('IDPengenal', $this->input->post('IDL'));
                                                 $this->db->update('user', $input);
-                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Diperbaharui', 'success');
+                                                $this->flashmsg('Data Mahasiswa Berhasil Diperbaharui', 'success');
                                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                                 // }
                                             } else { //Jika tlp bukan numerik
-                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format Telephone tidak sesuai !', 'danger');
                                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                             }
                                         } else { //Jika NIM bukan numerik
-                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM tidak sesuai !', 'danger');
                                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                         }
                                     }
                                 } else //jika bukan format numerik
                                 {
-                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                    $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                 }
                             } else { //jika format IPK dan Telephone bukan numerik
-                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                             }
                         } else { //jika format NIM, IPK dan Telephone bukan numerik
-                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                         }
                     } else { //Jika Nim berubah
@@ -421,7 +421,7 @@ class admin_fakultas  extends CI_Controller
 
                         if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
                         {
-                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
+                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
                             redirect('admin_fakultas/edit_DataMahasiswa');
                         } else {
                             $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
@@ -434,7 +434,7 @@ class admin_fakultas  extends CI_Controller
                                     if ($checknumeric == true) // jika format IPK adalah angka
                                     {
                                         if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                            $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                            $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                             redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                         } else //jika format IPK benar
                                         {
@@ -448,25 +448,25 @@ class admin_fakultas  extends CI_Controller
                                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                                     // }
                                                 } else { //Jika tlp bukan numerik
-                                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format Telephone tidak sesuai !', 'danger');
+                                                    $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format Telephone tidak sesuai !', 'danger');
                                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                                 }
                                             } else { //Jika NIM bukan numerik
-                                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM tidak sesuai !', 'danger');
+                                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM tidak sesuai !', 'danger');
                                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                             }
                                         }
                                     } else //jika bukan format numerik
                                     {
-                                        $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK tidak sesuai !', 'danger');
+                                        $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK tidak sesuai !', 'danger');
                                         redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     }
                                 } else { //jika format IPK dan Telephone bukan numerik
-                                    $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
+                                    $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format IPK dan Telephone tidak sesuai !', 'danger');
                                     redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                 }
                             } else { //jika format NIM, IPK dan Telephone bukan numerik
-                                $this->flashmsg('Data Mahasiswa Gagal Berhasil Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                                $this->flashmsg('Data Mahasiswa Gagal Diperbaharui, Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
                                 redirect('admin_fakultas/Kelola_akun_mahasiswa');
                             }
                         }

@@ -58,38 +58,6 @@ class Signup extends CI_Controller
         return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable">' . $msg . '</div>');
     }
 
-    // public function newUser()
-    // {
-    //     $Nama     = $this->input->post('namauser');
-    //     $IDPengenal   = $this->input->post('IDuser');
-    //     $Email        = $this->input->post('emailuser');
-    //     $Password     = password_hash($this->input->post('passworduser'), PASSWORD_DEFAULT);
-
-    //     $Telephone       = $this->input->post('telpuser');
-    //     $IPK       = $this->input->post('IPKuser');
-    //     $Role     = 'Mahasiswa';
-    //     $Fakultas  = $this->input->post('fakultasuser');
-    //     $ProgramStudi   = $this->input->post('jurusanuser');
-
-    //     $sql = "INSERT INTO user(Nama,Role,IDPengenal,Fakultas,ProgramStudi,Email,IPK,Telephone,Password) VALUE ('$Nama','$IDPengenal','$Role','$IDPengenal','$Fakultas','$ProgramStudi','$Email','$IPK','$Telephone','$Password')";
-    //     $this->db->query($sql);
-    //     if ($this->db->affected_rows() == 1) {
-    //         $result = [
-    //             'status' => true,
-    //             'status_code' => 200
-    //         ];
-    //         header('Content-Type: application/json');
-    //         echo json_encode($result);
-    //     } else {
-    //         $result = [
-    //             'status' => true,
-    //             'status_code' => 200
-    //         ];
-    //         header('Content-Type: application/json');
-    //         echo json_encode($result);
-    //     }
-    // }
-
     public function newUser()
     {
         if ($this->input->post('datauser')) {
@@ -142,47 +110,58 @@ class Signup extends CI_Controller
                 $input['ProgramStudi']   = $this->input->post('jurusan');
 
                 //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
-                $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='".$input['IDPengenal']."'")->row();
-                $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='".$input['IDPengenal']."'")->row();
+                $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
+                $checkIDPengenalRegistrasi = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM registrasi WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
 
-                if($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
+                if ($checkIDPengenal->NIM > 0 || $checkIDPengenalRegistrasi->NIM > 0) // jika sudah terdaftar oleh admin / mahasiswa
                 {
                     $this->flashmsg('NIM sudah terdaftar, Mohon gunakan NIM lain !', 'danger');
                     redirect('signup');
-                }
-                else // jika belum terdaftar
+                } else // jika belum terdaftar
                 {
                     $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
 
-                        $checknumeric = is_numeric($input['IPK']);    
-                        
-                        if($checknumeric == true) // jika format IPK adalah angka
-                        {
-                        
-                            if($input['IPK'] > 4 || $input['IPK'] < 0  )
+                    $checknumeric = is_numeric($input['IPK']);
+                    $checknumericphone = is_numeric($input['Telephone']);
+                    $checknumericNIM = is_numeric($input['IDPengenal']);
+
+                    if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
+                        if ($checknumeric == true || $checknumericphone == true) {
+                            if ($checknumeric == true) // jika format IPK adalah angka
+                            {
+                                if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                    $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                    redirect('signup');
+                                } else //jika format IPK benar
+                                {
+                                    if ($checknumericNIM == true) {
+                                        if ($checknumericphone == true) {
+                                            $this->Mahasiswa_regis->insert($input);
+                                            // $this->flashmsg('Anda Berhasil Mendaftar', 'success');
+                                            redirect('signup_berhasil');
+                                        } else { //Jika tlp bukan numerik
+                                            $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
+                                            redirect('signup');
+                                        }
+                                    } else { //Jika NIM bukan numerik
+                                        $this->flashmsg('Format NIM tidak sesuai !', 'danger');
+                                        redirect('signup');
+                                    }
+                                }
+                            } else //jika bukan format numerik
                             {
                                 $this->flashmsg('Format IPK tidak sesuai !', 'danger');
                                 redirect('signup');
                             }
-                            else //jika format IPK benar
-                            {
-                                if($this->Mahasiswa_regis->insert($input))
-                                {
-                                    $this->flashmsg('Anda Berhasil Mendaftar', 'success');
-                                    redirect('login');
-                                }
-                            }
-
-                         }
-
-                         else //jika bukan format numerik
-                         {
-                            $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                        } else { //jika format IPK dan Telephone bukan numerik
+                            $this->flashmsg('Format IPK dan Telephone tidak sesuai !', 'danger');
                             redirect('signup');
-                         }
-
+                        }
+                    } else { //jika format NIM, IPK dan Telephone bukan numerik
+                        $this->flashmsg('Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        redirect('signup');
+                    }
                 }
-
             }
         }
     }

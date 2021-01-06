@@ -20,31 +20,11 @@ class Login extends CI_Controller
         }
     }
 
-    protected function flashmsg($msg, $type = 'success', $name = 'msg')
-    {
-        return $this->session->set_flashdata($name, '<div class="alert alert-' . $type . ' alert-dismissable">' . $msg . '</div>');
-    }
-
     public function index()
     {
         $this->load->view('login');
     }
 
-
-    // public function index()
-    // {
-    //     // $this->form_validation->set_rules('IDpengenal', 'IDpengenal', 'required|trim');
-    //     // $this->form_validation->set_rules('password', 'password', 'required|trim');
-
-    //     // if ($this->form_validation->run() == FALSE) {
-    //     $this->load->view('login');
-    //     // $this->flashmsg('Data Gagal Dimasukkan, Akun dengan data yang sama sudah pernah dibuat / ada field yang kosong', 'danger');
-    //     // } else {
-    //     //     $this->_login();
-    //     // }
-    // }
-
-    // private function _login()
     public function sign()
     {
         $this->load->model('user_m');
