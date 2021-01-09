@@ -63,7 +63,8 @@
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <!-- javascript -->
 <script src="<?= base_url('assets') ?>/dist/js/admin_fakultas/<?= $content ?>.js"></script>
-
+<!-- swal -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

@@ -78,8 +78,8 @@ function detaildataM(IDp) {
             ID: IDp,
         },
         success: function (response) {
-            console.log(response);
-            swal.close();
+            // console.log(response);
+            // swal.close();
             document.getElementById('namamahasiswa').value = response.data[0].Nama;
             document.getElementById('Nimmahasiswa').value = response.data[0].IDPengenal;
             document.getElementById('prodi').value = response.data[0].ProgramStudi;
