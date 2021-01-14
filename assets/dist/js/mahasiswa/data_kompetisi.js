@@ -43,30 +43,30 @@ $(document).ready(function () {
     $('#TambahData').on('click', function (e) {
 
         var nimanggota = document.getElementById("NimAnggota").value;
-        if(nimanggota!=""){
+        if (nimanggota != "") {
             $.ajax({
                 url: globalUrl + '/getdataanggota/' + nimanggota,
                 type: 'POST',
                 data: function (d) { },
                 dataType: 'json',
                 success: function (response) {
-                    if(response.response_code!=404){
+                    if (response.response_code != 404) {
                         document.getElementById("namamahasiswa").value = response.Nama;
                         document.getElementById("Nimmahasiswa").value = response.IDpengenal;
                         document.getElementById("prodi").value = response.ProgramStudi;
                         document.getElementById("fakultas").value = response.Fakultas;
                         $('#modal-form2').modal();
-                    }else{
-                        swal("ERROR 404","Data Tidak Ditemukan, Pastikan Mahasiswa telah Terdaftar","error").then((value) => {
+                    } else {
+                        swal("ERROR 404", "Data Tidak Ditemukan, Pastikan Mahasiswa telah Terdaftar", "error").then((value) => {
                             document.getElementById("NimAnggota").value = "";
                         });
 
-                        
+
                     }
                 }
             });
-        }else{
-            swal("ERROR","Harap Isi NIM Anggota terlebih Dahulu","error");
+        } else {
+            swal("ERROR", "Harap Isi NIM Anggota terlebih Dahulu", "error");
         }
     });
 
@@ -88,6 +88,26 @@ $(document).ready(function () {
         $('#modal-form2').hide();
     });
 
+    //Pemilihan Tingkat
+    $('#Tingkat').on('change', function () {
+        var selected = $(this).val();
+        $("#ShowTingkat").show();
+
+        if (selected == 'Regional') {
+            document.getElementById("jumlahTingkat").placeholder = "Jumlah Perguruan Tinggi";
+            document.getElementById("jumlahTingkat").value = "";
+        } else if (selected == 'Provinsi') {
+            document.getElementById("jumlahTingkat").placeholder = "Jumlah Perguruan Tinggi | Minimal 5 Perguruan Tinggi";
+            document.getElementById("jumlahTingkat").value = "";
+        } else if (selected == 'Nasional') {
+            document.getElementById("jumlahTingkat").placeholder = "Jumlah Provinsi | Minimal 5 Provinsi";
+            document.getElementById("jumlahTingkat").value = "";
+        } else {
+            document.getElementById("jumlahTingkat").value = "";
+            document.getElementById("jumlahTingkat").placeholder = "Jumlah Negara | Minimal 2 Negara";
+        }
+    });
+
     // submit form
 
     $('#submitform').on('click', function (e) {
@@ -101,7 +121,7 @@ $(document).ready(function () {
             var statuskategori = "";
             var daftaranggota = "";
 
-            if (document.getElementById("Kategori").value == "Kelompok" && lasttableindex!=1) {
+            if (document.getElementById("Kategori").value == "Kelompok" && lasttableindex != 1) {
                 statuskategori = "Kelompok";
                 //append semua NIM anggota
                 daftaranggota = document.getElementById("anggotaKelompok").rows[1].cells[0].innerHTML;
@@ -146,7 +166,7 @@ $(document).ready(function () {
                         swal("Foto Tidak Sesuai Format", result['data'], "error");
                     } else {
                         swal("Penambahan Prestasi Berhasil, Silahkan Tunggu Verifikasi dari Fakultas", result['data'], "success").then((value) => {
-                            window.location.href = globalUrl+"/Prestasi_Kompetisi";
+                            window.location.href = globalUrl + "/Prestasi_Kompetisi";
                         });
                     }
                 }

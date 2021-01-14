@@ -60,7 +60,7 @@
                                 <div class="input-group mb-3 col-md-12">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-university"></span>
+                                            <span class="fas fa-city"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Penyelenggara" required>
@@ -172,6 +172,15 @@
                                     </select>
                                 </div>
 
+                                <div class="input-group mb-3 col-md-12" id="ShowTingkat" style="display: none;">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" name="jumlahTingkat" id="jumlahTingkat" required>
+                                </div>
+
                                 <div class="input-group mb-3 col-md-12">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
@@ -221,10 +230,25 @@
                                     </div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                        <label class="custom-file-label" for="customFile">Bukti Prestasi (SK/Sertifikat/Piagam/dll)</label>
                                     </div>
                                     <div class="input-group" style="color: red;">
-                                        <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
+                                        <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) JPG/JPEG || Maksimal ukuran file pdf : 1024 kb </p>
+                                    </div>
+                                </div>
+
+                                <div class="input-group col-md-12" style="z-index : 0">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-image"></span>
+                                        </div>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="dokumentasiKegiatan" name="dokumentasiKegiatan">
+                                        <label class="custom-file-label" for="customFile">Dokumentasi Kegiatan</label>
+                                    </div>
+                                    <div class="input-group" style="color: red;">
+                                        <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) JPG/JPEG</p>
                                     </div>
                                 </div>
 
