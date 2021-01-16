@@ -123,27 +123,46 @@ class Mahasiswa extends CI_Controller
 
     public function input_data_kompetisi()
     {
-        // config format upload
-        // $photo = $_POST['buktiprestasi']['name']; //foto opsional
-        // if (isset($_FILES['buktiprestasi'])) //jika foto dikirim
-        // {
+        $BUKTIPRESTASI="";
+        $BUKTIDOKUMENTASI="";
+        // config format upload (bukti prestasi)
         $config['upload_path']          = './uploads/';
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['allowed_types']        = 'jpg|pdf';
         $config['max_size']             = 1024;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 768;
-        // $config['encrypt_name']			= TRUE;
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
-
-        if (!$this->upload->do_upload("buktiprestasi")) { //jika foto gagal diupload
+        if (!$this->upload->do_upload("buktiprestasi")) { //jika foto (bukti dokumentasi) gagal diupload
             $result = [
-                'data' => "Silahkan Periksa Kembali",
+                'data' => "Silahkan Periksa Kembali-1",
                 'status' => false,
                 'status_code' => 403
             ];
-        } else {    //jika foto berhasil diupload
+        }else{
+            $BUKTIPRESTASI = $this->upload->data("file_name");
+        }//jika dokumen berhasil diupload
+        
+        
+        // config format upload (bukti dokumentasi)
+        $config2['upload_path']          = './uploads_BuktiDokumentasi/';
+        $config2['allowed_types']        = 'gif|jpg|png|pdf';
+        $config2['max_size']             = 1024;
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
+        // $config['encrypt_name']			= TRUE;
+        $this->load->library('upload', $config2);
+        $this->upload->initialize($config2);
+        if (!$this->upload->do_upload("dokumentasiKegiatan")) { //jika foto (bukti dokumentasi) gagal diupload
+            $filepathtodelete='./uploads/';
+            $filepathtodelete.=$BUKTIPRESTASI;
+            unlink($filepathtodelete);//delete uploaded file
+            $result = [
+                'data' => "Silahkan Periksa Kembali-2",
+                'status' => false,
+                'status_code' => 403
+            ];
+        } else {//jika foto berhasil diupload
             // tampung variable
+            $BUKTIDOKUMENTASI = $this->upload->data("file_name");
             $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
             $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
             $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
@@ -153,12 +172,12 @@ class Mahasiswa extends CI_Controller
             $KATEGORI = $_SERVER['HTTP_KATEGORI'];
             $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
             $TINGKAT = $_SERVER['HTTP_TINGKAT'];
+            $JUMLAHPERWAKILAN = $_SERVER['HTTP_JUMLAHPERWAKILAN'];
             $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
             $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
             $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
             $BERITA = $_SERVER['HTTP_BERITA'];
             $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-            $BUKTIPRESTASI = $this->upload->data("file_name");
 
             // // Hitung Score
             // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
@@ -175,12 +194,15 @@ class Mahasiswa extends CI_Controller
             $data['Kategori'] = $KATEGORI;
             $data['StatusKategori'] = $STATUSKATEGORI;
             $data['Tingkat'] = $TINGKAT;
+            $data['JumlahPerwakilan']=$JUMLAHPERWAKILAN;
             $data['Pencapaian'] = $PENCAPAIAN;
             $data['LinkBerita'] = $BERITA;
             $data['JumlahPeserta'] = $JUMLAHPESERTA;
             $data['JumlahPenghargaan'] = $JUMLAHPENGHARGAAN;
             $data['Skor'] = $SKOR;
             $data['BuktiPrestasi'] = $BUKTIPRESTASI;
+            $data['BuktiDokumentasi'] = $BUKTIDOKUMENTASI;
+
 
             if ($KATEGORI != 'Kelompok') { //jika kategori individu
                 $this->db->insert('prestasikompetisi', $data);

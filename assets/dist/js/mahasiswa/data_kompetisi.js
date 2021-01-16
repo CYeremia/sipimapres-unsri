@@ -112,10 +112,11 @@ $(document).ready(function () {
 
     $('#submitform').on('click', function (e) {
         // cek kelengkapan data
-        if (document.getElementById("JudulLomba").value == "" || document.getElementById("Penyelenggara").value == "" || document.getElementById("tanggalawal").value == "" || document.getElementById("tanggalakhir").value == "" || document.getElementById("Bidang").value == "Pilih Bidang" || document.getElementById("Kategori").value == "Pilih Kategori" || document.getElementById("Tingkat").value == "Tingkat" || document.getElementById("JumlahPeserta").value == "" || document.getElementById("Pencapaian").value == "Pencapaian" || document.getElementById("JumlahPenghargaan").value == "" || document.getElementById("buktiprestasi").files[0] == null) {
+        if (document.getElementById("JudulLomba").value == "" || document.getElementById("Penyelenggara").value == "" || document.getElementById("tanggalawal").value == "" || document.getElementById("tanggalakhir").value == "" || document.getElementById("Bidang").value == "Pilih Bidang" || document.getElementById("Kategori").value == "Pilih Kategori" || document.getElementById("Tingkat").value == "Tingkat" || document.getElementById("JumlahPeserta").value == "" || isNaN(document.getElementById("JumlahPeserta").value) || document.getElementById("Pencapaian").value == "Pencapaian" || document.getElementById("JumlahPenghargaan").value == "" || isNaN(document.getElementById("JumlahPenghargaan").value) || document.getElementById("buktiprestasi").files[0] == null || isNaN(document.getElementById("jumlahTingkat").value) || document.getElementById("jumlahTingkat").value == "" || document.getElementById("dokumentasiKegiatan").files[0] == null) {
             // swall bermasalah
             swal("Field Belum Lengkap", "Silahkan Isi Field yang Kosong", "error");
-        } else { //jika semua field diisi
+        }
+        else { //jika semua field diisi
             // tampung data
             var formdata = new FormData();
             var statuskategori = "";
@@ -134,8 +135,10 @@ $(document).ready(function () {
                 statuskategori = "Individual";
             }
             if (document.getElementById("buktiprestasi").files[0] != null) {
-                var photo = document.getElementById("buktiprestasi").files[0];
+                var photo = document.getElementById("buktiprestasi").files[0];//buktiprestasi
                 formdata.append("buktiprestasi", photo);
+                var filebukti=document.getElementById("dokumentasiKegiatan").files[0];//buktidokumentasi
+                formdata.append("dokumentasiKegiatan", filebukti);
             }
             // panggil ajax
             $.ajax({
@@ -153,6 +156,7 @@ $(document).ready(function () {
                     'Kategori': document.getElementById("Kategori").value,
                     'statuskategori': statuskategori,
                     'Tingkat': document.getElementById("Tingkat").value,
+                    'JumlahPerwakilan': document.getElementById("jumlahTingkat").value,
                     'JumlahPeserta': document.getElementById("JumlahPeserta").value,
                     'Pencapaian': document.getElementById("Pencapaian").value,
                     'JumlahPenghargaan': document.getElementById("JumlahPenghargaan").value,
