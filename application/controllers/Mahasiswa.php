@@ -123,8 +123,8 @@ class Mahasiswa extends CI_Controller
 
     public function input_data_kompetisi()
     {
-        $BUKTIPRESTASI="";
-        $BUKTIDOKUMENTASI="";
+        $BUKTIPRESTASI = "";
+        $BUKTIDOKUMENTASI = "";
         // config format upload (bukti prestasi)
         $config['upload_path']          = './uploads/';
         $config['allowed_types']        = 'jpg|pdf';
@@ -133,15 +133,15 @@ class Mahasiswa extends CI_Controller
         $this->upload->initialize($config);
         if (!$this->upload->do_upload("buktiprestasi")) { //jika foto (bukti dokumentasi) gagal diupload
             $result = [
-                'data' => "Silahkan Periksa Kembali-1",
+                'data' => "Silahkan Periksa Kembali berkas bukti prestasi",
                 'status' => false,
                 'status_code' => 403
             ];
-        }else{
+        } else {
             $BUKTIPRESTASI = $this->upload->data("file_name");
-        }//jika dokumen berhasil diupload
-        
-        
+        } //jika dokumen berhasil diupload
+
+
         // config format upload (bukti dokumentasi)
         $config2['upload_path']          = './uploads_BuktiDokumentasi/';
         $config2['allowed_types']        = 'gif|jpg|png|pdf';
@@ -152,15 +152,15 @@ class Mahasiswa extends CI_Controller
         $this->load->library('upload', $config2);
         $this->upload->initialize($config2);
         if (!$this->upload->do_upload("dokumentasiKegiatan")) { //jika foto (bukti dokumentasi) gagal diupload
-            $filepathtodelete='./uploads/';
-            $filepathtodelete.=$BUKTIPRESTASI;
-            unlink($filepathtodelete);//delete uploaded file
+            $filepathtodelete = './uploads/';
+            $filepathtodelete .= $BUKTIPRESTASI;
+            unlink($filepathtodelete); //delete uploaded file
             $result = [
-                'data' => "Silahkan Periksa Kembali-2",
+                'data' => "Silahkan Periksa Kembali berkas dokumentasi kegiatan",
                 'status' => false,
                 'status_code' => 403
             ];
-        } else {//jika foto berhasil diupload
+        } else { //jika foto berhasil diupload
             // tampung variable
             $BUKTIDOKUMENTASI = $this->upload->data("file_name");
             $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
@@ -194,7 +194,7 @@ class Mahasiswa extends CI_Controller
             $data['Kategori'] = $KATEGORI;
             $data['StatusKategori'] = $STATUSKATEGORI;
             $data['Tingkat'] = $TINGKAT;
-            $data['JumlahPerwakilan']=$JUMLAHPERWAKILAN;
+            $data['JumlahPerwakilan'] = $JUMLAHPERWAKILAN;
             $data['Pencapaian'] = $PENCAPAIAN;
             $data['LinkBerita'] = $BERITA;
             $data['JumlahPeserta'] = $JUMLAHPESERTA;
@@ -477,16 +477,16 @@ class Mahasiswa extends CI_Controller
         $data = new userobj();
         $sql = "SELECT COUNT(IDPengenal) AS jumlah FROM user WHERE IDPengenal='$nim'";
         $fetchdata = $this->db->query($sql)->row('jumlah');
-        if($fetchdata!=0){
+        if ($fetchdata != 0) {
             $sql = "SELECT IDPengenal AS Nim, Nama,ProgramStudi,Fakultas FROM user WHERE IDPengenal='$nim'";
             $fetchdata = $this->db->query($sql)->row();
             $data->IDpengenal = $fetchdata->Nim;
             $data->Nama = $fetchdata->Nama;
             $data->Fakultas = $fetchdata->Fakultas;
             $data->ProgramStudi = $fetchdata->ProgramStudi;
-            $data->response_code="200";
-        }else{
-            $data->response_code="404";
+            $data->response_code = "200";
+        } else {
+            $data->response_code = "404";
         }
         header('Content-Type: application/json');
         echo json_encode($data);

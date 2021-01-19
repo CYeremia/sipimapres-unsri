@@ -31,7 +31,7 @@
                                     <div class="input-group mb-4 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-user"></span>
+                                                <span class="fas fa-user fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Nama Mahasiswa" readonly="true" required>
@@ -40,7 +40,7 @@
                                     <div class="input-group col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-id-card-alt"></span>
+                                                <span class="fas fa-id-card-alt fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Nim Mahasiswa" readonly="true" required>
@@ -72,7 +72,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-dice-d20"></span>
+                                                <span class="fas fa-dice-d20 fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="JudulLomba" id="JudulLomba" placeholder="Judul Perlombaan" required>
@@ -81,7 +81,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-university"></span>
+                                                <span class="fas fa-university fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Penyelenggara" required>
@@ -92,7 +92,7 @@
                                             <div class="input-group date" id="tanggal" data-target-input="nearest">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">
-                                                        <i class="fas fa-calendar-alt"></i>
+                                                        <i class="fas fa-calendar-alt fa-fw"></i>
                                                     </span>
                                                 </div>
                                                 <input type="text" id="tanggalawal" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
@@ -103,7 +103,7 @@
                                         <div class="input-group date col-md-6" id="tanggal2" data-target-input="nearest">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <i class="fas fa-calendar-alt fa-fw"></i>
                                                 </span>
                                             </div>
                                             <input type="text" id="tanggalakhir" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
@@ -114,7 +114,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-code-branch"></span>
+                                                <span class="fas fa-code-branch fa-fw"></span>
                                             </div>
                                         </div>
                                         <select class="form-control" name="Bidang" id="Bidang" required>
@@ -128,7 +128,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-user-friends"></span>
+                                                <span class="fas fa-user-friends fa-fw"></span>
                                             </div>
                                         </div>
                                         <select class="form-control" name="Kategori" id="Kategori" required>
@@ -182,7 +182,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-globe-americas"></span>
+                                                <span class="fas fa-globe-americas fa-fw"></span>
                                             </div>
                                         </div>
                                         <select class="form-control" name="Tingkat" id="Tingkat" required>
@@ -194,10 +194,19 @@
                                         </select>
                                     </div>
 
+                                    <div class="input-group mb-3 col-md-12" id="ShowTingkat" style="display: none;">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-university fa-fw"></span>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="jumlahTingkat" id="jumlahTingkat" required>
+                                    </div>
+
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-users"></span>
+                                                <span class="fas fa-users fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="JumlahPeserta" id="JumlahPeserta" placeholder="Jumlah Peserta" required>
@@ -206,7 +215,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-trophy"></span>
+                                                <span class="fas fa-trophy fa-fw"></span>
                                             </div>
                                         </div>
                                         <select class="form-control" name="Pencapaian" id="Pencapaian" required>
@@ -220,7 +229,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-newspaper"></span>
+                                                <span class="fas fa-newspaper fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
@@ -229,7 +238,7 @@
                                     <div class="input-group mb-3 col-md-12">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-link"></span>
+                                                <span class="fas fa-link fa-fw"></span>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita" required>
@@ -238,15 +247,30 @@
                                     <div class="input-group col-md-12" style="z-index : 0">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
-                                                <span class="fas fa-image"></span>
+                                                <span class="fas fa-image fa-fw"></span>
                                             </div>
                                         </div>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
-                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                            <label class="custom-file-label" for="customFile">Bukti Prestasi (SK/Sertifikat/Piagam/dll)</label>
                                         </div>
                                         <div class="input-group" style="color: red;">
-                                            <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
+                                            <p>*Maksimal Ukuran Gambar (JPG/JPEG) : 1024kb || Maksimal ukuran file (PDF) : 1024 kb</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group col-md-12" style="z-index : 0">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-image fa-fw"></span>
+                                            </div>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="dokumentasiKegiatan" name="dokumentasiKegiatan">
+                                            <label class="custom-file-label" for="customFile">Dokumentasi Kegiatan</label>
+                                        </div>
+                                        <div class="input-group" style="color: red;">
+                                            <p>*Maksimal Ukuran Gambar (JPG/JPEG) : 1024kb || Maksimal ukuran file (PDF) : 1024 kb</p>
                                         </div>
                                     </div>
                                     <!-- </div> -->

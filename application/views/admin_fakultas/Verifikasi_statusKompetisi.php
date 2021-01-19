@@ -78,6 +78,12 @@
                                 </tr>
 
                                 <tr>
+                                    <td style="width: 20%">Perwakilan Prestasi</td>
+                                    <td>5 Negara</td>
+                                    <!-- <td><?php echo ($IDM->Tingkat) ?></td> -->
+                                </tr>
+
+                                <tr>
                                     <td style="width: 20%">Link Berita</td>
                                     <td><?php echo ($IDM->LinkBerita) ?></td>
                                 </tr>
