@@ -63,12 +63,12 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">TanggalMulai</td>
+                                    <td style="width: 20%">Tanggal Mulai</td>
                                     <td><?php echo date_format(date_create($IDM->TanggalMulai), "d F Y"); ?></td>
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">TanggalAkhir</td>
+                                    <td style="width: 20%">Tanggal Selesai</td>
                                     <td><?php echo date_format(date_create($IDM->TanggalAkhir), "d F Y"); ?></td>
                                 </tr>
 
@@ -79,8 +79,12 @@
 
                                 <tr>
                                     <td style="width: 20%">Perwakilan Prestasi</td>
-                                    <td>5 Negara</td>
-                                    <!-- <td><?php echo ($IDM->Tingkat) ?></td> -->
+                                    <td><?php echo ($JumlahPerwakilan) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Peserta</td>
+                                    <td><?php echo ($IDM->JumlahPeserta) ?> Orang</td>
                                 </tr>
 
                                 <tr>
@@ -90,7 +94,14 @@
 
                                 <tr>
                                     <td style="width: 20%">Bukti Prestasi</td>
-                                    <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td>
+                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download</a></td>
+                                    <!-- <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td> -->
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Dokumentasi Kegiatan</td>
+                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileDokumentasi/<?= $IDM->BuktiDokumentasi ?>">Download</a></td>
+                                    <!-- <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td> -->
                                 </tr>
 
                                 <tr>

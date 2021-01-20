@@ -47,23 +47,23 @@
                         <h3 class="mt-1">Data Mahasiswa</h3>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <div class="input-group">
-                                    <div class="input-group-append mb-4">
+                                <div class="input-group mb-4">
+                                    <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
+                                            <span class="fas fa-user fa-fw"></span>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                    <input type="text" class="form-control" name="Nama" id="Nama" value="<?php echo ($_POST['namamahasiswa']) ?>" placeholder="Nama Mahasiswa" readonly=true required>
                                     <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                                 </div>
 
                                 <div class="input-group">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-id-card-alt"></span>
+                                            <span class="fas fa-id-card-alt fa-fw"></span>
                                         </div>
                                     </div>
-                                    <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="Judul Perlombaan" required>
+                                    <input type="text" class="form-control" name="NIM" id="NIM" value="<?php echo ($_POST['Nimmahasiswa']) ?>" placeholder="NIM Mahasiswa" readonly=true required>
                                     <!-- <?php print_r($_POST['Nimmahasiswa']) ?> -->
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-dice-d20"></span>
+                                            <span class="fas fa-dice-d20 fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="JudulLomba" id="JudulLomba" placeholder="Judul Perlombaan" required>
@@ -88,7 +88,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-university"></span>
+                                            <span class="fas fa-university fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="Penyelenggara" id="Penyelenggara" placeholder="Penyelenggara" required>
@@ -97,7 +97,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-calendar-alt"></span>
+                                            <span class="fas fa-calendar-alt fa-fw"></span>
                                         </div>
                                     </div>
                                     <select class="form-control" name="tahun" id="tahun" required>
@@ -107,7 +107,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-code-branch"></span>
+                                            <span class="fas fa-code-branch fa-fw"></span>
                                         </div>
                                     </div>
                                     <select class="form-control" name="Bidang" id="Bidang" required>
@@ -121,7 +121,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-user-friends"></span>
+                                            <span class="fas fa-user-friends fa-fw"></span>
                                         </div>
                                     </div>
                                     <select class="form-control" name="Kategori" id="Kategori" required>
@@ -134,8 +134,7 @@
                                 <div class="input-group mb-4" id="peran">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <!-- <span class="fas fa-people-arrows"></span> -->
-                                            <span class="fas fa-street-view"></span>
+                                            <span class="fas fa-street-view fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="Peran" id="Peran" placeholder="Peran / Pengakuan">
@@ -144,7 +143,7 @@
                                 <div class="input-group mb-0" style="display: none;" id="jabatan">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-street-view"></span>
+                                            <span class="fas fa-street-view fa-fw"></span>
                                         </div>
                                     </div>
                                     <select class="form-control" name="peran_organisasi" id="peran_organisasi">
@@ -160,7 +159,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-globe-americas"></span>
+                                            <span class="fas fa-globe-americas fa-fw"></span>
                                         </div>
                                     </div>
                                     <select class="form-control" name="Tingkat" id="Tingkat" required>
@@ -171,7 +170,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-users"></span>
+                                            <span class="fas fa-users fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="JumlahPeserta" id="JumlahPeserta" placeholder="Jumlah Peserta" required>
@@ -180,7 +179,7 @@
                                 <div class="input-group mb-4">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-newspaper"></span>
+                                            <span class="fas fa-newspaper fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="JumlahPenghargaan" id="JumlahPenghargaan" placeholder="Jumlah Penghargaan" required>
@@ -190,7 +189,7 @@
                                     <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-link"></span>
+                                            <span class="fas fa-link fa-fw"></span>
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" name="berita" id="berita" placeholder="Link Berita">
@@ -199,7 +198,7 @@
                                 <div class="input-group mb-4" style="z-index : 0">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-image"></span>
+                                            <span class="fas fa-image fa-fw"></span>
                                         </div>
                                     </div>
                                     <div class="custom-file">
@@ -207,7 +206,7 @@
                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
                                     <div class="input-group" style="color: red;">
-                                        <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
+                                        <p>*Maksimal Ukuran Gambar (JPG/JPEG) : 1024kb</p>
                                     </div>
                                 </div>
                             </div>

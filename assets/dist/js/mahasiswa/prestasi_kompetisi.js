@@ -102,7 +102,7 @@ function format(d) {
         '<table class="table table-striped">' +
         '<tr>' +
         '<td style="width: 10%" colspan="3">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Tiket</b></h4>' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data</b></h4>' +
         '</td>' +
         '</tr>' +
         '<tr>' +
@@ -117,7 +117,7 @@ function format(d) {
         '<td style="width: 15%">Bidang</td>' +
         '<td>' + d.Bidang + '</td>' +
         '</tr>' +
-        
+
         '<tr>' +
         '<td style="width: 15%">Perlombaan</td>' +
         '<td>' + d.Perlombaan + '</td>' +
@@ -127,12 +127,12 @@ function format(d) {
         '<td style="width: 15%">Tanggal Mulai</td>' +
         '<td>' + d.TanggalMulai + '</td>' +
         '</tr>' +
-        
+
         '<tr>' +
         '<td style="width: 15%">Tanggal Akhir</td>' +
         '<td>' + d.TanggalAkhir + '</td>' +
         '</tr>' +
-        
+
         '<tr>' +
         '<td style="width: 15%">Penyelenggara</td>' +
         '<td>' + d.Penyelenggara + '</td>' +

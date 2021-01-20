@@ -178,7 +178,7 @@
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 <div class="input-group" style="color: red;">
-                                    <p>*Maksimal Ukuran Gambar : 1024kb dengan Maksimal Resolusi : (1024x768) </p>
+                                    <p>*Maksimal Ukuran Gambar (JPG/JPEG) : 1024kb</p>
                                 </div>
                             </div>
 

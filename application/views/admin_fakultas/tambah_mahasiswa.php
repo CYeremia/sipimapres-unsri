@@ -28,7 +28,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                                    <span class="fas fa-user fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="namaMahasiswa" id="namaMahasiswa" placeholder="Nama Mahasiswa" required>
@@ -37,7 +37,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-card-alt"></span>
+                                    <span class="fas fa-id-card-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="NIM" id="NIM" placeholder="NIM Mahasiswa" required>
@@ -46,7 +46,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-envelope fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" required>
@@ -55,7 +55,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-phone"></span>
+                                    <span class="fas fa-phone fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="tlp" id="tlp" placeholder="Telephone | 0812xxxxxxxx" required>
@@ -64,7 +64,7 @@
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <select name="prodi" id="prodi" class="form-control show-tick">
@@ -78,7 +78,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK | 4.00" required>
@@ -87,7 +87,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" required>
@@ -96,7 +96,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" required>

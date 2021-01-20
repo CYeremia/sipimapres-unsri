@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Prestasi Fakultas</h1>
+                    <h1 class="m-0 text-dark" id="fakultas"></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -25,14 +25,14 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Bidang</th>
-                                <th>Perlombaan</th>
-                                <th>TanggalMulai</th>
-                                <th>TanggalAkhir</th>
-                                <th>Penyelenggara</th>
-                                <th>Kategori</th>
-                                <th>Tingkat</th>
+                                <th>NIM Mahasiswa</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Judul Perlombaan</th>
                                 <th>Pencapaian</th>
+                                <th>Jenis Prestasi</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
+                                <th>Detail</th>
                             </tr>
                         </thead>
                         <tbody>

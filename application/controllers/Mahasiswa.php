@@ -127,7 +127,7 @@ class Mahasiswa extends CI_Controller
         $BUKTIDOKUMENTASI = "";
         // config format upload (bukti prestasi)
         $config['upload_path']          = './uploads/';
-        $config['allowed_types']        = 'jpg|pdf';
+        $config['allowed_types']        = 'jpg|jpeg|pdf';
         $config['max_size']             = 1024;
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
@@ -141,7 +141,7 @@ class Mahasiswa extends CI_Controller
             $BUKTIPRESTASI = $this->upload->data("file_name");
             // config format upload (bukti dokumentasi)
             $config2['upload_path']          = './uploads_BuktiDokumentasi/';
-            $config2['allowed_types']        = 'gif|jpg|png|pdf';
+            $config2['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
             $config2['max_size']             = 1024;
             // $config['max_width']            = 1024;
             // $config['max_height']           = 768;
@@ -175,12 +175,12 @@ class Mahasiswa extends CI_Controller
                 $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
                 $BERITA = $_SERVER['HTTP_BERITA'];
                 $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-    
+
                 // // Hitung Score
                 // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
                 $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
                 $SKOR = $this->db->query($sql)->row('Nilai');
-    
+
                 // // insert pelapor
                 $data['PeraihPrestasi'] = $NIMPELAPOR;
                 $data['Bidang'] = $BIDANG;
@@ -199,8 +199,8 @@ class Mahasiswa extends CI_Controller
                 $data['Skor'] = $SKOR;
                 $data['BuktiPrestasi'] = $BUKTIPRESTASI;
                 $data['BuktiDokumentasi'] = $BUKTIDOKUMENTASI;
-    
-    
+
+
                 if ($KATEGORI != 'Kelompok') { //jika kategori individu
                     $this->db->insert('prestasikompetisi', $data);
                 } else { //jika kategori kelompok
@@ -230,64 +230,6 @@ class Mahasiswa extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($result);
     }
-
-    // public function inputData_Kompetisi()
-    // {
-    //     if ($this->input->post('submit')) {
-    //         $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
-    //         $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
-    //         $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
-    //         $this->form_validation->set_rules('Pencapaian', 'Pencapaian', 'required');
-
-    //         $this->form_validation->set_rules('Bidang', 'Bidang', 'required');
-    //         $this->form_validation->set_rules('tahun', 'tahun', 'required');
-    //         $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
-    //         $this->form_validation->set_rules('berita', 'berita', 'required|trim');
-
-    //         if ($this->form_validation->run() == FALSE) {
-    //             $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
-    //         } else {
-    //             $config['upload_path']          = './uploads/';
-    //             $config['allowed_types']        = 'gif|jpg|png';
-    //             $config['max_size']             = 1024;
-    //             $config['max_width']            = 1024;
-    //             $config['max_height']           = 768;
-    //             // $config['encrypt_name']			= TRUE;
-    //             $this->load->library('upload', $config);
-    //             $this->upload->initialize($config);
-
-    //             if (!$this->upload->do_upload('buktiprestasi')) {
-    //                 $error = array('error' => $this->upload->display_errors());
-    //                 $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
-    //                 redirect('mahasiswa/Data_Kompetisi');
-    //                 // $this->load->view('mahasiswa/Data_Kompetisi', $error);
-    //             } else {
-    //                 $data['PeraihPrestasi'] = $this->data['IDpengenal'];
-    //                 $data['Bidang']        = $this->input->post('Bidang');
-    //                 $data['Perlombaan']       = $this->input->post('JudulLomba');
-    //                 $data['Tahun']       = $this->input->post('tahun');
-    //                 $data['Penyelenggara']       = $this->input->post('Penyelenggara');
-    //                 $data['Kategori']       = $this->input->post('Kategori');
-    //                 $data['Tingkat']       = $this->input->post('Tingkat');
-    //                 $data['Pencapaian']       = $this->input->post('Pencapaian');
-    //                 $data['LinkBerita']       = $this->input->post('berita');
-    //                 $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
-    //                 $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
-    //                 $data['BuktiPrestasi'] = $this->upload->data("file_name");
-    //                 // Hitung Score
-    //                 $ParamTingkat = $this->input->post('Tingkat');        //Internasional/nasional/regional/provinsi
-    //                 $ParamPencapaian = $this->input->post('Pencapaian');  //juara1/2/3/umum
-    //                 $ParamKategori = $this->input->post('Kategori');      //individu/kelompok
-    //                 //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
-    //                 $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$ParamTingkat' AND penilaian.Pencapaian='$ParamPencapaian' AND Kategori='$ParamKategori'";
-    //                 $data['Skor'] = $this->db->query($sql)->row('Nilai');
-    //                 $this->db->insert('prestasikompetisi', $data);
-    //                 $this->flashmsg("Data Berhasil Ditambahkan", 'success');
-    //                 redirect('mahasiswa/prestasi_kompetisi');
-    //             }
-    //         }
-    //     }
-    // }
 
     public function data_prestasi()
     {
@@ -371,19 +313,18 @@ class Mahasiswa extends CI_Controller
                 $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
             } else {
                 $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpg|png';
+                $config['allowed_types']        = 'gif|jpeg|jpg|png';
                 $config['max_size']             = 1024;
-                $config['max_width']            = 1024;
-                $config['max_height']           = 768;
+                // $config['max_width']            = 1024;
+                // $config['max_height']           = 768;
                 // $config['encrypt_name']			= TRUE;
                 $this->load->library('upload', $config);
                 $this->upload->initialize($config);
 
                 if (!$this->upload->do_upload('buktiprestasi')) {
                     $error = array('error' => $this->upload->display_errors());
-                    $this->flashmsg("The image you are attempting to upload doesn't fit into the allowed dimensions.", 'danger');
+                    $this->flashmsg("Silahkan Periksa Kembali berkas yang diunggah.", 'danger');
                     redirect('mahasiswa/Data_NonKompetisi');
-                    // $this->load->view('mahasiswa/Data_NonKompetisi', $error);
                 } else {
                     $peran = $this->input->post('Peran');
                     $data['PeraihPrestasi'] = $this->data['IDpengenal'];
@@ -402,6 +343,7 @@ class Mahasiswa extends CI_Controller
                     $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
                     $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
+
                     // Hitung Score
                     $ParamPeran = $data['Peran'];
                     $ParamBidang = $data['Bidang'];
