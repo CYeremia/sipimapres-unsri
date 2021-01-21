@@ -74,7 +74,7 @@
                                                     <i class="fas fa-calendar-alt fa-fw"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" id="tanggalawal" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
+                                            <input type="text" name="tanggalawal"  id="tanggalawal" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" />
                                         </div>
                                     </div>
                                     <!-- <span class="input-group-addon" style="padding: 0px 0px 0px 0px;">to</span> -->
@@ -85,7 +85,7 @@
                                                 <i class="fas fa-calendar-alt fa-fw"></i>
                                             </span>
                                         </div>
-                                        <input type="text" id="tanggalakhir" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
+                                        <input type="text" name="tanggalakhir" id="tanggalakhir" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" />
                                     </div>
                                 </div>
 

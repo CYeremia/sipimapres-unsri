@@ -302,18 +302,21 @@ class Mahasiswa extends CI_Controller
             // die;
             $this->form_validation->set_rules('JudulLomba', 'JudulLomba', 'required|trim');
             $this->form_validation->set_rules('Penyelenggara', 'Penyelenggara', 'required|trim');
+            $this->form_validation->set_rules('tanggalawal', 'tanggalawal', 'required');
+            $this->form_validation->set_rules('tanggalakhir', 'tanggalakhir', 'required');
             $this->form_validation->set_rules('Kategori', 'Kategori', 'required');
             $this->form_validation->set_rules('Peran', 'Peran', 'trim');
 
-            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            // $this->form_validation->set_rules('tahun', 'tahun', 'required');
             $this->form_validation->set_rules('Tingkat', 'Tingkat', 'required');
             $this->form_validation->set_rules('berita', 'berita', 'required|trim');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->flashmsg('Terdapat Data yang Belum diisi', 'danger');
+                redirect('mahasiswa/Data_NonKompetisi');
             } else {
                 $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpeg|jpg|png';
+                $config['allowed_types']        = 'jpeg|jpg|pdf';
                 $config['max_size']             = 1024;
                 // $config['max_width']            = 1024;
                 // $config['max_height']           = 768;
@@ -328,21 +331,27 @@ class Mahasiswa extends CI_Controller
                 } else {
                     $peran = $this->input->post('Peran');
                     $data['PeraihPrestasi'] = $this->data['IDpengenal'];
-                    $data['Bidang']        = $this->input->post('Bidang');
                     $data['Kegiatan']       = $this->input->post('JudulLomba');
-                    $data['Tahun']       = $this->input->post('tahun');
+                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
+                    $data['TanggalMulai']       = $this->input->post('tanggalawal');
+                    $data['TanggalAkhir']       = $this->input->post('tanggalakhir');
+                    $data['Bidang']        = $this->input->post('Bidang');
                     if ($peran != null) {
                         $data['Peran']       = $this->input->post('Peran');
                     } else {
                         $data['Peran']       = $this->input->post('peran_organisasi');
                     }
-                    $data['Penyelenggara']       = $this->input->post('Penyelenggara');
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
+                    if($this->input->post('jumlahTingkat')!=''){
+                        $data['JumlahPerwakilan']       = $this->input->post('jumlahTingkat');
+                    }else{
+                        $data['JumlahPerwakilan']       = 0;
+                    }
                     $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');
                     $data['JumlahPenghargaan']       = $this->input->post('JumlahPenghargaan');
-                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
                     $data['LinkBerita']       = $this->input->post('berita');
+                    $data['BuktiPrestasi'] = $this->upload->data("file_name");
 
                     // Hitung Score
                     $ParamPeran = $data['Peran'];
