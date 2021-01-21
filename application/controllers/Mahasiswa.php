@@ -123,110 +123,126 @@ class Mahasiswa extends CI_Controller
 
     public function input_data_kompetisi()
     {
-        $BUKTIPRESTASI = "";
-        $BUKTIDOKUMENTASI = "";
-        // config format upload (bukti prestasi)
-        $config['upload_path']          = './uploads/';
-        $config['allowed_types']        = 'jpg|jpeg|pdf';
-        $config['max_size']             = 1024;
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-        if (!$this->upload->do_upload("buktiprestasi")) { //jika foto (bukti dokumentasi) gagal diupload
+        //check jumlah partisipan berdasarkan tingkat
+        $TINGKAT = $_SERVER['HTTP_TINGKAT'];
+        $JUMLAHPERWAKILAN = $_SERVER['HTTP_JUMLAHPERWAKILAN'];
+
+        if(($TINGKAT=='Provinsi'|| $TINGKAT='Nasional')&&$JUMLAHPERWAKILAN<5){
             $result = [
-                'data' => "Silahkan Periksa Kembali berkas bukti prestasi",
+                'data' => "Silahkan Periksa Kembali Field Jumlah Perwakilan Perlombaan",
                 'status' => false,
-                'status_code' => 403
+                'status_code' => 405
             ];
-        } else {
-            $BUKTIPRESTASI = $this->upload->data("file_name");
-            // config format upload (bukti dokumentasi)
-            $config2['upload_path']          = './uploads_BuktiDokumentasi/';
-            $config2['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
-            $config2['max_size']             = 1024;
-            // $config['max_width']            = 1024;
-            // $config['max_height']           = 768;
-            // $config['encrypt_name']			= TRUE;
-            $this->load->library('upload', $config2);
-            $this->upload->initialize($config2);
-            if (!$this->upload->do_upload("dokumentasiKegiatan")) { //jika foto (bukti dokumentasi) gagal diupload
-                $filepathtodelete = './uploads/';
-                $filepathtodelete .= $BUKTIPRESTASI;
-                unlink($filepathtodelete); //delete uploaded file
+        }else if($TINGKAT=='Provinsi'&&$JUMLAHPERWAKILAN<2 ){
+            $result = [
+                'data' => "Silahkan Periksa Kembali Field Jumlah Perwakilan Perlombaan",
+                'status' => false,
+                'status_code' => 405
+            ];
+        }else{
+            $BUKTIPRESTASI = "";
+            $BUKTIDOKUMENTASI = "";
+            // config format upload (bukti prestasi)
+            $config['upload_path']          = './uploads/';
+            $config['allowed_types']        = 'jpg|jpeg|pdf';
+            $config['max_size']             = 1024;
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if (!$this->upload->do_upload("buktiprestasi")) { //jika foto (bukti dokumentasi) gagal diupload
                 $result = [
-                    'data' => "Silahkan Periksa Kembali berkas dokumentasi kegiatan",
+                    'data' => "Silahkan Periksa Kembali berkas bukti prestasi",
                     'status' => false,
                     'status_code' => 403
                 ];
-            } else { //jika foto berhasil diupload
-                // tampung variable
-                $BUKTIDOKUMENTASI = $this->upload->data("file_name");
-                $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
-                $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
-                $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
-                $TANGGALAWAL = $_SERVER['HTTP_TANGGALAWAL'];
-                $TANGGALAKHIR = $_SERVER['HTTP_TANGGALAKHIR'];
-                $BIDANG = $_SERVER['HTTP_BIDANG'];
-                $KATEGORI = $_SERVER['HTTP_KATEGORI'];
-                $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
-                $TINGKAT = $_SERVER['HTTP_TINGKAT'];
-                $JUMLAHPERWAKILAN = $_SERVER['HTTP_JUMLAHPERWAKILAN'];
-                $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
-                $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
-                $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
-                $BERITA = $_SERVER['HTTP_BERITA'];
-                $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-
-                // // Hitung Score
-                // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
-                $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
-                $SKOR = $this->db->query($sql)->row('Nilai');
-
-                // // insert pelapor
-                $data['PeraihPrestasi'] = $NIMPELAPOR;
-                $data['Bidang'] = $BIDANG;
-                $data['Perlombaan'] = $JUDULLOMBA;
-                $data['TanggalMulai'] = $TANGGALAWAL;
-                $data['TanggalAkhir'] = $TANGGALAKHIR;
-                $data['Penyelenggara'] = $PENYELENGGARA;
-                $data['Kategori'] = $KATEGORI;
-                $data['StatusKategori'] = $STATUSKATEGORI;
-                $data['Tingkat'] = $TINGKAT;
-                $data['JumlahPerwakilan'] = $JUMLAHPERWAKILAN;
-                $data['Pencapaian'] = $PENCAPAIAN;
-                $data['LinkBerita'] = $BERITA;
-                $data['JumlahPeserta'] = $JUMLAHPESERTA;
-                $data['JumlahPenghargaan'] = $JUMLAHPENGHARGAAN;
-                $data['Skor'] = $SKOR;
-                $data['BuktiPrestasi'] = $BUKTIPRESTASI;
-                $data['BuktiDokumentasi'] = $BUKTIDOKUMENTASI;
-
-
-                if ($KATEGORI != 'Kelompok') { //jika kategori individu
-                    $this->db->insert('prestasikompetisi', $data);
-                } else { //jika kategori kelompok
-                    // insert ketua
-                    $data['StatusKategori']       = "Ketua";
-                    $this->db->insert('prestasikompetisi', $data);
-                    // insert anggota
-                    // jika ada anggota
-                    if ($DAFTARANGGOTA != "") {
-                        $anggota = explode("#", $DAFTARANGGOTA);
-                        $data['StatusKategori'] = "Anggota";
-                        foreach ($anggota as $k) {
-                            $data['PeraihPrestasi'] = $k;
-                            $this->db->insert('prestasikompetisi', $data);
+            } else {
+                $BUKTIPRESTASI = $this->upload->data("file_name");
+                // config format upload (bukti dokumentasi)
+                $config2['upload_path']          = './uploads_BuktiDokumentasi/';
+                $config2['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
+                $config2['max_size']             = 1024;
+                // $config['max_width']            = 1024;
+                // $config['max_height']           = 768;
+                // $config['encrypt_name']			= TRUE;
+                $this->load->library('upload', $config2);
+                $this->upload->initialize($config2);
+                if (!$this->upload->do_upload("dokumentasiKegiatan")) { //jika foto (bukti dokumentasi) gagal diupload
+                    $filepathtodelete = './uploads/';
+                    $filepathtodelete .= $BUKTIPRESTASI;
+                    unlink($filepathtodelete); //delete uploaded file
+                    $result = [
+                        'data' => "Silahkan Periksa Kembali berkas dokumentasi kegiatan",
+                        'status' => false,
+                        'status_code' => 403
+                    ];
+                } else { //jika foto berhasil diupload
+                    // tampung variable
+                    $BUKTIDOKUMENTASI = $this->upload->data("file_name");
+                    $NIMPELAPOR = $_SERVER['HTTP_NIMPELAPOR'];
+                    $JUDULLOMBA = $_SERVER['HTTP_JUDULLOMBA'];
+                    $PENYELENGGARA = $_SERVER['HTTP_PENYELENGGARA'];
+                    $TANGGALAWAL = $_SERVER['HTTP_TANGGALAWAL'];
+                    $TANGGALAKHIR = $_SERVER['HTTP_TANGGALAKHIR'];
+                    $BIDANG = $_SERVER['HTTP_BIDANG'];
+                    $KATEGORI = $_SERVER['HTTP_KATEGORI'];
+                    $STATUSKATEGORI = $_SERVER['HTTP_STATUSKATEGORI'];
+                    $TINGKAT = $_SERVER['HTTP_TINGKAT'];
+                    $JUMLAHPERWAKILAN = $_SERVER['HTTP_JUMLAHPERWAKILAN'];
+                    $JUMLAHPESERTA = $_SERVER['HTTP_JUMLAHPESERTA'];
+                    $PENCAPAIAN = $_SERVER['HTTP_PENCAPAIAN'];
+                    $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
+                    $BERITA = $_SERVER['HTTP_BERITA'];
+                    $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
+    
+                    // // Hitung Score
+                    // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
+                    $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
+                    $SKOR = $this->db->query($sql)->row('Nilai');
+    
+                    // // insert pelapor
+                    $data['PeraihPrestasi'] = $NIMPELAPOR;
+                    $data['Bidang'] = $BIDANG;
+                    $data['Perlombaan'] = $JUDULLOMBA;
+                    $data['TanggalMulai'] = $TANGGALAWAL;
+                    $data['TanggalAkhir'] = $TANGGALAKHIR;
+                    $data['Penyelenggara'] = $PENYELENGGARA;
+                    $data['Kategori'] = $KATEGORI;
+                    $data['StatusKategori'] = $STATUSKATEGORI;
+                    $data['Tingkat'] = $TINGKAT;
+                    $data['JumlahPerwakilan'] = $JUMLAHPERWAKILAN;
+                    $data['Pencapaian'] = $PENCAPAIAN;
+                    $data['LinkBerita'] = $BERITA;
+                    $data['JumlahPeserta'] = $JUMLAHPESERTA;
+                    $data['JumlahPenghargaan'] = $JUMLAHPENGHARGAAN;
+                    $data['Skor'] = $SKOR;
+                    $data['BuktiPrestasi'] = $BUKTIPRESTASI;
+                    $data['BuktiDokumentasi'] = $BUKTIDOKUMENTASI;
+    
+    
+                    if ($KATEGORI != 'Kelompok') { //jika kategori individu
+                        $this->db->insert('prestasikompetisi', $data);
+                    } else { //jika kategori kelompok
+                        // insert ketua
+                        $data['StatusKategori']       = "Ketua";
+                        $this->db->insert('prestasikompetisi', $data);
+                        // insert anggota
+                        // jika ada anggota
+                        if ($DAFTARANGGOTA != "") {
+                            $anggota = explode("#", $DAFTARANGGOTA);
+                            $data['StatusKategori'] = "Anggota";
+                            foreach ($anggota as $k) {
+                                $data['PeraihPrestasi'] = $k;
+                                $this->db->insert('prestasikompetisi', $data);
+                            }
                         }
                     }
+                    $result = [
+                        'data' => "Silahkan tekan tombol untuk kembali ke dashboard",
+                        'status' => true,
+                        'status_code' => 200
+                    ];
                 }
-                $result = [
-                    'data' => "Silahkan tekan tombol untuk kembali ke dashboard",
-                    'status' => true,
-                    'status_code' => 200
-                ];
-            }
-        } //jika dokumen berhasil diupload
-
-
+            } //jika dokumen berhasil diupload
+        }
         header('Content-Type: application/json');
         echo json_encode($result);
     }

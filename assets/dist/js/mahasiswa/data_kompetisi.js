@@ -137,7 +137,7 @@ $(document).ready(function () {
             if (document.getElementById("buktiprestasi").files[0] != null) {
                 var photo = document.getElementById("buktiprestasi").files[0];//buktiprestasi
                 formdata.append("buktiprestasi", photo);
-                var filebukti=document.getElementById("dokumentasiKegiatan").files[0];//buktidokumentasi
+                var filebukti = document.getElementById("dokumentasiKegiatan").files[0];//buktidokumentasi
                 formdata.append("dokumentasiKegiatan", filebukti);
             }
             // panggil ajax
@@ -168,6 +168,8 @@ $(document).ready(function () {
                 success: function (result) {
                     if (result['status_code'] == 403) {
                         swal("Foto Tidak Sesuai Format", result['data'], "error");
+                    } else if (result['status_code'] == 405) {
+                        swal("Field Perwakilan Tidak Memenuhi Minimum", result['data'], "error");
                     } else {
                         swal("Penambahan Prestasi Berhasil, Silahkan Tunggu Verifikasi dari Fakultas", result['data'], "success").then((value) => {
                             window.location.href = globalUrl + "/Prestasi_Kompetisi";
