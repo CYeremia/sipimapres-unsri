@@ -110,12 +110,10 @@ $(document).ready(function () {
                 "targets": 8
             },
             {
+                "className": 'detailExpand',
                 "data": null,
                 "orderable": false,
-                "render": function (data, type, full, meta) {
-                    var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-red detailExpand\"><i class='fas fa-plus-circle fa-lg'></i></a>";
-                    return actButt;
-                },
+                "defaultContent": '',
                 "targets": 9,
                 "width": "5%"
             },
@@ -133,21 +131,36 @@ $(document).ready(function () {
             tr.removeClass('shown');
         } else {
             //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
-            '<i class="fas fa-times-circle"></i>'
-            // if (daftarP.row('.shown').length) {
-            //     $('.detailExpand', daftarP.row('.shown').node()).click();
-            // }
+            if (daftarP.row('.shown').length) {
+                $('.detailExpand', daftarP.row('.shown').node()).click();
+            }
             row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     });
+    // $('#daftarPrestasi tbody').on('click', '.detailExpand', function () {
+    //     var tr = $(this).closest('tr');
+    //     var row = daftarP.row(tr);
+
+    //     if (row.child.isShown()) {
+    //         $(this).children('i').toggleClass('fas fa-times-circle fa-lg fas fa-plus-circle fa-lg');
+    //         row.child.hide();
+    //         tr.removeClass('shown');
+    //     } else {
+    //         $(this).children('i').toggleClass('fas fa-plus-circle fa-lg fas fa-times-circle fa-lg');
+    //         //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
+    //         if (daftarP.row('.shown').length) {
+    //             $('.detailExpand', daftarP.row('.shown').node()).click();
+    //         }
+    //         row.child(format(row.data())).show();
+    //         tr.addClass('shown');
+    //     }
+    // });
 
 });
 
 function format(d) {
     var output = '';
-    // header
-    console.log(d);
     output = '<div class="slider">' +
         '<table class="table table-striped">' +
         '<tr>' +
