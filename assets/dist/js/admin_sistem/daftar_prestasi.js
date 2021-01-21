@@ -63,11 +63,11 @@ $(document).ready(function () {
                 "targets": 0
             },
             {
-                data: "Bidang",
+                data: "NIM",
                 "targets": 1
             },
             {
-                data: "Perlombaan",
+                data: "Nama",
                 "targets": 2
             },
             {
@@ -75,29 +75,48 @@ $(document).ready(function () {
                 "targets": 3
             },
             {
-                data: "Pencapaian",
+                data: "JenisPrestasi",
                 "targets": 4
             },
             {
-                data: "Penyelenggara",
+                data: "TanggalMulai",
                 "targets": 5
             },
             {
-                data: "TanggalMulai",
+                data: "TanggalAkhir",
                 "targets": 6
             },
             {
-                data: "TanggalAkhir",
+                data: { BuktiPrestasi: "BuktiPrestasi" },
+
+                "render": function (data, type, full, meta) {
+                    var actButt = '<a href="' + globalUrl + '/downloadfileBuktiPrestasi/' + data.BuktiPrestasi + '">Download</a >';
+                    return actButt;
+                },
                 "targets": 7
+            },
+            {
+                data: { BuktiDokumentasi: "BuktiDokumentasi" },
+                "render": function (data, type, full, meta) {
+                    if (data.BuktiDokumentasi == null) {
+                        data: "BuktiDokumentasi"
+                        var actButt = '<label>-------------</label>';
+                        return actButt;
+                    } else {
+                        var actButt = '<a href="' + globalUrl + '/downloadfileBuktiPrestasi/' + data.BuktiDokumentasi + '">Download</a >';
+                        return actButt;
+                    }
+                },
+                "targets": 8
             },
             {
                 "data": null,
                 "orderable": false,
                 "render": function (data, type, full, meta) {
-                    var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-blue detailExpand\"><i class='fas fa-plus-circle fa-lg'></i></a>";
+                    var actButt = "<center><a href=\"javascript:void(0);\" class=\"font-bold col-red detailExpand\"><i class='fas fa-plus-circle fa-lg'></i></a>";
                     return actButt;
                 },
-                "targets": 5,
+                "targets": 9,
                 "width": "5%"
             },
         ],
@@ -110,25 +129,257 @@ $(document).ready(function () {
         var row = daftarP.row(tr);
 
         if (row.child.isShown()) {
-            $(this).removeClass('col-red');
-            $(this).addClass('col-blue');
-            $(this).children().text('add_circle');
-            $('div.slider', row.child()).slideUp(function () {
-                row.child.hide();
-                tr.removeClass('shown');
-            });
+            row.child.hide();
+            tr.removeClass('shown');
         } else {
-            $(this).removeClass('col-blue');
-            $(this).addClass('col-red');
-            $(this).children().text('cancel');
-
             //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
-            if (daftarP.row('.shown').length) {
-                $('.detailExpand', daftarP.row('.shown').node()).click();
-            }
-            row.child(format(row.data(), 'getdata')).show();
+            '<i class="fas fa-times-circle"></i>'
+            // if (daftarP.row('.shown').length) {
+            //     $('.detailExpand', daftarP.row('.shown').node()).click();
+            // }
+            row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     });
 
 });
+
+function format(d) {
+    var output = '';
+    // header
+    console.log(d);
+    output = '<div class="slider">' +
+        '<table class="table table-striped">' +
+        '<tr>' +
+        '<td style="width: 10%" colspan="3">' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data Mahasiswa</b></h4>' +
+        '</td>' +
+        '</tr>';
+
+    var body = '';
+    if (d.JenisPrestasi == 'Kompetisi') {
+        body = '<tr>' +
+            '<td style="width: 15%">NIM</td>' +
+            '<td>' + d.NIM + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Nama Mahasiswa</td>' +
+            '<td>' + d.Nama + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Jenis Prestasi</td>' +
+            '<td>' + d.JenisPrestasi + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Judul Perlombaan</td>' +
+            '<td>' + d.Perlombaan + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Bidang</td>' +
+            '<td>' + d.Bidang + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Penyelenggara</td>' +
+            '<td>' + d.Penyelenggara + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tanggal Mulai</td>' +
+            '<td>' + d.TanggalMulai + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tanggal Selesai</td>' +
+            '<td>' + d.TanggalAkhir + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Kategori</td>' +
+            '<td>' + d.Kategori + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Status Kategori</td>' +
+            '<td>' + d.StatusKategori + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tingkat</td>' +
+            '<td>' + d.Tingkat + '</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+
+        if (d.Tingkat == "Regional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+                '</tr>' +
+                '<tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Provinsi") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+                '</tr>' +
+                '<tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Nasional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Provinsi</td>' +
+                '</tr>' +
+                '<tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Internasional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Negara</td>' +
+                '</tr>' +
+                '<tr>';
+            output = output + body;
+            body = '';
+        }
+
+        body = '<td style="width: 15%">Pencapaian</td>' +
+            '<td>' + d.Pencapaian + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Jumlah Peserta</td>' +
+            '<td>' + d.JumlahPeserta + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Jumlah Penghargaan</td>' +
+            '<td>' + d.JumlahPenghargaan + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Link Berita</td>' +
+            '<td>' + d.LinkBerita + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Skor</td>' +
+            '<td>' + d.Skor + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Status</td>' +
+            '<td>' + d.Status + '</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else {
+        body = '<tr>' +
+            '<td style="width: 15%">NIM</td>' +
+            '<td>' + d.NIM + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Nama Mahasiswa</td>' +
+            '<td>' + d.Nama + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Jenis Prestasi</td>' +
+            '<td>' + d.JenisPrestasi + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Judul Perlombaan</td>' +
+            '<td>' + d.Perlombaan + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Bidang</td>' +
+            '<td>' + d.Bidang + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Penyelenggara</td>' +
+            '<td>' + d.Penyelenggara + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tanggal Mulai</td>' +
+            '<td>' + d.TanggalMulai + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tanggal Selesai</td>' +
+            '<td>' + d.TanggalAkhir + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Kategori</td>' +
+            '<td>' + d.Kategori + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Status Kategori</td>' +
+            '<td>' + d.StatusKategori + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Tingkat</td>' +
+            '<td>' + d.Tingkat + '</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+
+        if (d.Tingkat == "Regional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "PT/Provinsi") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Nasional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Provinsi</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Internasional") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Negara</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Wilayah") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Wilayah</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        } else if (d.Tingkat == "Fakultas/Prodi") {
+            body = '<tr>' +
+                '<td style="width: 15%">Jumlah Perwakilan</td>' +
+                '<td>' + d.JumlahPerwakilan + ' Fakultas/Prodi</td>' +
+                '</tr>';
+            output = output + body;
+            body = '';
+        }
+
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Peserta</td>' +
+            '<td>' + d.JumlahPeserta + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Jumlah Penghargaan</td>' +
+            '<td>' + d.JumlahPenghargaan + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Link Berita</td>' +
+            '<td>' + d.LinkBerita + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Skor</td>' +
+            '<td>' + d.Skor + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td style="width: 15%">Status</td>' +
+            '<td>' + d.Status + '</td>' +
+            '</tr>';
+        output = output + body;
+    }
+
+    var footer = '</table></div > ';
+    output = output + footer;
+    return output;
+}
