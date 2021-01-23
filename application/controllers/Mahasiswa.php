@@ -127,19 +127,19 @@ class Mahasiswa extends CI_Controller
         $TINGKAT = $_SERVER['HTTP_TINGKAT'];
         $JUMLAHPERWAKILAN = $_SERVER['HTTP_JUMLAHPERWAKILAN'];
 
-        if(($TINGKAT=='Provinsi'|| $TINGKAT='Nasional')&&$JUMLAHPERWAKILAN<5){
+        if (($TINGKAT == 'Provinsi' || $TINGKAT == 'Nasional') && $JUMLAHPERWAKILAN < 5) {
             $result = [
                 'data' => "Silahkan Periksa Kembali Field Jumlah Perwakilan Perlombaan",
                 'status' => false,
                 'status_code' => 405
             ];
-        }else if($TINGKAT=='Provinsi'&&$JUMLAHPERWAKILAN<2 ){
+        } else if ($TINGKAT == 'Internasional' && $JUMLAHPERWAKILAN < 2) {
             $result = [
                 'data' => "Silahkan Periksa Kembali Field Jumlah Perwakilan Perlombaan",
                 'status' => false,
                 'status_code' => 405
             ];
-        }else{
+        } else {
             $BUKTIPRESTASI = "";
             $BUKTIDOKUMENTASI = "";
             // config format upload (bukti prestasi)
@@ -192,12 +192,12 @@ class Mahasiswa extends CI_Controller
                     $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
                     $BERITA = $_SERVER['HTTP_BERITA'];
                     $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-    
+
                     // // Hitung Score
                     // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
                     $sql = "SELECT Nilai FROM penilaian WHERE penilaian.Jenis='Kompetisi' AND penilaian.Tingkat='$TINGKAT' AND penilaian.Pencapaian='$PENCAPAIAN' AND Kategori='$KATEGORI'";
                     $SKOR = $this->db->query($sql)->row('Nilai');
-    
+
                     // // insert pelapor
                     $data['PeraihPrestasi'] = $NIMPELAPOR;
                     $data['Bidang'] = $BIDANG;
@@ -216,8 +216,8 @@ class Mahasiswa extends CI_Controller
                     $data['Skor'] = $SKOR;
                     $data['BuktiPrestasi'] = $BUKTIPRESTASI;
                     $data['BuktiDokumentasi'] = $BUKTIDOKUMENTASI;
-    
-    
+
+
                     if ($KATEGORI != 'Kelompok') { //jika kategori individu
                         $this->db->insert('prestasikompetisi', $data);
                     } else { //jika kategori kelompok
@@ -359,9 +359,9 @@ class Mahasiswa extends CI_Controller
                     }
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
-                    if($this->input->post('jumlahTingkat')!=''){
+                    if ($this->input->post('jumlahTingkat') != '') {
                         $data['JumlahPerwakilan']       = $this->input->post('jumlahTingkat');
-                    }else{
+                    } else {
                         $data['JumlahPerwakilan']       = 0;
                     }
                     $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');

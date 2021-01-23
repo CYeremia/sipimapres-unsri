@@ -167,7 +167,10 @@ $(document).ready(function () {
                 success: function (result) {
                     if (result['status_code'] == 403) {
                         swal("Foto Tidak Sesuai Format", result['data'], "error");
-                    } else {
+                    } else if(result['status_code'] == 405){
+                        swal("Field Perwakilan Tidak Memenuhi Minimum", result['data'], "error");
+                    }
+                    else {
                         swal("Penambahan Prestasi Berhasil", result['data'], "success").then((value) => {
                             window.location.href = globalUrl + "/input_Prestasi";
                         });
