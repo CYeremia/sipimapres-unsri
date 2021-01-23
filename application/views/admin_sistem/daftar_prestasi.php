@@ -28,10 +28,11 @@
                                 <th>NIM Mahasiswa</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Judul Perlombaan</th>
-                                <th>Pencapaian</th>
                                 <th>Jenis Prestasi</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
+                                <th>Bukti Prestasi</th>
+                                <th>Bukti Dokumentasi</th>
                                 <th>Detail</th>
                             </tr>
                         </thead>

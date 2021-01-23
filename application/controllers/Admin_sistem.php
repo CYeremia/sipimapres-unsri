@@ -30,6 +30,7 @@ class Admin_sistem  extends CI_Controller
         $this->load->model('prestasi_nonkompetisi');
         $this->load->model('prodi');
         $this->load->library('UserObj');
+        $this->load->library('dataobj');
 
         $year = date("Y");
 
@@ -560,34 +561,57 @@ class Admin_sistem  extends CI_Controller
         $fakultas = str_replace("~", "/", $fakultas);
         $listData = [];
 
-        $data = $this->db->query("SELECT t1.PeraihPrestasi,t1.Bidang,t1.Perlombaan,t1.TanggalMulai,t1.TanggalAkhir,t1.Penyelenggara,t1.Kategori,t1.Tingkat,t1.Pencapaian FROM  user
-        INNER JOIN 
-        (SELECT PeraihPrestasi,Bidang,Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat,Pencapaian FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
-        UNION ALL
-        SELECT PeraihPrestasi,Bidang, Kegiatan AS Perlombaan,TanggalMulai,TanggalAkhir,Penyelenggara,Kategori,Tingkat, '-' AS Pencapaian FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . "
-        )t1
-        ON t1.PeraihPrestasi=user.IDPengenal
-        WHERE user.Role='Mahasiswa' AND user.Fakultas='" . $fakultas . "' ORDER BY t1.Pencapaian DESC")->result_array();
+        //Getdata Mahasiswa berdasarkan fakultas dan tahun terpilih
+        $data = $this->db->query("SELECT * FROM (
+            (SELECT prestasikompetisi.PeraihPrestasi AS NIM, user.Nama AS Nama, 'Kompetisi' AS JenisPrestasi, prestasikompetisi.Bidang , prestasikompetisi.Perlombaan, prestasikompetisi.TanggalMulai, prestasikompetisi.TanggalAkhir, prestasikompetisi.Penyelenggara, prestasikompetisi.Kategori, prestasikompetisi.StatusKategori, prestasikompetisi.Tingkat, prestasikompetisi.JumlahPerwakilan, prestasikompetisi.Pencapaian, prestasikompetisi.JumlahPeserta, prestasikompetisi.JumlahPenghargaan, prestasikompetisi.Skor, prestasikompetisi.BuktiDokumentasi, prestasikompetisi.BuktiPrestasi, prestasikompetisi.Status, prestasikompetisi.LinkBerita  FROM prestasikompetisi LEFT JOIN user ON prestasikompetisi.PeraihPrestasi=user.IDPengenal WHERE user.Fakultas='$fakultas' AND prestasikompetisi.Status='Diterima' AND (YEAR(prestasikompetisi.TanggalAkhir)='$end' OR YEAR(prestasikompetisi.TanggalMulai='$start')) ORDER BY prestasikompetisi.TanggalMulai DESC)
+            UNION ALL
+            (SELECT prestasinonkompetisi.PeraihPrestasi AS NIM, user.Nama AS Nama, 'Non-Kompetisi' AS JenisPrestasi, prestasinonkompetisi.Bidang , prestasinonkompetisi.Kegiatan, prestasinonkompetisi.TanggalMulai, prestasinonkompetisi.TanggalAkhir, prestasinonkompetisi.Penyelenggara, prestasinonkompetisi.Kategori, prestasinonkompetisi.StatusKategori, prestasinonkompetisi.Tingkat, prestasinonkompetisi.JumlahPerwakilan, NULL AS Pencapaian, prestasinonkompetisi.JumlahPeserta, prestasinonkompetisi.JumlahPenghargaan ,prestasinonkompetisi.Skor, NULL AS BuktiDokumentasi,prestasinonkompetisi.BuktiPrestasi, prestasinonkompetisi.Status, prestasinonkompetisi.LinkBerita  FROM prestasinonkompetisi LEFT JOIN user ON prestasinonkompetisi.PeraihPrestasi=user.IDPengenal WHERE user.Fakultas='$fakultas' AND prestasinonkompetisi.Status='Diterima' AND (YEAR(prestasinonkompetisi.TanggalAkhir)='$end' OR YEAR(prestasinonkompetisi.TanggalMulai='$start')) ORDER BY prestasinonkompetisi.TanggalMulai DESC))t3")->result();
 
         $i = 1;
-
         foreach ($data as $k) {
-            $data = array(
-                'No' => $i,
-                'Bidang' => $k['Bidang'],
-                'Perlombaan' => $k['Perlombaan'],
-                'TanggalMulai' => date_format(date_create($k['TanggalMulai']), "d F Y"),
-                'TanggalAkhir' => date_format(date_create($k['TanggalAkhir']), "d F Y"),
-                'Penyelenggara' => $k['Penyelenggara'],
-                'Kategori' => $k['Kategori'],
-                'Tingkat' => $k['Tingkat'],
-                'Pencapaian' => $k['Pencapaian']
-            );
-            $listData[] =  $data;
+            $Dataobj = new dataobj();
+            $Dataobj->No = $i;
+            $Dataobj->NIM = $k->NIM;
+            $Dataobj->Nama = $k->Nama;
+            $Dataobj->JenisPrestasi = $k->JenisPrestasi;
+            $Dataobj->Bidang = $k->Bidang;
+            $Dataobj->Perlombaan = $k->Perlombaan;
+            $Dataobj->TanggalMulai = date_format(date_create($k->TanggalMulai), "d F Y");
+            $Dataobj->TanggalAkhir = date_format(date_create($k->TanggalAkhir), "d F Y");
+            $Dataobj->Penyelenggara = $k->Penyelenggara;
+            $Dataobj->Kategori = $k->Kategori;
+            $Dataobj->StatusKategori = $k->StatusKategori;
+            $Dataobj->Tingkat = $k->Tingkat;
+            $Dataobj->JumlahPerwakilan = $k->JumlahPerwakilan;
+            $Dataobj->Pencapaian = $k->Pencapaian;
+            $Dataobj->JumlahPeserta = $k->JumlahPeserta;
+            $Dataobj->JumlahPenghargaan = $k->JumlahPenghargaan;
+            $Dataobj->Skor = $k->Skor;
+            if ($k->BuktiDokumentasi != Null) {
+                $Dataobj->BuktiDokumentasi = $k->BuktiDokumentasi;
+            } else {
+                $Dataobj->BuktiDokumentasi = null;
+            }
+            $Dataobj->BuktiPrestasi = $k->BuktiPrestasi;
+            $Dataobj->Status = $k->Status;
+            $Dataobj->LinkBerita = $k->LinkBerita;
 
+            $listData[] =  $Dataobj;
             $i += 1;
         }
         return $listData;
+    }
+
+    //download file bukti prestasi
+    function downloadfileBuktiPrestasi($ID)
+    {
+        force_download('uploads/' . $ID, null);
+    }
+
+    //download file bukti dokumentasi
+    function downloadfileDokumentasi($ID)
+    {
+        force_download('uploads_BuktiDokumentasi/' . $ID, null);
     }
 
     //json peringkat fakultas berdasarkan jumlah mahasiswa
