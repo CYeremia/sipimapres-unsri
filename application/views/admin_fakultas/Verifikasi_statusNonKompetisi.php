@@ -99,7 +99,7 @@
 
                                 <tr>
                                     <td style="width: 20%">Bukti Prestasi</td>
-                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download <i class="fas fa-download"></i></a></td>
+                                    <td><a href="<?= base_url() ?>admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download <i class="fas fa-download"></i></a></td>
                                 </tr>
 
                                 <tr>
