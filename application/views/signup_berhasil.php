@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="refresh" content="3;url='login'" />
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logoIkon.png" type="image/x-icon">
     <title>SignUp Berhasil | Si-Pimapres</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,29 +58,7 @@
         }
     </style>
 
-
 </head>
-
-<!-- <body class="theme-custom ls-closed">
-
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <p>Please wait...</p>
-        </div>
-    </div>
-
-
-    <div class="overlay"></div> -->
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">
@@ -113,10 +91,6 @@
                 <div class="container-fluid">
                     <div class="col-md-12">
                         <div class="card card-primary">
-                            <!-- <div class="card-header" style="height: 60px;">
-                                <h3 style="text-align: center; :auto">Selamat registrasi Anda berhasil ! Mohon tunggu proses verifikasi dari admin fakultas untuk melakukan login</h3>
-                            </div> -->
-                            <!-- /.card-header -->
                             <div class="card-body" style="background-color: #14cc45;">
                                 <h3 style="text-align: center; color:white;">Selamat registrasi Anda berhasil ! Mohon tunggu proses verifikasi dari admin fakultas untuk melakukan login</h3>
                             </div>

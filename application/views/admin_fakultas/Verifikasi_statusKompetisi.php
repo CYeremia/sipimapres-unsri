@@ -58,6 +58,11 @@
                                 </tr>
 
                                 <tr>
+                                    <td style="width: 20%">Status Kategori</td>
+                                    <td><?php echo ($IDM->StatusKategori) ?></td>
+                                </tr>
+
+                                <tr>
                                     <td style="width: 20%">Pencapaian</td>
                                     <td><?php echo ($IDM->Pencapaian) ?></td>
                                 </tr>
@@ -94,14 +99,12 @@
 
                                 <tr>
                                     <td style="width: 20%">Bukti Prestasi</td>
-                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download</a></td>
-                                    <!-- <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td> -->
+                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download <i class="fas fa-download"></i></a></td>
                                 </tr>
 
                                 <tr>
                                     <td style="width: 20%">Dokumentasi Kegiatan</td>
-                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileDokumentasi/<?= $IDM->BuktiDokumentasi ?>">Download</a></td>
-                                    <!-- <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td> -->
+                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileDokumentasi/<?= $IDM->BuktiDokumentasi ?>">Download <i class="fas fa-download"></i></a></td>
                                 </tr>
 
                                 <tr>

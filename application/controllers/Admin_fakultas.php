@@ -701,15 +701,13 @@ class admin_fakultas  extends CI_Controller
         } else if ($Tingkat == "Provinsi") {
             $JumlahPerwakilan == $JumlahPerwakilan . " Perguruan Tinggi Negeri";
         } else if ($Tingkat == "Nasional") {
-            $JumlahPerwakilan == $JumlahPerwakilan . " Provinsi";
+            $JumlahPerwakilan = $JumlahPerwakilan . " Provinsi";
         } else {
             $JumlahPerwakilan = $JumlahPerwakilan . " Negara";
         }
 
         $sql = "SELECT `Nama` FROM user WHERE IDPengenal='$IDPengenal'";
         $Nama = $this->db->query($sql)->row();
-
-
 
         // header('Content-Type: application/json');
         // echo json_encode($ID);
@@ -766,12 +764,36 @@ class admin_fakultas  extends CI_Controller
         $data['IDprestasi'] = $ID;
         $ID = $this->prestasi_nonkompetisi->get_row($data);
         $IDPengenal = $ID->PeraihPrestasi;
+        $Tingkat = $ID->Tingkat;
+        $JumlahPerwakilan = $ID->JumlahPerwakilan;
+
+        if ($JumlahPerwakilan != 0) {
+            if ($Tingkat == "Regional") {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Perguruan Tinggi Negeri";
+            } else if ($Tingkat == "PT/Provinsi") {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Perguruan Tinggi Negeri";
+            } else if ($Tingkat == "Nasional") {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Provinsi";
+            } else if ($Tingkat == "Internasional") {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Negara";
+            } else if ($Tingkat == "Wilayah") {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Wilayah";
+            } else {
+                $JumlahPerwakilan = $JumlahPerwakilan . " Fakultas/Prodi";
+            }
+        } else {
+            $JumlahPerwakilan = "-------------";
+        }
 
         $sql = "SELECT `Nama` FROM user WHERE IDPengenal='$IDPengenal'";
         $Nama = $this->db->query($sql)->row();
 
+        // header('Content-Type: application/json');
+        // echo json_encode($ID);
+
         $this->data['NamaM'] = $Nama;
         $this->data['IDM'] = $ID;
+        $this->data['JumlahPerwakilan'] = $JumlahPerwakilan;
         $this->data['active'] = 8;
         $this->data['title'] = 'Admin Fakultas | Verifikasi Prestasi Non Kompetisi ';
         $this->data['content'] = 'Verifikasi_statusNonKompetisi';
@@ -876,7 +898,7 @@ class admin_fakultas  extends CI_Controller
     }
 
     //Seleksi Prestasi Mahasiswa
-    public function seleksipage()
+    public function TambahPrestasi()
     {
         if ($_POST['prestasi'] == 'Kompetisi') {
             $this->data['ID'] = $_POST['Nimmahasiswa'];
@@ -1094,9 +1116,6 @@ class admin_fakultas  extends CI_Controller
                 $config['upload_path']          = './uploads/';
                 $config['allowed_types']        = 'jpeg|jpg|pdf';
                 $config['max_size']             = 1024;
-                // $config['max_width']            = 1024;
-                // $config['max_height']           = 768;
-                // $config['encrypt_name']			= TRUE;
                 $this->load->library('upload', $config);
                 $this->upload->initialize($config);
 
@@ -1120,9 +1139,9 @@ class admin_fakultas  extends CI_Controller
                     }
                     $data['Kategori']       = $this->input->post('Kategori');
                     $data['Tingkat']       = $this->input->post('Tingkat');
-                    if($this->input->post('jumlahTingkat')!=''){
+                    if ($this->input->post('jumlahTingkat') != '') {
                         $data['JumlahPerwakilan']       = $this->input->post('jumlahTingkat');
-                    }else{
+                    } else {
                         $data['JumlahPerwakilan']       = 0;
                     }
                     $data['JumlahPeserta']       = $this->input->post('JumlahPeserta');

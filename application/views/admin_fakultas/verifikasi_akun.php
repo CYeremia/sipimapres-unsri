@@ -70,14 +70,6 @@
                 <div class="container-fluid">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_fakultas/verifikasiData', ['class' => 'form-horizontal']) ?>
-                        <!-- <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                        </div> -->
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -108,7 +100,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-phone fa-fw"></span>
+                                    <span class="fas fa-phone-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="tlp" id="tlp" placeholder="Telephone | 0812xxxxxxxx" required readonly='true'>
@@ -133,11 +125,8 @@
                         </div>
 
                         <div class="col-4 mt-2 float-right">
-                            <!-- <input type="hidden" name="detector" id="id_modal"> -->
                             <div class="form-group">
-                                <!-- <div class="col-lg-offset-2 col-lg-10"> -->
                                 <input type="submit" name="verifikasi" value="Verifikasi" class="btn btn-sm btn-success float-right"></input>
-                                <!-- </div> -->
                             </div>
                         </div>
                         <!-- /.col -->

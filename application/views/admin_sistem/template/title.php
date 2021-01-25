@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logo.ico" type="image/x-icon"> -->
+    <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logoIkon.png" type="image/x-icon">
     <title><?= $title ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,47 +36,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    <style>
-        /* DataTables */
-        td.detailExpand {
-            background-image: url('<?= base_url('assets') ?>/dist/img/add.png');
-            cursor: pointer;
-            background-size: 30%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        tr.shown .detailExpand {
-            background-image: url('<?= base_url('assets') ?>/dist/img/cancel.png');
-            cursor: pointer;
-            background-size: 30%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-    </style>
-
 </head>
-
-<!-- <body class="theme-custom ls-closed">
-
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <p>Please wait...</p>
-        </div>
-    </div>
-
-
-    <div class="overlay"></div> -->
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">

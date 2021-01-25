@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logoIkon.png" type="image/x-icon">
     <title><?= $title ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,48 +39,7 @@
     <link href="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
     <link href="<?= base_url('assets') ?>/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
 
-    <style>
-        /* DataTables */
-        td.details-control {
-            background-image: url('<?= base_url('assets') ?>/dist/img/add.png');
-            cursor: pointer;
-            background-size: 30%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        tr.shown .details-control {
-            background-image: url('<?= base_url('assets') ?>/dist/img/cancel.png');
-            cursor: pointer;
-            background-size: 30%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-    </style>
-
-
 </head>
-
-<!-- <body class="theme-custom ls-closed">
-
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <p>Please wait...</p>
-        </div>
-    </div>
-
-
-    <div class="overlay"></div> -->
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-closed sidebar-collapse">
     <div class="wrapper">

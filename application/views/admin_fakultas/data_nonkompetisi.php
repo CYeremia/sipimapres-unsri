@@ -105,7 +105,6 @@
                                             <input type="text" name="tanggalawal" id="tanggalawal" class="form-control datetimepicker-input" data-target="#tanggal" data-target="#tanggal" data-toggle="datetimepicker" placeholder="Tanggal Mulai" required />
                                         </div>
                                     </div>
-                                    <!-- <span class="input-group-addon" style="padding: 0px 0px 0px 0px;">to</span> -->
 
                                     <div class="input-group date col-md-6" id="tanggal2" data-target-input="nearest">
                                         <div class="input-group-prepend">
@@ -116,16 +115,6 @@
                                         <input type="text" name="tanggalakhir" id="tanggalakhir" class="form-control datetimepicker-input" data-target="#tanggal2" data-target="#tanggal2" data-toggle="datetimepicker" placeholder="Tanggal Selesai" required />
                                     </div>
                                 </div>
-
-                                <!-- <div class="input-group mb-4">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-calendar-alt fa-fw"></span>
-                                        </div>
-                                    </div>
-                                    <select class="form-control" name="tahun" id="tahun" required>
-                                    </select>
-                                </div> -->
 
                                 <div class="input-group mb-3 col-md-12">
                                     <div class="input-group-append">
@@ -189,6 +178,7 @@
                                         <option selected disabled>Pilih Tingkat</option>
                                     </select>
                                 </div>
+
                                 <div class="input-group mb-3 col-md-12" id="ShowTingkat" style="display: none;">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
@@ -197,6 +187,7 @@
                                     </div>
                                     <input type="text" class="form-control" name="jumlahTingkat" id="jumlahTingkat">
                                 </div>
+
                                 <div class="input-group mb-3 col-md-12">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
@@ -233,7 +224,7 @@
                                     </div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="buktiprestasi" name="buktiprestasi">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                        <label class="custom-file-label" for="customFile">Bukti Prestasi (SK/Sertifikat/Piagam/dll)</label>
                                     </div>
                                     <div class="input-group" style="color: red;">
                                         <p>*Maksimal Ukuran Gambar (JPG/JPEG/PDF) : 1024kb</p>

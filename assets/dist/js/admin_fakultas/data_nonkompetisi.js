@@ -13,7 +13,7 @@ $(document).ready(function () {
     //Pemilihan Bidang
     $('#Bidang').on('change', function () {
         var selectedvalue = $(this).val();
-        
+
         $.ajax({
             type: "POST",
             url: globalUrl + "/checkbidang",
@@ -51,37 +51,6 @@ $(document).ready(function () {
                 }
             }
         });
-
-        // var organisasi = "Organisasi kemahasiswaan/lembaga kemahasiswaan: Badan Eksekutif Mahasiswa, Senat Mahasiswa, Dewan Perwakilan Mahasiswa, Majelis Permusyawaratan Mahasiswa, Himpunan Mahasiswa";
-        // var unit = "Unit Kegiatan Mahasiswa";
-        // var Otonom = "Badan Semi Otonom";
-        // var profesi = "Organisasi profesi mahasiswa";
-        // var sosial = "Organisasi sosial kemasyarakatan";
-        // var opsitingkat = "";
-        // //jika memilih role seperti variable diatas maka input field peran akan di hide
-        // if (selectedvalue == organisasi || selectedvalue == unit || selectedvalue == Otonom || selectedvalue == profesi || selectedvalue == sosial) {
-        //     $("#peran").hide();
-        //     $("#jabatan").show();
-        //     opsitingkat = "";
-        //     opsitingkat += "<option selected disabled>Pilih Tingkat</option>";
-        //     opsitingkat += "<option >Internasional</option>";
-        //     opsitingkat += "<option >Regional</option>";
-        //     opsitingkat += "<option >Nasional</option>";
-        //     opsitingkat += "<option >Wilayah</option>";
-        //     opsitingkat += "<option >PT/Provinsi</option>";
-        //     opsitingkat += "<option >Fakultas/Prodi</option>";
-        //     document.getElementById("Tingkat").innerHTML = opsitingkat;
-        // } else { //jika tidak memilih role seperti variable diatas maka input field akan di tampilkan
-        //     $("#peran").show();
-        //     $("#jabatan").hide();
-        //     opsitingkat = "";
-        //     opsitingkat += "<option selected disabled>Pilih Tingkat</option>";
-        //     opsitingkat += "<option >Internasional</option>";
-        //     opsitingkat += "<option >Regional</option>";
-        //     opsitingkat += "<option >Nasional</option>";
-        //     opsitingkat += "<option >PT/Provinsi</option>";
-        //     document.getElementById("Tingkat").innerHTML = opsitingkat;
-        // }
     });
 
     $('#Tingkat').on('change', function () {
@@ -97,20 +66,19 @@ $(document).ready(function () {
         } else if (selected == 'Nasional') {
             document.getElementById("jumlahTingkat").placeholder = "Jumlah Provinsi (optional)";
             document.getElementById("jumlahTingkat").value = "";
-        } else if (selected == 'Internasional'){
+        } else if (selected == 'Internasional') {
             document.getElementById("jumlahTingkat").value = "";
             document.getElementById("jumlahTingkat").placeholder = "Jumlah Negara (optional)";
-        } else if (selected == 'Wilayah'){
+        } else if (selected == 'Wilayah') {
             document.getElementById("jumlahTingkat").value = "";
             document.getElementById("jumlahTingkat").placeholder = "Jumlah Wilayah (optional)";
-        }else if (selected == 'Fakultas/Prodi'){
+        } else if (selected == 'Fakultas/Prodi') {
             document.getElementById("jumlahTingkat").value = "";
             document.getElementById("jumlahTingkat").placeholder = "Jumlah Fakultas/Prodi (optional)";
         }
     });
 
 });
-
 
 // //Menampilkan Tahun
 // var start = 2000;

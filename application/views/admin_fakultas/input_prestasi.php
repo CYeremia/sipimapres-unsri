@@ -7,12 +7,6 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Prestasi Mahasiswa</h1>
                 </div><!-- /.col -->
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
-                    </ol>
-                </div>/.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -79,7 +73,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="col-md-12">
-                        <?= form_open_multipart('admin_fakultas/seleksipage', ['class' => 'form-horizontal']) ?>
+                        <?= form_open_multipart('admin_fakultas/TambahPrestasi', ['class' => 'form-horizontal']) ?>
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -92,7 +86,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-card-alt"></span>
+                                    <span class="fas fa-id-card-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Nimmahasiswa" id="Nimmahasiswa" placeholder="Nim" readonly="true">
@@ -101,7 +95,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-card-alt"></span>
+                                    <span class="fas fa-graduation-cap fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="prodi" id="prodi" placeholder="Program Studi" readonly="true">
@@ -110,7 +104,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="fakultas" id="fakultas" placeholder="Fakultas" readonly="true">
@@ -119,7 +113,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-envelope fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" readonly="true">
@@ -128,7 +122,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-star fa-fw fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK" readonly="true">
@@ -137,7 +131,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-phone-square-alt"></span>
+                                    <span class="fas fa-phone-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Notlp" id="Notlp" placeholder="No. Telephone" readonly="true">
@@ -146,7 +140,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-globe-americas"></span>
+                                    <span class="fas fa-globe-americas fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="prestasi" id="prestasi" required>
@@ -156,16 +150,6 @@
                             </select>
                         </div>
 
-                        <!-- <div class="row"> -->
-                        <!-- <div class="col-8 mt-2" style="color: white;"> -->
-                        <!-- <div class="icheck-primary">
-                                    <input type="checkbox" id="remember">
-                                    <label for="remember">
-                                        Remember Me
-                                    </label>
-                                </div> -->
-                        <!-- </div> -->
-                        <!-- /.col -->
                         <div class="col-4 mt-2 float-right">
                             <input type="hidden" name="detector" id="id_modal">
                             <div class="form-group">

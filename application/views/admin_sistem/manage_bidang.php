@@ -7,12 +7,6 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Kelola Bidang</h1>
                 </div><!-- /.col -->
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
-                    </ol>
-                </div>/.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -28,7 +22,6 @@
                 <div class="card-header">
                     <h3 class="card-title">Daftar Bidang</h3>
                     <button class="btn bg-green float-right" name="tambahdata" id="tambahdata">Tambah Data</button>
-                    <!-- <a class="btn bg-green float-right" href="<?= base_url() ?>admin_sistem/tambahuser" class="btn bg-green">Tambah Data</a> -->
                 </div>
                 <!-- /.card-header -->
                 <div class=" card-body">
@@ -76,12 +69,10 @@
                 <div class="container-fluid">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_sistem/tambahbidang', ['class' => 'form-horizontal']) ?>
-
-
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                <div class="input-group-text ">
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="namabidang" id="namabidang" placeholder="Nama Bidang">
@@ -90,7 +81,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-badge"></span>
+                                    <span class="fas fa-id-badge fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="jalurPrestasi" id="jalurPrestasi">
@@ -103,7 +94,7 @@
                         <div class="input-group mb-3" style="display: none;" id="Kategori_prestasi">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-medal"></span>
+                                    <span class="fas fa-medal fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="Kategori" id="Kategori">
@@ -148,7 +139,7 @@
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="nama_bidang" id="nama_bidang">
@@ -157,7 +148,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-badge"></span>
+                                    <span class="fas fa-id-badge fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="Jalur_Pencapaian" id="Jalur_Pencapaian">
@@ -167,7 +158,7 @@
                         <div class="input-group mb-3" style="display: none;" id="Kategori_P">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-medal"></span>
+                                    <span class="fas fa-medal fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="K_Prestasi" id="K_Prestasi">

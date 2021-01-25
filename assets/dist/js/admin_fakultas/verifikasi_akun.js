@@ -57,24 +57,36 @@ $(document).ready(function () {
     $('#daftarregistrasimahasiswa tbody').on('click', '.modalform', function () {
         var IDMahasiswa = $(this).attr('idpengenal');
 
-        $.ajax({
-            type: "POST",
-            url: globalUrl + "/getdetailRegistrasiMahasiswa",
-            data: {
-                ID: IDMahasiswa,
-            },
-            datatype: 'json',
-            success: function (d) {
-                console.log(d.data);
-                document.getElementById('namamahasiswa').value = d.data.Nama;
-                document.getElementById('NIM').value = d.data.IDPengenal;
-                document.getElementById('Email').value = d.data.Email;
-                document.getElementById('tlp').value = d.data.Telephone;
-                document.getElementById('prodi').value = d.data.ProgramStudi;
-                document.getElementById('IPK').value = d.data.IPK;
+        Swal.fire({
+            title: 'Verifikasi Data!',
+            icon: 'warning',
+            text: 'Apakah Anda Yakin Memeverifikasi Data Mahasiswa ini?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Saya Yakin!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: globalUrl + "/getdetailRegistrasiMahasiswa",
+                    data: {
+                        ID: IDMahasiswa,
+                    },
+                    datatype: 'json',
+                    success: function (d) {
+                        console.log(d.data);
+                        document.getElementById('namamahasiswa').value = d.data.Nama;
+                        document.getElementById('NIM').value = d.data.IDPengenal;
+                        document.getElementById('Email').value = d.data.Email;
+                        document.getElementById('tlp').value = d.data.Telephone;
+                        document.getElementById('prodi').value = d.data.ProgramStudi;
+                        document.getElementById('IPK').value = d.data.IPK;
+                    }
+                });
+                $('#modal-form2').modal();
             }
         });
-        $('#modal-form2').modal();
     });
 
     //Tolak Data
@@ -83,8 +95,9 @@ $(document).ready(function () {
         var IDp = $(this).attr('idpengenal');
 
         Swal.fire({
-            title: 'Apakah Anda Yakin Menghapus Data Registrasi Mahasiswa?',
+            title: 'Hapus Data!',
             icon: 'warning',
+            text: 'Apakah Anda Yakin Menghapus Data Registrasi Mahasiswa?',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

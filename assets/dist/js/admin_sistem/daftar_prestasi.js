@@ -10,7 +10,6 @@ var fakultas = year[2];
 currUrl.pop();
 currUrl.pop();
 var globalUrl = currUrl.join('/');
-
 var daftarP;
 
 $(document).ready(function () {
@@ -110,10 +109,12 @@ $(document).ready(function () {
                 "targets": 8
             },
             {
-                "className": 'detailExpand',
                 "data": null,
                 "orderable": false,
-                "defaultContent": '',
+                "render": function (data, type, full, meta) {
+                    var actButt = "<center><a href=\"javascript:void(0);\" id='ikon' style='color:#3399ff'; class=\"font-bold col-red detailExpand\"><i class='fas fa-plus-circle fa-lg'></i></a>";
+                    return actButt;
+                },
                 "targets": 9,
                 "width": "5%"
             },
@@ -121,15 +122,19 @@ $(document).ready(function () {
         order: [0, 'asc']
     });
 
-    //Get data detail
     $('#daftarPrestasi tbody').on('click', '.detailExpand', function () {
         var tr = $(this).closest('tr');
         var row = daftarP.row(tr);
+        var ikoncolor = document.getElementById('ikon');
 
         if (row.child.isShown()) {
+            $(this).children('i').toggleClass('fas fa-times-circle fa-lg fas fa-plus-circle fa-lg');
+            ikoncolor.style.color = '#3399ff';
             row.child.hide();
             tr.removeClass('shown');
         } else {
+            $(this).children('i').toggleClass('fas fa-plus-circle fa-lg fas fa-times-circle fa-lg');
+            ikoncolor.style.color = '#ff3300';
             //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
             if (daftarP.row('.shown').length) {
                 $('.detailExpand', daftarP.row('.shown').node()).click();
@@ -138,24 +143,6 @@ $(document).ready(function () {
             tr.addClass('shown');
         }
     });
-    // $('#daftarPrestasi tbody').on('click', '.detailExpand', function () {
-    //     var tr = $(this).closest('tr');
-    //     var row = daftarP.row(tr);
-
-    //     if (row.child.isShown()) {
-    //         $(this).children('i').toggleClass('fas fa-times-circle fa-lg fas fa-plus-circle fa-lg');
-    //         row.child.hide();
-    //         tr.removeClass('shown');
-    //     } else {
-    //         $(this).children('i').toggleClass('fas fa-plus-circle fa-lg fas fa-times-circle fa-lg');
-    //         //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
-    //         if (daftarP.row('.shown').length) {
-    //             $('.detailExpand', daftarP.row('.shown').node()).click();
-    //         }
-    //         row.child(format(row.data())).show();
-    //         tr.addClass('shown');
-    //     }
-    // });
 
 });
 
@@ -165,7 +152,7 @@ function format(d) {
         '<table class="table table-striped">' +
         '<tr>' +
         '<td style="width: 10%" colspan="3">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data Mahasiswa</b></h4>' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Prestasi Mahasiswa</b></h4>' +
         '</td>' +
         '</tr>';
 

@@ -25,18 +25,10 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_sistem/tambahdatauser', ['class' => 'form-horizontal']) ?>
-                        <!-- <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                        </div> -->
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                                    <span class="fas fa-user fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="namaadmin" id="namaadmin" placeholder="Nama Admin" required>
@@ -45,7 +37,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-card-alt"></span>
+                                    <span class="fas fa-id-card-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="NIP" id="NIP" placeholder="NIP" required>
@@ -54,7 +46,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-envelope fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" required>
@@ -63,7 +55,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-badge"></span>
+                                    <span class="fas fa-id-badge fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="role" id="role" required>
@@ -76,7 +68,7 @@
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <select name="fakultas" id="fakultas" class="form-control show-tick">
@@ -90,7 +82,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" required>
@@ -99,7 +91,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" required>

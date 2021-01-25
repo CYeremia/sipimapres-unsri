@@ -19,7 +19,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Detail Data Prestasi</h3>
                 </div>
-                
+
                 <div class="card-body">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_fakultas/Verifikasi_status_Nonkompetisi', ['class' => 'form-horizontal']) ?>
@@ -38,13 +38,13 @@
                                 </tr>
 
                                 <tr>
-                                    <td style=" width: 20%">Kegiatan</td>
+                                    <td style=" width: 20%">Judul Kegiatan</td>
                                     <td><?php echo ($IDM->Kegiatan) ?></td>
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">Peran</td>
-                                    <td><?php echo ($IDM->Peran) ?></td>
+                                    <td style="width: 20%">Bidang</td>
+                                    <td><?php echo ($IDM->Bidang) ?></td>
                                 </tr>
 
                                 <tr>
@@ -53,23 +53,43 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="width: 20%">TanggalMulai</td>
-                                    <td><?php echo date_format(date_create($IDM->TanggalMulai), "d F Y"); ?></td>
-                                </tr>
-
-                                <tr>
-                                    <td style="width: 20%">TanggalAkhir</td>
-                                    <td><?php echo date_format(date_create($IDM->TanggalAkhir), "d F Y"); ?></td>
-                                </tr>
-
-                                <tr>
                                     <td style="width: 20%">Kategori</td>
                                     <td><?php echo ($IDM->Kategori) ?></td>
                                 </tr>
 
                                 <tr>
+                                    <td style="width: 20%">Status Kategori</td>
+                                    <td><?php echo ($IDM->StatusKategori) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Peran/Jabatan</td>
+                                    <td><?php echo ($IDM->Peran) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Tanggal Mulai</td>
+                                    <td><?php echo date_format(date_create($IDM->TanggalMulai), "d F Y"); ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Tanggal Selesai</td>
+                                    <td><?php echo date_format(date_create($IDM->TanggalAkhir), "d F Y"); ?></td>
+                                </tr>
+
+                                <tr>
                                     <td style="width: 20%">Tingkat</td>
                                     <td><?php echo ($IDM->Tingkat) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Perwakilan Prestasi</td>
+                                    <td><?php echo ($JumlahPerwakilan) ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 20%">Peserta</td>
+                                    <td><?php echo ($IDM->JumlahPeserta) ?> Orang</td>
                                 </tr>
 
                                 <tr>
@@ -79,7 +99,7 @@
 
                                 <tr>
                                     <td style="width: 20%">Bukti Prestasi</td>
-                                    <td><img id="bukti" style="width:200px" src="<?= base_url('uploads') ?>/<?= $IDM->BuktiPrestasi ?>"></td>
+                                    <td><a href="<?= base_url() ?>/admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download <i class="fas fa-download"></i></a></td>
                                 </tr>
 
                                 <tr>

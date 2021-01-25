@@ -7,12 +7,6 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Kelola User</h1>
                 </div><!-- /.col -->
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
-                    </ol>
-                </div>/.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -76,18 +70,10 @@
                 <div class="container-fluid">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_sistem/updateuser', ['class' => 'form-horizontal']) ?>
-                        <!-- <div class="input-group mb-3">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                        </div> -->
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                                    <span class="fas fa-user fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="namaadmin" id="namaadmin" placeholder="Nama Admin">
@@ -96,7 +82,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-card-alt"></span>
+                                    <span class="fas fa-id-card-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="NIP" id="NIP" placeholder="NIP">
@@ -105,7 +91,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-envelope fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="Email" id="Email" placeholder="Email">
@@ -114,7 +100,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-id-badge"></span>
+                                    <span class="fas fa-id-badge fa-fw"></span>
                                 </div>
                             </div>
                             <select class="form-control" name="role" id="role">
@@ -124,7 +110,7 @@
                         <div class="input-group mb-3" id="fakultas_select">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university"></span>
+                                    <span class="fas fa-university fa-fw"></span>
                                 </div>
                             </div>
                             <select name="fakultas" id="fakultas" class="form-control show-tick">
@@ -138,7 +124,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password1" id="password1" placeholder="New Password">
@@ -147,19 +133,15 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-lock fa-fw"></span>
                                 </div>
                             </div>
                             <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm New Password">
                         </div>
 
-
-
-
                         <div class="col-4 mt-2 float-right">
                             <input type="hidden" name="detector" id="id_modal">
                             <div class="form-group">
-                                <!-- <div class="col-lg-offset-2 col-lg-10"> -->
                                 <input type="submit" name="updatedata" class="btn btn-sm btn-success float-right">
                             </div>
                         </div>

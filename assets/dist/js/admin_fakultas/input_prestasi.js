@@ -52,8 +52,8 @@ $(document).ready(function () {
         var IDp = $(this).attr('idpengenal');
 
         Swal.fire({
-            title: 'Apakah Anda Yakin?',
-            text: "Menambahkan Data Prestasi",
+            title: 'Menambahkan Data Prestasi!',
+            text: 'Apakah Anda Yakin Menambahkan Data Prestasi Mahasiswa ini?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

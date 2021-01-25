@@ -274,15 +274,14 @@ class Mahasiswa extends CI_Controller
             $obj->Perlombaan = $k->Perlombaan;
             $obj->TanggalMulai = date_format(date_create($k->TanggalMulai), "d F Y");
             $obj->TanggalAkhir = date_format(date_create($k->TanggalAkhir), "d F Y");
-            // $obj->TanggalMulai = date_create($k->TanggalMulai);
-            // $obj->TanggalMulai = date_format($obj->TanggalMulai, "d F Y");
-            // $obj->TanggalAkhir = date_create($k->TanggalAkhir);
-            // $obj->TanggalAkhir = date_format($obj->TanggalMulai, "d F Y");
             $obj->Penyelenggara = $k->Penyelenggara;
             $obj->Kategori = $k->Kategori;
+            $obj->StatusKategori = $k->StatusKategori;
             $obj->Tingkat = $k->Tingkat;
+            $obj->JumlahPerwakilan = $k->JumlahPerwakilan;
             $obj->Pencapaian = $k->Pencapaian;
             $obj->BuktiPrestasi = $k->BuktiPrestasi;
+            $obj->BuktiDokumentasi = $k->BuktiDokumentasi;
             $obj->JumlahPeserta = $k->JumlahPeserta;
             $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
             $obj->Status = $k->Status;
@@ -424,7 +423,9 @@ class Mahasiswa extends CI_Controller
             $obj->TanggalAkhir = date_format(date_create($k->TanggalAkhir), "d F Y");
             $obj->Penyelenggara = $k->Penyelenggara;
             $obj->Kategori = $k->Kategori;
+            $obj->StatusKategori = $k->StatusKategori;
             $obj->Tingkat = $k->Tingkat;
+            $obj->JumlahPerwakilan = $k->JumlahPerwakilan;
             $obj->JumlahPeserta = $k->JumlahPeserta;
             $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
             $obj->BuktiPrestasi = $k->BuktiPrestasi;
@@ -457,5 +458,17 @@ class Mahasiswa extends CI_Controller
         }
         header('Content-Type: application/json');
         echo json_encode($data);
+    }
+
+    //download file bukti prestasi
+    function downloadfileBuktiPrestasi($ID)
+    {
+        force_download('uploads/' . $ID, null);
+    }
+
+    //download file bukti dokumentasi
+    function downloadfileDokumentasi($ID)
+    {
+        force_download('uploads_BuktiDokumentasi/' . $ID, null);
     }
 }

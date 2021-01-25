@@ -55,7 +55,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-phone fa-fw"></span>
+                                    <span class="fas fa-phone-alt fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="tlp" id="tlp" placeholder="Telephone | 0812xxxxxxxx" required>

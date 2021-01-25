@@ -23,38 +23,44 @@ $(document).ready(function () {
             "targets": 0
         },
         {
-            data: "Kegiatan",
+            data: "Bidang",
             "targets": 1
         },
         {
-            data: "TanggalMulai",
+            data: "Kegiatan",
             "targets": 2
         },
         {
-            data: "TanggalAkhir",
+            data: "TanggalMulai",
             "targets": 3
         },
         {
-            data: "Penyelenggara",
+            data: "TanggalAkhir",
             "targets": 4
         },
         {
-            data: "Tingkat",
+            data: "Penyelenggara",
             "targets": 5
         },
         {
-            data: "Kategori",
+            data: "Tingkat",
             "targets": 6
         },
         {
-            data: "Status",
+            data: "Kategori",
             "targets": 7
         },
         {
-            "className": 'details-control',
+            data: "Status",
+            "targets": 8
+        },
+        {
             "data": null,
             "orderable": false,
-            "defaultContent": '',
+            "render": function (data, type, full, meta) {
+                var actButt = "<center><a href=\"javascript:void(0);\" id='ikon' style='color:#3399ff'; class=\"font-bold col-red detailExpand\"><i class='fas fa-plus-circle fa-lg'></i></a>";
+                return actButt;
+            },
             "targets": 9,
             "width": "5%"
         }
@@ -63,101 +69,166 @@ $(document).ready(function () {
     });
 
     //Get data detail
-    $('#perestasinonkompetisi tbody').on('click', 'td.details-control', function () {
+    $('#perestasinonkompetisi tbody').on('click', '.detailExpand', function () {
         var tr = $(this).closest('tr');
         var row = prestasi_nonkompetisi.row(tr);
+        var ikoncolor = document.getElementById('ikon');
 
         if (row.child.isShown()) {
-            // This row is already open - close it
+            $(this).children('i').toggleClass('fas fa-times-circle fa-lg fas fa-plus-circle fa-lg');
+            ikoncolor.style.color = '#3399ff';
             row.child.hide();
             tr.removeClass('shown');
-        }
-        else {
-            // Open this row (the format() function would return the data to be shown)
+        } else {
+            $(this).children('i').toggleClass('fas fa-plus-circle fa-lg fas fa-times-circle fa-lg');
+            ikoncolor.style.color = '#ff3300';
+            //Jika ingin menampilkan 1 row child saja pakai code dibawah ini
+            if (prestasi_nonkompetisi.row('.shown').length) {
+                $('.detailExpand', prestasi_nonkompetisi.row('.shown').node()).click();
+            }
             row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     });
-
-
 });
 
 //Row Child
 function format(d) {
-    return '<div class="slider">' +
+    console.log(d);
+    var output = '';
+    output = '<div class="slider">' +
         '<table class="table table-striped">' +
         '<tr>' +
         '<td style="width: 10%" colspan="3">' +
-        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data</b></h4>' +
+        '<h4 style="display: inline-block; top: 10px;"><b>Detail Data Prestasi</b></h4>' +
         '</td>' +
+        '</tr>';
+
+    var body = '';
+    body = '<tr>' +
+        '<td style="width: 15%">NIM</td>' +
+        '<td>' + d.PeraihPrestasi + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Nama Mahasiswa</td>' +
         '<td>' + d.Nama + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">NIM</td>' +
-        '<td>' + d.PeraihPrestasi + '</td>' +
+        '<td style="width: 15%">Judul Kegiatan</td>' +
+        '<td>' + d.Kegiatan + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Bidang</td>' +
         '<td>' + d.Bidang + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Tanggal Mulai</td>' +
-        '<td>' + d.TanggalMulai + '</td>' +
-        '</tr>' +
-        
-        '<tr>' +
-        '<td style="width: 15%">Tanggal Akhir</td>' +
-        '<td>' + d.TanggalAkhir + '</td>' +
-        '</tr>' +
-        '<tr>' +
         '<td style="width: 15%">Penyelenggara</td>' +
         '<td>' + d.Penyelenggara + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Tingkat</td>' +
-        '<td>' + d.Tingkat + '</td>' +
+        '<td style="width: 15%">Tanggal Mulai</td>' +
+        '<td>' + d.TanggalMulai + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Peran</td>' +
-        '<td>' + d.Peran + '</td>' +
+        '<td style="width: 15%">Tanggal Selesai</td>' +
+        '<td>' + d.TanggalAkhir + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Kategori</td>' +
         '<td>' + d.Kategori + '</td>' +
         '</tr>' +
-        '<td style="width: 15%">Jumlah Peserta</td>' +
-        '<td>' + d.JumlahPeserta + '</td>' +
+        '<tr>' +
+        '<td style="width: 15%">Status Kategori</td>' +
+        '<td>' + d.StatusKategori + '</td>' +
         '</tr>' +
+        '<tr>' +
+        '<td style="width: 15%">Tingkat</td>' +
+        '<td>' + d.Tingkat + '</td>' +
+        '</tr>';
+    output = output + body;
+    body = '';
+
+    if (d.Tingkat == "Regional") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else if (d.Tingkat == "PT/Provinsi") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Perguruan Tinggi Negeri</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else if (d.Tingkat == "Nasional") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Provinsi</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else if (d.Tingkat == "Internasional") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Negara</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else if (d.Tingkat == "Wilayah") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Wilayah</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    } else if (d.Tingkat == "Fakultas/Prodi") {
+        body = '<tr>' +
+            '<td style="width: 15%">Jumlah Perwakilan</td>' +
+            '<td>' + d.JumlahPerwakilan + ' Fakultas/Prodi</td>' +
+            '</tr>';
+        output = output + body;
+        body = '';
+    }
+
+    body = '<tr>' +
+        '<td style="width: 15%">Jumlah Peserta</td>' +
+        '<td>' + d.JumlahPeserta + ' Orang</td>' +
+        '</tr>' +
+        '<tr>' +
         '<td style="width: 15%">Jumlah Penghargaan</td>' +
         '<td>' + d.JumlahPenghargaan + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td style="width: 15%">Status</td>' +
-        '<td>' + d.Status + '</td>' +
+        '<td style="width: 15%">Link Berita</td>' +
+        '<td>' + d.LinkBerita + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
-        '<td><img onclick="BuktiPrestasi(\'' + d.BuktiPrestasi + '\')" style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
-        // '<td><img style="width:200px" src="' + url + d.BuktiPrestasi + '"></td>' +
-        // '<td><img width="100 " src="<?php echo base_url(); ?>uploads/<?php echo' + d.BuktiPrestasi + ' ?>/"></td>' +
-        // '<td <img width="" 500px height="500px" src=" <?php echo base_url(uploads/)' + d.BuktiPrestasi + '"?>"/></td>' +
+        '<td> <a href=' + globalUrl + '/downloadfileBuktiPrestasi/' + d.BuktiPrestasi + '>Download <i class="fas fa-download"></i></a></td>' +
         '</tr>' +
-        '</table></div>';
+        '<tr>' +
+        '<td style="width: 15%">Status</td>' +
+        '<td>' + d.Status + '</td>' +
+        '</tr>';
+    output = output + body;
+
+    var footer = '</table></div > ';
+    output = output + footer;
+    return output;
 }
 
-function BuktiPrestasi(gambar) {
-    var modal = document.getElementById("Modal-Img");
-    var modalImg = document.getElementById("img");
+// function BuktiPrestasi(gambar) {
+//     var modal = document.getElementById("Modal-Img");
+//     var modalImg = document.getElementById("img");
 
-    modal.style.display = "block";
-    modalImg.src = this.src = url + gambar;
-    $('#Modal-Img').modal('show');
-}
+//     modal.style.display = "block";
+//     modalImg.src = this.src = url + gambar;
+//     $('#Modal-Img').modal('show');
+// }
 
-$('#closemodal').click(function (e) {
-    var modal = document.getElementById("Modal-Img");
-    modal.style.display = "none";
-});
+// $('#closemodal').click(function (e) {
+//     var modal = document.getElementById("Modal-Img");
+//     modal.style.display = "none";
+// });

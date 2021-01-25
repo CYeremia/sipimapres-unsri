@@ -7,12 +7,6 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Prestasi Kompetisi</h1>
                 </div><!-- /.col -->
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
-                    </ol>
-                </div>/.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -39,7 +33,7 @@
                                     <th>Bidang</th>
                                     <th>Perlombaan</th>
                                     <th>Tanggal Mulai</th>
-                                    <th>Tanggal Akhir</th>
+                                    <th>Tanggal Selesai</th>
                                     <th>Penyelenggara</th>
                                     <th>Kategori</th>
                                     <th>Tingkat</th>
@@ -66,17 +60,4 @@
     </section>
     <!-- /.content -->
 
-</div>
-
-<!-- The Modal -->
-<div class="modal" id="Modal-Img">
-    <div class="modal-header">
-        <button type="button" id="closemodal" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <!-- <span id="closeimg" class="close">&times;</span> -->
-    </div>
-    <div class="modal-body">
-        <center><img style="margin-top: 5%; width: auto; height: auto;" class="modal-content" id="img"></center>
-    </div>
 </div>
