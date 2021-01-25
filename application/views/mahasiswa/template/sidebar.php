@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="javascript:void(0);" class="brand-link d-flex">
-        <img src="<?= base_url('assets') ?>/dist/img/logo.png" alt="" class="brand-image img-circle" style="opacity: .8">
+        <img src="<?= base_url('assets') ?>/dist/img/logo.png" alt="" class="brand-image img-circle">
         <img src="<?= base_url('assets') ?>/dist/img/logo-full.png" alt="" class="brand-image">
         <!-- <span class="brand-text font-weight-light">Si-Pimapres</span> -->
     </a>
