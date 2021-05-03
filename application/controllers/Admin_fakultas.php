@@ -139,6 +139,43 @@ class admin_fakultas  extends CI_Controller
     //Simpan Data Mahasiswa
     public function tambahdatauser()
     {
+        $APIFakultasParam = "";
+        switch ($this->data['userdata']->Fakultas) {
+            case 'Fakultas Ekonomi':
+                $APIFakultasParam = 'ekonomi';
+                break;
+            case 'Fakultas Hukum':
+                $APIFakultasParam = 'hukum';
+                break;
+            case 'Fakultas Ilmu Komputer':
+                $APIFakultasParam = 'fasilkom';
+                break;
+            case 'Fakultas Ilmu sosial dan Ilmu Politik':
+                $APIFakultasParam = 'fisip';
+                break;
+            case 'Fakultas Kedokteran':
+                $APIFakultasParam = 'kedokteran';
+                break;
+            case 'Fakultas keguruan dan Ilmu Pendidikan':
+                $APIFakultasParam = 'fkip';
+                break;
+            case 'Fakultas Kesehatan Masyarakat':
+                $APIFakultasParam = 'fkm';
+                break;
+            case 'Fakultas Matematika dan Ilmu Pengetahuan Alam':
+                $APIFakultasParam = 'fmipa';
+                break;
+            case 'Fakultas pertanian':
+                $APIFakultasParam = 'pertanian';
+                break;
+            case 'Fakultas Teknik':
+                $APIFakultasParam = 'Teknik';
+                break;
+            case 'Program Pasca Sarjana':
+                $APIFakultasParam = 'pps';
+                break;
+        }
+
         if ($this->input->post('tambahuser')) {
             $this->form_validation->set_rules('password1', 'Password', 'required');
             $this->form_validation->set_rules('password2', 'Password Confirmation', 'required|matches[password1]');
@@ -146,15 +183,30 @@ class admin_fakultas  extends CI_Controller
                 $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
                 redirect("admin_fakultas/Tambah_DataMahasiswa");
             } else {
-                $input['Nama'] = $this->input->post('namaMahasiswa');
+                //get data over API
+                $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$this->input->post('NIM').'&fakultas='.$APIFakultasParam.'');
+                $APIresponse = json_decode($APIresponse);
+
+                $input['Nama'] = $APIresponse->data->NAMA;
                 $input['Role'] = 'Mahasiswa';
-                $input['IDPengenal'] = $this->input->post('NIM');
+                $input['IDPengenal'] = $APIresponse->data->NIM;
                 $input['Fakultas'] = $this->data['userdata']->Fakultas;
                 $input['ProgramStudi'] = $this->input->post('prodi');
                 $input['Email'] = $this->input->post('Email');
-                $input['IPK'] = $this->input->post('IPK');
+                $input['IPK'] = $APIresponse->data->IPK;
                 $input['Telephone'] = $this->input->post('tlp');
                 $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+
+
+                // $input['Nama'] = $this->input->post('namaMahasiswa');
+                // $input['Role'] = 'Mahasiswa';
+                // $input['IDPengenal'] = $this->input->post('NIM');
+                // $input['Fakultas'] = $this->data['userdata']->Fakultas;
+                // $input['ProgramStudi'] = $this->input->post('prodi');
+                // $input['Email'] = $this->input->post('Email');
+                // $input['IPK'] = $this->input->post('IPK');
+                // $input['Telephone'] = $this->input->post('tlp');
+                // $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
 
                 //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
                 $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
@@ -166,21 +218,22 @@ class admin_fakultas  extends CI_Controller
                     redirect('admin_fakultas/Tambah_DataMahasiswa');
                 } else // jika belum terdaftar
                 {
-                    $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                    // $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
 
                     $checknumeric = is_numeric($input['IPK']);
                     $checknumericphone = is_numeric($input['Telephone']);
                     $checknumericNIM = is_numeric($input['IDPengenal']);
 
                     if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
-                        if ($checknumeric == true || $checknumericphone == true) {
-                            if ($checknumeric == true) // jika format IPK adalah angka
-                            {
-                                if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                    $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                    redirect('admin_fakultas/Tambah_DataMahasiswa');
-                                } else //jika format IPK benar
-                                {
+                        if ($checknumericphone == true) {
+                            // if ($checknumeric == true) // jika format IPK adalah angka
+                            // {
+                                // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                //     redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                // } 
+                                // else //jika format IPK benar
+                                // {
                                     if ($checknumericNIM == true) { //jika format tlp adalah angka
                                         if ($checknumericphone == true) { //jika format tlp adalah angka
                                             if ($this->user_m->insert($input)) {
@@ -191,22 +244,23 @@ class admin_fakultas  extends CI_Controller
                                             $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
                                             redirect('admin_fakultas/Tambah_DataMahasiswa');
                                         }
-                                    } else { //Jika NIM bukan numerik
+                                    } 
+                                    else { //Jika NIM bukan numerik
                                         $this->flashmsg('Format NIM tidak sesuai !', 'danger');
                                         redirect('admin_fakultas/Tambah_DataMahasiswa');
                                     }
-                                }
-                            } else //jika bukan format numerik
-                            {
-                                $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                redirect('admin_fakultas/Tambah_DataMahasiswa');
-                            }
+                                // }
+                            // } else //jika bukan format numerik
+                            // {
+                            //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                            //     redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            // }
                         } else { //jika format IPK dan Telephone bukan numerik
-                            $this->flashmsg('Format IPK dan Telephone tidak sesuai !', 'danger');
+                            $this->flashmsg('Telephone tidak sesuai !', 'danger');
                             redirect('admin_fakultas/Tambah_DataMahasiswa');
                         }
                     } else { //jika format NIM, IPK dan Telephone bukan numerik
-                        $this->flashmsg('Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        $this->flashmsg('Format NIM dan Telephone tidak sesuai !', 'danger');
                         redirect('admin_fakultas/Tambah_DataMahasiswa');
                     }
                 }

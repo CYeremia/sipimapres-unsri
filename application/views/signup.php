@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logoIkon.png" type="image/x-icon">
-    <title>SignUp | Si-Pimapres</title>
+    <title>REGISTRASI | Si-Pimapres</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -57,17 +57,18 @@
                     <?= form_open_multipart('signup/newUser', ['class' => 'form-horizontal']) ?>
                     <!-- <form id="sign_up"> -->
                     <!-- <form> -->
-                    <div class="input-group mb-3">
+                   
+                    <!-- <div class="input-group mb-3">
                         <input type="text" class="form-control" id="namauser" name="namauser" placeholder="Nama Lengkap" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="IDpengenal" name="IDpengenal" placeholder="NIM/ID Pengenal" required>
+                        <input type="text" class="form-control" id="IDpengenal" name="IDpengenal" placeholder="NIM" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-id-card"></span>
@@ -92,14 +93,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
+
+                    <!-- <div class="input-group mb-3">
                         <input type="text" class="form-control" id="IPK" name="IPK" placeholder="IPK | Ex : 4.00" maxlength="4" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-star"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="input-group mb-3">
                         <input type="tel" class="form-control" id="telp" name="telp" placeholder="Telp | Ex : 0812xxxxxxxx" required>
@@ -143,7 +145,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4 mt-1">
-                            <input class="btn btn-block bg-blue waves-effect" name="datauser" id="datauser" type="submit" value="Sign Up"></input>
+                            <input class="btn btn-block bg-blue waves-effect" name="datauser" id="datauser" type="submit" value="REGISTRASI"></input>
                             <!-- <button class="btn btn-block" style="color: black; background-color: #D58E60;" id="btSubmit" type="submit">SIGN IN</button>
                                 <button class="btn btn-block bg-blue waves-effect" type="submit">SIGN IN</button> -->
                         </div>
@@ -153,7 +155,7 @@
                     <?= form_close() ?>
                     <!-- </form> -->
                     <p class="mb-0 mt-2">
-                        <a class="signup" style="color:orange; font-size:large" href="<?= site_url('login') ?>">I already have an account</a>
+                        <a class="signup" style="color:orange; font-size:large" href="<?= site_url('login') ?>">Saya Telah Memiliki Akun - SIGN IN</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->

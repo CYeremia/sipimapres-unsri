@@ -25,14 +25,15 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <?= form_open_multipart('admin_fakultas/tambahdatauser', ['class' => 'form-horizontal']) ?>
-                        <div class="input-group mb-3">
+                        
+                        <!-- <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="namaMahasiswa" id="namaMahasiswa" placeholder="Nama Mahasiswa" required>
-                        </div>
+                        </div> -->
 
                         <div class="input-group mb-3">
                             <div class="input-group-append">
@@ -75,14 +76,14 @@
                             </select>
                         </div>
 
-                        <div class="input-group mb-3">
+                        <!-- <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-star fa-fw"></span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" name="IPK" id="IPK" placeholder="IPK | 4.00" required>
-                        </div>
+                        </div> -->
 
                         <div class="input-group mb-3">
                             <div class="input-group-append">

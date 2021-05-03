@@ -60,14 +60,55 @@ class Signup extends CI_Controller
 
     public function newUser()
     {
+        // set param fakultas for api
+        $APIFakultasParam = "";
+        switch ($this->input->post('fakultas')) {
+            case 'Fakultas Ekonomi':
+                $APIFakultasParam = 'ekonomi';
+                break;
+            case 'Fakultas Hukum':
+                $APIFakultasParam = 'hukum';
+                break;
+            case 'Fakultas Ilmu Komputer':
+                $APIFakultasParam = 'fasilkom';
+                break;
+            case 'Fakultas Ilmu sosial dan Ilmu Politik':
+                $APIFakultasParam = 'fisip';
+                break;
+            case 'Fakultas Kedokteran':
+                $APIFakultasParam = 'kedokteran';
+                break;
+            case 'Fakultas keguruan dan Ilmu Pendidikan':
+                $APIFakultasParam = 'fkip';
+                break;
+            case 'Fakultas Kesehatan Masyarakat':
+                $APIFakultasParam = 'fkm';
+                break;
+            case 'Fakultas Matematika dan Ilmu Pengetahuan Alam':
+                $APIFakultasParam = 'fmipa';
+                break;
+            case 'Fakultas pertanian':
+                $APIFakultasParam = 'pertanian';
+                break;
+            case 'Fakultas Teknik':
+                $APIFakultasParam = 'Teknik';
+                break;
+            case 'Program Pasca Sarjana':
+                $APIFakultasParam = 'pps';
+                break;
+        }
+        //get data mahasiswa by API simak;
+        $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$this->input->post('IDpengenal').'&fakultas='.$APIFakultasParam.'');
+        $APIresponse = json_decode($APIresponse);
+
         if ($this->input->post('datauser')) {
-            $this->form_validation->set_rules('namauser', 'namauser', 'required|trim');
+            // $this->form_validation->set_rules('namauser', 'namauser', 'required|trim');
             $this->form_validation->set_rules('IDpengenal', 'IDpengenal', 'required|trim');
 
             $this->form_validation->set_rules('email', 'email', 'required|trim');
             $this->form_validation->set_rules('password', 'password', 'required|trim');
             $this->form_validation->set_rules('telp', 'telp', 'required|trim');
-            $this->form_validation->set_rules('IPK', 'IPK', 'required|trim');
+            // $this->form_validation->set_rules('IPK', 'IPK', 'required|trim');
 
             // $this->form_validation->set_rules('role', 'role', 'required');
             $this->form_validation->set_rules('fakultas', 'fakultas', 'required');
@@ -97,17 +138,30 @@ class Signup extends CI_Controller
 
                 // $dataTele['TelegramAccount'] = $this->input->post('userTele');
                 // $this->db->insert('telegramaccount', $dataTele);
-
-                $input['Nama']     = $this->input->post('namauser');
-                $input['IDPengenal']   = $this->input->post('IDpengenal');
+                
+                // cek apakah data ditemukan atau tidak
+            if ($APIresponse->message == 'Success' && $APIresponse->data != null) {//jika ada lanjutkan pendaftaran
+                $input['Nama']     = $APIresponse->data->NAMA;
+                $input['IDPengenal']   = $APIresponse->data->NIM;
                 $input['Email']        = $this->input->post('email');
                 $input['Password']     = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
                 $input['Telephone']       = $this->input->post('telp');
-                $input['IPK']       = $this->input->post('IPK');
+                $input['IPK']       = $APIresponse->data->IPK;
                 $input['Role']      = 'Mahasiswa';
                 $input['Fakultas']  = $this->input->post('fakultas');
                 $input['ProgramStudi']   = $this->input->post('jurusan');
+                
+                // $input['Nama']     = $this->input->post('namauser');
+                // $input['IDPengenal']   = $this->input->post('IDpengenal');
+                // $input['Email']        = $this->input->post('email');
+                // $input['Password']     = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+
+                // $input['Telephone']       = $this->input->post('telp');
+                // $input['IPK']       = $this->input->post('IPK');
+                // $input['Role']      = 'Mahasiswa';
+                // $input['Fakultas']  = $this->input->post('fakultas');
+                // $input['ProgramStudi']   = $this->input->post('jurusan');
 
                 //untuk menampung hasil check id pengenal apakah sudah terdaftar atau belum
                 $checkIDPengenal = $this->db->query("SELECT COUNT(IDPengenal) AS `NIM` FROM user WHERE `IDPengenal` ='" . $input['IDPengenal'] . "'")->row();
@@ -119,21 +173,21 @@ class Signup extends CI_Controller
                     redirect('signup');
                 } else // jika belum terdaftar
                 {
-                    $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
+                    // $input['IPK'] = str_replace(',', '.', $input['IPK']); //replace apabila format ipk yang dimasukkan tidak sesuai
 
                     $checknumeric = is_numeric($input['IPK']);
                     $checknumericphone = is_numeric($input['Telephone']);
                     $checknumericNIM = is_numeric($input['IDPengenal']);
 
                     if ($checknumeric == true || $checknumericphone == true || $checknumericNIM == true) {
-                        if ($checknumeric == true || $checknumericphone == true) {
-                            if ($checknumeric == true) // jika format IPK adalah angka
-                            {
-                                if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                    $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                    redirect('signup');
-                                } else //jika format IPK benar
-                                {
+                        if ($checknumericphone == true) {
+                            // if ($checknumeric == true) // jika format IPK adalah angka
+                            // {
+                                // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                                //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                //     redirect('signup');
+                                // } else //jika format IPK benar
+                                // {
                                     if ($checknumericNIM == true) {
                                         if ($checknumericphone == true) {
                                             $this->Mahasiswa_regis->insert($input);
@@ -143,25 +197,28 @@ class Signup extends CI_Controller
                                             $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
                                             redirect('signup');
                                         }
-                                    } else { //Jika NIM bukan numerik
-                                        $this->flashmsg('Format NIM tidak sesuai !', 'danger');
-                                        redirect('signup');
-                                    }
-                                }
-                            } else //jika bukan format numerik
-                            {
-                                $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                redirect('signup');
-                            }
+                                    } 
+                                    // else { //Jika NIM bukan numerik
+                                    //     $this->flashmsg('Format NIM tidak sesuai !', 'danger');
+                                    //     redirect('signup');
+                                    // }
+                                // }
+                            // } else //jika bukan format numerik
+                            // {
+                                // $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                                // redirect('signup');
+                            // }
                         } else { //jika format IPK dan Telephone bukan numerik
-                            $this->flashmsg('Format IPK dan Telephone tidak sesuai !', 'danger');
+                            $this->flashmsg('Format Data Telephone tidak sesuai !', 'danger');
                             redirect('signup');
                         }
                     } else { //jika format NIM, IPK dan Telephone bukan numerik
-                        $this->flashmsg('Format NIM, IPK dan Telephone tidak sesuai !', 'danger');
+                        $this->flashmsg('Format NIM, Telephone tidak sesuai !', 'danger');
                         redirect('signup');
                     }
                 }
+            }
+
             }
         }
     }

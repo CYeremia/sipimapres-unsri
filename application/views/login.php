@@ -94,8 +94,8 @@
                         </div>
                     </form>
                     <p class="mb-0 mt-2">
-                        Don't have an account?
-                        <a class="signup" style="color:orange; font-size:large" href="<?= site_url('signup') ?>">SIGN UP</a>
+                        Belum Memiliki Akun?
+                        <a class="signup" style="color:orange; font-size:large" href="<?= site_url('signup') ?>">REGISTRASI</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->
