@@ -1075,7 +1075,7 @@ class admin_fakultas  extends CI_Controller
                     $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
                     $BERITA = $_SERVER['HTTP_BERITA'];
                     $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-                    $BUKTIPRESTASI = $this->upload->data("file_name");
+                    // $BUKTIPRESTASI = $this->upload->data("file_name");
 
                     // // Hitung Score
                     // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
@@ -1338,7 +1338,7 @@ class admin_fakultas  extends CI_Controller
             'status' => true,
             'status_code' => 200
         ];
-
+        // print_r($result);
         header('Content-Type: application/json');
         echo json_encode($result);
     }
@@ -1348,7 +1348,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "'  AND prestasikompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1387,7 +1387,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
-        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1492,7 +1492,7 @@ class admin_fakultas  extends CI_Controller
 
         $listData = [];
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM prodi
           LEFT JOIN
           (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
           LEFT JOIN 

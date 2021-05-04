@@ -50,53 +50,53 @@ class Login extends CI_Controller
                     'Role' => $userCek->Role,
                 );
 
-                //update IPK setiap admin fakultas||administrator login
-                if ($userCek->Role == 'Administrasi Fakultas' || $userCek->Role == 'Administrator Sistem') {
-                    $mahasiswa = $this->db->query("SELECT IDPengenal, ProgramStudi,IPK FROM user WHERE Role='Mahasiswa'");
-                    foreach ($mahasiswa->result() as $row) {
-                        $APIFakultasParam = "";
-                        switch ($this->input->post('fakultas')) {
-                            case 'Fakultas Ekonomi':
-                                $APIFakultasParam = 'ekonomi';
-                                break;
-                            case 'Fakultas Hukum':
-                                $APIFakultasParam = 'hukum';
-                                break;
-                            case 'Fakultas Ilmu Komputer':
-                                $APIFakultasParam = 'fasilkom';
-                                break;
-                            case 'Fakultas Ilmu sosial dan Ilmu Politik':
-                                $APIFakultasParam = 'fisip';
-                                break;
-                            case 'Fakultas Kedokteran':
-                                $APIFakultasParam = 'kedokteran';
-                                break;
-                            case 'Fakultas keguruan dan Ilmu Pendidikan':
-                                $APIFakultasParam = 'fkip';
-                                break;
-                            case 'Fakultas Kesehatan Masyarakat':
-                                $APIFakultasParam = 'fkm';
-                                break;
-                            case 'Fakultas Matematika dan Ilmu Pengetahuan Alam':
-                                $APIFakultasParam = 'fmipa';
-                                break;
-                            case 'Fakultas pertanian':
-                                $APIFakultasParam = 'pertanian';
-                                break;
-                            case 'Fakultas Teknik':
-                                $APIFakultasParam = 'Teknik';
-                                break;
-                            case 'Program Pasca Sarjana':
-                                $APIFakultasParam = 'pps';
-                                break;
-                        }
-                        $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$row->IDPengenal.'&fakultas='.$APIFakultasParam.'');
-                        $APIresponse = json_decode($APIresponse);
-                        if(is_null($APIresponse->data)==1 &&($APIresponse->data->IPK!=$row->IPK)){
-                            $this->db->query("UPDATE user SET IPK=.$APIresponse->data->IPK. WHERE IDPengenal='$row->IDPengenal'");
-                        }
-                    }
-                }
+                // update IPK setiap admin fakultas||administrator login
+                // if ($userCek->Role == 'Administrasi Fakultas' || $userCek->Role == 'Administrator Sistem') {
+                //     $mahasiswa = $this->db->query("SELECT IDPengenal, ProgramStudi,IPK FROM user WHERE Role='Mahasiswa'");
+                //     foreach ($mahasiswa->result() as $row) {
+                //         $APIFakultasParam = "";
+                //         switch ($this->input->post('fakultas')) {
+                //             case 'Fakultas Ekonomi':
+                //                 $APIFakultasParam = 'ekonomi';
+                //                 break;
+                //             case 'Fakultas Hukum':
+                //                 $APIFakultasParam = 'hukum';
+                //                 break;
+                //             case 'Fakultas Ilmu Komputer':
+                //                 $APIFakultasParam = 'fasilkom';
+                //                 break;
+                //             case 'Fakultas Ilmu sosial dan Ilmu Politik':
+                //                 $APIFakultasParam = 'fisip';
+                //                 break;
+                //             case 'Fakultas Kedokteran':
+                //                 $APIFakultasParam = 'kedokteran';
+                //                 break;
+                //             case 'Fakultas keguruan dan Ilmu Pendidikan':
+                //                 $APIFakultasParam = 'fkip';
+                //                 break;
+                //             case 'Fakultas Kesehatan Masyarakat':
+                //                 $APIFakultasParam = 'fkm';
+                //                 break;
+                //             case 'Fakultas Matematika dan Ilmu Pengetahuan Alam':
+                //                 $APIFakultasParam = 'fmipa';
+                //                 break;
+                //             case 'Fakultas pertanian':
+                //                 $APIFakultasParam = 'pertanian';
+                //                 break;
+                //             case 'Fakultas Teknik':
+                //                 $APIFakultasParam = 'Teknik';
+                //                 break;
+                //             case 'Program Pasca Sarjana':
+                //                 $APIFakultasParam = 'pps';
+                //                 break;
+                //         }
+                //         $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$row->IDPengenal.'&fakultas='.$APIFakultasParam.'');
+                //         $APIresponse = json_decode($APIresponse);
+                //         if(is_null($APIresponse->data)!=1 &&($APIresponse->data->IPK!=$row->IPK)){
+                //             $this->db->query("UPDATE user SET IPK=.$APIresponse->data->IPK. WHERE IDPengenal='$row->IDPengenal'");
+                //         }
+                //     }
+                // }
 
 
                 // var_dump($data);

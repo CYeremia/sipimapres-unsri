@@ -217,6 +217,9 @@ class Signup extends CI_Controller
                         redirect('signup');
                     }
                 }
+            }else{
+                $this->flashmsg('Data Mahsiswa tidak ditemukan harap cek kembali', 'danger');
+                redirect('signup');
             }
 
             }
