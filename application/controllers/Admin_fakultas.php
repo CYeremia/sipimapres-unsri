@@ -1357,7 +1357,7 @@ class admin_fakultas  extends CI_Controller
             'status' => true,
             'status_code' => 200
         ];
-
+        // print_r($result);
         header('Content-Type: application/json');
         echo json_encode($result);
     }
