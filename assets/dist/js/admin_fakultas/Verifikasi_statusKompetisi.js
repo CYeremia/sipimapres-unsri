@@ -23,6 +23,20 @@ $(document).ready(function () {
         }
     });
 
+    //tampil textarea when status ditolak
+    $('#status').on('change', function () {
+        // console.log("1");
+        var selected = $(this).val();
+
+        if (selected == 'Diterima') {
+            // document.getElementById("")
+            $("#catatanpenolakan").val("");
+            $("#rowcatatan").hide();
+        } else if (selected == 'Ditolak') {
+            $("#rowcatatan").show();
+        }
+    });
+
     // document.getElementById('Nama_Mahasiswa').value = test;
     // img.onclick = function () {
     //     modal.style.display = "block";

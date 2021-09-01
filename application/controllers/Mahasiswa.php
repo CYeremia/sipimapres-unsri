@@ -284,6 +284,7 @@ class Mahasiswa extends CI_Controller
             $obj->BuktiDokumentasi = $k->BuktiDokumentasi;
             $obj->JumlahPeserta = $k->JumlahPeserta;
             $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
+            $obj->Note=$k->Note;
             $obj->Status = $k->Status;
             $obj->LinkBerita = $k->LinkBerita;
 
@@ -429,6 +430,7 @@ class Mahasiswa extends CI_Controller
             $obj->JumlahPeserta = $k->JumlahPeserta;
             $obj->JumlahPenghargaan = $k->JumlahPenghargaan;
             $obj->BuktiPrestasi = $k->BuktiPrestasi;
+            $obj->Note=$k->Note;
             $obj->Status = $k->Status;
             $obj->LinkBerita = $k->LinkBerita;
             $obj->Peran = $k->Peran;

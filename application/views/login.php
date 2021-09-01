@@ -97,6 +97,17 @@
                         Belum Memiliki Akun?
                         <a class="signup" style="color:orange; font-size:large" href="<?= site_url('signup') ?>">REGISTRASI</a>
                     </p>
+			
+			<tr>
+                        <td style="width: 20%">Panduan penggunaan Sipimapres</td>
+                        <td><a href="<?= base_url() ?>Login/downloadfilePanduan/UserGuide.pdf">Download <i class="fas fa-download"></i></a></td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td style="width: 20%">Panduan penggunaan Bagi Mahasiswa</td>
+                        <td><a href="<?= base_url() ?>Login/downloadfilePanduan/UserGuideMhs.pdf">Download <i class="fas fa-download"></i></a></td>
+                    </tr>
+
                 </div>
                 <!-- /.login-card-body -->
             </div>

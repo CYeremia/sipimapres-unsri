@@ -91,7 +91,7 @@ class Signup extends CI_Controller
                 $APIFakultasParam = 'pertanian';
                 break;
             case 'Fakultas Teknik':
-                $APIFakultasParam = 'Teknik';
+                $APIFakultasParam = 'teknik';
                 break;
             case 'Program Pasca Sarjana':
                 $APIFakultasParam = 'pps';
@@ -217,6 +217,9 @@ class Signup extends CI_Controller
                         redirect('signup');
                     }
                 }
+            }else{
+                $this->flashmsg('Data Mahasiswa tidak ditemukan harap cek kembali', 'danger');
+                redirect('signup');
             }
 
             }

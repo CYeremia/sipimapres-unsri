@@ -102,6 +102,15 @@
                                     <td><a href="<?= base_url() ?>admin_fakultas/downloadfileBuktiPrestasi/<?= $IDM->BuktiPrestasi ?>">Download <i class="fas fa-download"></i></a></td>
                                 </tr>
 
+                                <tr id="rowcatatan" style="display: none;">
+                                    <td style="width: 20%">Catatan</td>
+                                    <td>
+                                        <div class="input-group " >
+                                            <textarea id="catatanpenolakan" name="catatanpenolakan" rows="4" cols="50" placeholder="Alasan Penolakan"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td style="width: 20%">Status</td>
                                     <td>

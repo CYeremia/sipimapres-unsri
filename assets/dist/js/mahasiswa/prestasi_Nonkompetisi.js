@@ -207,13 +207,21 @@ function format(d) {
         '<tr>' +
         '<td style="width: 15%">Bukti Prestasi</td>' +
         '<td> <a href=' + globalUrl + '/downloadfileBuktiPrestasi/' + d.BuktiPrestasi + '>Download <i class="fas fa-download"></i></a></td>' +
-        '</tr>' +
-        '<tr>' +
+        '</tr>';
+
+    output = output + body;
+    if (d.Note != null) {
+        body = '<tr>' +
+            '<td style="width: 15%">Alasan Penolakan</td>' +
+            '<td>' + d.Note + '</td>' +
+            '</tr>';
+        output = output + body;
+    }
+    body = '<tr>' +
         '<td style="width: 15%">Status</td>' +
         '<td>' + d.Status + '</td>' +
         '</tr>';
     output = output + body;
-
     var footer = '</table></div > ';
     output = output + footer;
     return output;

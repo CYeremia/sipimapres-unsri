@@ -169,7 +169,7 @@ class admin_fakultas  extends CI_Controller
                 $APIFakultasParam = 'pertanian';
                 break;
             case 'Fakultas Teknik':
-                $APIFakultasParam = 'Teknik';
+                $APIFakultasParam = 'teknik';
                 break;
             case 'Program Pasca Sarjana':
                 $APIFakultasParam = 'pps';
@@ -184,9 +184,13 @@ class admin_fakultas  extends CI_Controller
                 redirect("admin_fakultas/Tambah_DataMahasiswa");
             } else {
                 //get data over API
-                $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$this->input->post('NIM').'&fakultas='.$APIFakultasParam.'');
+                $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim=' . $this->input->post('NIM') . '&fakultas=' . $APIFakultasParam . '');
                 $APIresponse = json_decode($APIresponse);
-
+                if (is_null($APIresponse->data) == 1) { { //Jika NIM bukan numerik
+                        $this->flashmsg('NIM tidak terdaftar pada fakultas ini', 'danger');
+                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                    }
+                }
                 $input['Nama'] = $APIresponse->data->NAMA;
                 $input['Role'] = 'Mahasiswa';
                 $input['IDPengenal'] = $APIresponse->data->NIM;
@@ -228,28 +232,27 @@ class admin_fakultas  extends CI_Controller
                         if ($checknumericphone == true) {
                             // if ($checknumeric == true) // jika format IPK adalah angka
                             // {
-                                // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                //     redirect('admin_fakultas/Tambah_DataMahasiswa');
-                                // } 
-                                // else //jika format IPK benar
-                                // {
-                                    if ($checknumericNIM == true) { //jika format tlp adalah angka
-                                        if ($checknumericphone == true) { //jika format tlp adalah angka
-                                            if ($this->user_m->insert($input)) {
-                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Ditambah', 'success');
-                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
-                                            }
-                                        } else { //Jika tlp bukan numerik
-                                            $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
-                                            redirect('admin_fakultas/Tambah_DataMahasiswa');
-                                        }
-                                    } 
-                                    else { //Jika NIM bukan numerik
-                                        $this->flashmsg('Format NIM tidak sesuai !', 'danger');
-                                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                            //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                            //     redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            // } 
+                            // else //jika format IPK benar
+                            // {
+                            if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                if ($checknumericphone == true) { //jika format tlp adalah angka
+                                    if ($this->user_m->insert($input)) {
+                                        $this->flashmsg('Data Mahasiswa Telah Berhasil Ditambah', 'success');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     }
-                                // }
+                                } else { //Jika tlp bukan numerik
+                                    $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                }
+                            } else { //Jika NIM bukan numerik
+                                $this->flashmsg('Format NIM tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            }
+                            // }
                             // } else //jika bukan format numerik
                             // {
                             //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
@@ -792,6 +795,12 @@ class admin_fakultas  extends CI_Controller
         if ($this->input->post('submit')) {
             $input['Status'] = $this->input->post('status');
             $nama['namamahasiswa'] = $this->input->post('Nama');
+            if ($input['Status'] == 'Ditolak' && $this->input->post('catatanpenolakan') == "") {
+                $this->flashmsg('Anda Belum Memasukkan Alasan Penolakan', 'danger');
+                redirect('admin_fakultas/prestasi_kompetisi');
+            }else{
+                $input['Note']=$this->input->post('catatanpenolakan');
+            }
             if ($input['Status'] == '') {
                 $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
                 redirect('admin_fakultas/prestasi_kompetisi');
@@ -859,13 +868,22 @@ class admin_fakultas  extends CI_Controller
         if ($this->input->post('submit')) {
             $input['Status'] = $this->input->post('status');
             $nama['namamahasiswa'] = $this->input->post('Nama');
+            
+            if ($input['Status'] == 'Ditolak' && $this->input->post('catatanpenolakan') == "") {
+                $this->flashmsg('Anda Belum Memasukkan Alasan Penolakan', 'danger');
+                redirect('admin_fakultas/prestasi_Nonkompetisi');
+            }else{
+                $input['Note']=$this->input->post('catatanpenolakan');
+            }
+
+
             if ($input['Status'] == '') {
-                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
+                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Non Kompetisi', 'danger');
                 redirect('admin_fakultas/prestasi_Nonkompetisi');
             } else {
                 $this->db->where('IDPrestasi', $this->input->post('IDPrestasiM'));
                 $this->db->update('prestasinonkompetisi', $input);
-                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Kompetisi', 'success');
+                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Non Kompetisi', 'success');
                 redirect('admin_fakultas/prestasi_Nonkompetisi');
             }
         }
@@ -977,6 +995,7 @@ class admin_fakultas  extends CI_Controller
             $this->data['content'] = 'data_nonkompetisi';
             $this->load->view('admin_fakultas/template/template', $this->data);
         } else if ($_POST['prestasi'] == '') {
+            $this->flashmsg('Harap Pilih Jenis Prestasi!', 'danger');
             redirect('admin_fakultas/input_Prestasi');
         }
         // print_r($_POST['Nimmahasiswa']);
@@ -1075,7 +1094,7 @@ class admin_fakultas  extends CI_Controller
                     $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
                     $BERITA = $_SERVER['HTTP_BERITA'];
                     $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-                    $BUKTIPRESTASI = $this->upload->data("file_name");
+                    //$BUKTIPRESTASI = $this->upload->data("file_name");
 
                     // // Hitung Score
                     // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
@@ -1348,7 +1367,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1387,7 +1406,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
-        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1440,7 +1459,7 @@ class admin_fakultas  extends CI_Controller
         //  ON t3.ProgramStudi=prodi.Prodi 
         //  WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM prodi
         LEFT JOIN
         (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
         LEFT JOIN 
@@ -1492,7 +1511,7 @@ class admin_fakultas  extends CI_Controller
 
         $listData = [];
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM prodi
           LEFT JOIN
           (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
           LEFT JOIN 

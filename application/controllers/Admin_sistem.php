@@ -1045,24 +1045,31 @@ class Admin_sistem  extends CI_Controller
                 $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
                 redirect("admin_sistem/tambahuser");
             } else {
-                if ($this->input->post('role') != "Administrator Sistem") {
-                    $input['Nama'] = $this->input->post('namaadmin');
-                    $input['IDPengenal'] = $this->input->post('NIP');
-                    $input['Email'] = $this->input->post('Email');
-                    $input['Role'] = $this->input->post('role');
-                    $input['Fakultas'] = $this->input->post('fakultas');
-                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-                    $this->user_m->insert($input);
-                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                $NIP = $this->input->post('NIP');
+                $check = $this->db->query("SELECT COUNT(IDPengenal) AS Registered FROM user WHERE IDPengenal='$NIP'")->row();
+                if ($check->Registered > 0) {
+                    $this->flashmsg('Pengguna Telah Terdaftar pada Sistem', 'danger');
+                    redirect("admin_sistem/tambahuser");
                 } else {
-                    $input['Nama'] = $this->input->post('namaadmin');
-                    $input['IDPengenal'] = $this->input->post('NIP');
-                    $input['Email'] = $this->input->post('Email');
-                    $input['Role'] = $this->input->post('role');
-                    $input['Fakultas'] = null;
-                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-                    $this->user_m->insert($input);
-                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    if ($this->input->post('role') != "Administrator Sistem") {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = $this->input->post('fakultas');
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->user_m->insert($input);
+                        $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    } else {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = null;
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->user_m->insert($input);
+                        $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    }
                 }
             }
         }

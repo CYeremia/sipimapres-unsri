@@ -1,3 +1,24 @@
+$(document).ready(function () {
+
+
+    //tampil textarea when status ditolak
+    $('#status').on('change', function () {
+        // console.log("1");
+        var selected = $(this).val();
+
+        if (selected == 'Diterima') {
+            // document.getElementById("")
+            $("#catatanpenolakan").val("");
+            $("#rowcatatan").hide();
+        } else if (selected == 'Ditolak') {
+            $("#rowcatatan").show();
+        }
+    });
+
+});
+
+
+
 // var currUrl = window.location.href.split('/');
 // currUrl.pop();
 // var globalUrl = currUrl.join('/');

@@ -33,8 +33,8 @@ $(document).ready(function () {
                 ID: IDp,
             },
             success: function (response) {
-                console.log(response.data);
-                swal.close();
+                //console.log(response.data);
+                //swal.close();
                 // console.log(response.data.nik);
                 document.getElementById('id_modal2').value = response.data[0].IDPengenal;
 
