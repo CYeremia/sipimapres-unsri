@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="refresh" content="3;url='login'" />
+    <meta http-equiv="refresh" content="5;url='login'" />
     <link rel="icon" href="<?= base_url('assets/dist/img') ?>/logoIkon.png" type="image/x-icon">
     <title>SignUp Berhasil | Si-Pimapres</title>
     <!-- Tell the browser to be responsive to screen width -->

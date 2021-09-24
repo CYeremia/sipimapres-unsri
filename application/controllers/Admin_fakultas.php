@@ -239,28 +239,27 @@ class admin_fakultas  extends CI_Controller
                         if ($checknumericphone == true) {
                             // if ($checknumeric == true) // jika format IPK adalah angka
                             // {
-                                // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
-                                //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
-                                //     redirect('admin_fakultas/Tambah_DataMahasiswa');
-                                // } 
-                                // else //jika format IPK benar
-                                // {
-                                    if ($checknumericNIM == true) { //jika format tlp adalah angka
-                                        if ($checknumericphone == true) { //jika format tlp adalah angka
-                                            if ($this->user_m->insert($input)) {
-                                                $this->flashmsg('Data Mahasiswa Telah Berhasil Ditambah', 'success');
-                                                redirect('admin_fakultas/Kelola_akun_mahasiswa');
-                                            }
-                                        } else { //Jika tlp bukan numerik
-                                            $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
-                                            redirect('admin_fakultas/Tambah_DataMahasiswa');
-                                        }
-                                    } 
-                                    else { //Jika NIM bukan numerik
-                                        $this->flashmsg('Format NIM tidak sesuai !', 'danger');
-                                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            // if ($input['IPK'] > 4 || $input['IPK'] < 0) {
+                            //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
+                            //     redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            // } 
+                            // else //jika format IPK benar
+                            // {
+                            if ($checknumericNIM == true) { //jika format tlp adalah angka
+                                if ($checknumericphone == true) { //jika format tlp adalah angka
+                                    if ($this->user_m->insert($input)) {
+                                        $this->flashmsg('Data Mahasiswa Telah Berhasil Ditambah', 'success');
+                                        redirect('admin_fakultas/Kelola_akun_mahasiswa');
                                     }
-                                // }
+                                } else { //Jika tlp bukan numerik
+                                    $this->flashmsg('Format Telephone tidak sesuai !', 'danger');
+                                    redirect('admin_fakultas/Tambah_DataMahasiswa');
+                                }
+                            } else { //Jika NIM bukan numerik
+                                $this->flashmsg('Format NIM tidak sesuai !', 'danger');
+                                redirect('admin_fakultas/Tambah_DataMahasiswa');
+                            }
+                            // }
                             // } else //jika bukan format numerik
                             // {
                             //     $this->flashmsg('Format IPK tidak sesuai !', 'danger');
@@ -803,6 +802,12 @@ class admin_fakultas  extends CI_Controller
         if ($this->input->post('submit')) {
             $input['Status'] = $this->input->post('status');
             $nama['namamahasiswa'] = $this->input->post('Nama');
+            if ($input['Status'] == 'Ditolak' && $this->input->post('catatanpenolakan') == "") {
+                $this->flashmsg('Anda Belum Memasukkan Alasan Penolakan', 'danger');
+                redirect('admin_fakultas/prestasi_kompetisi');
+            }else{
+                $input['Note']=$this->input->post('catatanpenolakan');
+            }
             if ($input['Status'] == '') {
                 $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
                 redirect('admin_fakultas/prestasi_kompetisi');
@@ -870,13 +875,22 @@ class admin_fakultas  extends CI_Controller
         if ($this->input->post('submit')) {
             $input['Status'] = $this->input->post('status');
             $nama['namamahasiswa'] = $this->input->post('Nama');
+            
+            if ($input['Status'] == 'Ditolak' && $this->input->post('catatanpenolakan') == "") {
+                $this->flashmsg('Anda Belum Memasukkan Alasan Penolakan', 'danger');
+                redirect('admin_fakultas/prestasi_Nonkompetisi');
+            }else{
+                $input['Note']=$this->input->post('catatanpenolakan');
+            }
+
+
             if ($input['Status'] == '') {
-                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Kompetisi', 'danger');
+                $this->flashmsg('Anda Belum Melakukan Perubahan Status Prestasi Non Kompetisi', 'danger');
                 redirect('admin_fakultas/prestasi_Nonkompetisi');
             } else {
                 $this->db->where('IDPrestasi', $this->input->post('IDPrestasiM'));
                 $this->db->update('prestasinonkompetisi', $input);
-                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Kompetisi', 'success');
+                $this->flashmsg('Anda Telah Berhasil Melakukan Perubahan Status Prestasi Non Kompetisi', 'success');
                 redirect('admin_fakultas/prestasi_Nonkompetisi');
             }
         }
@@ -988,6 +1002,7 @@ class admin_fakultas  extends CI_Controller
             $this->data['content'] = 'data_nonkompetisi';
             $this->load->view('admin_fakultas/template/template', $this->data);
         } else if ($_POST['prestasi'] == '') {
+            $this->flashmsg('Harap Pilih Jenis Prestasi!', 'danger');
             redirect('admin_fakultas/input_Prestasi');
         }
         // print_r($_POST['Nimmahasiswa']);
@@ -1350,7 +1365,7 @@ class admin_fakultas  extends CI_Controller
             'status' => true,
             'status_code' => 200
         ];
-
+        // print_r($result);
         header('Content-Type: application/json');
         echo json_encode($result);
     }
