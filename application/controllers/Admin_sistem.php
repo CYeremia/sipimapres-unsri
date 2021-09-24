@@ -291,6 +291,16 @@ class Admin_sistem  extends CI_Controller
         $this->load->view('admin_sistem/template/template', $this->data);
     }
 
+    //Menampilkan analisis peringkat berdasarkan tingkat prestasi
+    public function Analisis_PeringkatTingkat()
+    {
+        $this->data['fakultas'] = $this->db->get('fakultas')->result();
+        $this->data['active'] = 8;
+        $this->data['title'] = 'Admin Sistem | Analisis Peringkat Tingkat Prestasi';
+        $this->data['content'] = 'Analisis_PeringkatTingkat';
+        $this->load->view('admin_sistem/template/template', $this->data);
+    }
+
     public function daftarPrestasi_Fakultas($parameters = null)
     {
         if ($parameters == null) {
@@ -386,8 +396,8 @@ class Admin_sistem  extends CI_Controller
     function Maptotopmahasiswa()
     {
         $listData = [];
-        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor FROM user LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
-        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
+        $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor FROM user LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  AND (YEAR(TanggalMulai) =2021 OR YEAR(TanggalAkhir) =2021)  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  AND (YEAR(TanggalMulai) =2021 OR YEAR(TanggalAkhir) =2021) GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
         // $data = $this->db->query("SELECT user.Nama,user.Fakultas, user.ProgramStudi , SUM(prestasikompetisi.Skor)+SUM(prestasinonkompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
         // prestasikompetisi.PeraihPrestasi = user.IDPengenal INNER JOIN prestasinonkompetisi ON prestasikompetisi.PeraihPrestasi = prestasinonkompetisi.PeraihPrestasi WHERE Role='Mahasiswa' AND prestasinonkompetisi.Status='Diterima' AND prestasikompetisi.Status='Diterima'  GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
@@ -429,11 +439,11 @@ class Admin_sistem  extends CI_Controller
         LEFT JOIN
         (SELECT user.fakultas, COUNT(prestasikompetisi.Status) AS Kompetisi  FROM user
         LEFT JOIN prestasikompetisi ON user.IDPengenal=prestasikompetisi.PeraihPrestasi
-        WHERE user.fakultas IS NOT NULL AND prestasikompetisi.Status='Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ") GROUP BY user.Fakultas) t1 
+        WHERE user.fakultas IS NOT NULL AND prestasikompetisi.Status='Diterima' AND (YEAR(TanggalMulai) = $year OR YEAR(TanggalAkhir) = $year) GROUP BY user.Fakultas) t1 
         ON t1.fakultas=fakultas.fakultas
         LEFT JOIN (SELECT user.fakultas, COUNT(prestasinonkompetisi.Status) AS Kompetisi  FROM user
         LEFT JOIN prestasinonkompetisi ON user.IDPengenal=prestasinonkompetisi.PeraihPrestasi
-        WHERE user.fakultas IS NOT NULL AND prestasinonkompetisi.Status='Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ") GROUP BY user.Fakultas) t2 
+        WHERE user.fakultas IS NOT NULL AND prestasinonkompetisi.Status='Diterima' AND (YEAR(TanggalMulai) = $year OR YEAR(TanggalAkhir) = $year) GROUP BY user.Fakultas) t2 
         ON t2.fakultas=fakultas.fakultas")->result_array();
         //     $data = $this->db->query("SELECT fakultas.fakultas AS Fakultas, t1.kompetisi AS `PrestasiKompetisi` ,t2.kompetisi AS `Prestasinonkompetisi` FROM fakultas INNER JOIN
         //    (SELECT user.fakultas, COUNT(prestasikompetisi.Status) AS `Kompetisi`  FROM `user`
@@ -484,6 +494,47 @@ class Admin_sistem  extends CI_Controller
 
         foreach ($data as $k) {
             $data = array('Fakultas' => $k['Fakultas'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
+            $listData[] =  $data;
+            $i = $i + 1;
+        }
+        return $listData;
+    }
+
+    public function peringkattingkat($start, $end)
+    {
+        $result = [
+            'data' => $this->Maptoperingkattingkat($start, $end),
+            'status' => true,
+            'status_code' => 200
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function Maptoperingkattingkat($start, $end)
+    {
+
+        $listData = [];
+        
+        $year = date("Y");
+        $sql="SELECT tingkatprestasi.Tingkat AS Tingkat,IFNULL(t2.Jumlah,0) AS 'PrestasiKompetisi', IFNULL(t3.Jumlah,0) AS 'PrestasiNonKompetisi',IFNULL((IFNULL(t2.Jumlah,0)+IFNULL(t3.Jumlah,0)),0) AS Total FROM `tingkatprestasi` LEFT JOIN (SELECT prestasikompetisi.Tingkat,count(prestasikompetisi.Tingkat) AS Jumlah FROM prestasikompetisi WHERE prestasikompetisi.Status='Diterima' AND YEAR(prestasikompetisi.TanggalMulai) BETWEEN $year AND $year AND YEAR(prestasikompetisi.TanggalAkhir) BETWEEN $year AND $year GROUP BY prestasikompetisi.Tingkat)t2 ON tingkatprestasi.Tingkat=t2.Tingkat LEFT JOIN (SELECT prestasinonkompetisi.Tingkat,count(prestasinonkompetisi.Tingkat) AS Jumlah FROM prestasinonkompetisi WHERE prestasinonkompetisi.Status='Diterima' AND YEAR(prestasinonkompetisi.TanggalMulai) BETWEEN $year AND $year AND YEAR(prestasinonkompetisi.TanggalAkhir) BETWEEN $year AND $year GROUP BY prestasinonkompetisi.Tingkat)t3 ON tingkatprestasi.Tingkat=t3.Tingkat ORDER BY `Total`  DESC";
+        // $data = $this->db->query("SELECT fakultas.Fakultas,IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi ,IFNULL(t3.prestasinonkompetisi,0)  AS PrestasiNonKompetisi, IFNULL(t3.Total,0)AS Total From fakultas
+        // LEFT JOIN
+        // (SELECT Fakultas,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
+        // LEFT JOIN 
+        // (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasikompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t1
+        // ON t1.PeraihPrestasi=user.IDPengenal
+        // LEFT JOIN 
+        // (SELECT PeraihPrestasi, COUNT(Status) AS total  FROM prestasinonkompetisi WHERE Status='Diterima' AND YEAR(TanggalMulai) BETWEEN " . $start . " AND " . $end . " AND YEAR(TanggalAkhir) BETWEEN " . $start . " AND " . $end . " GROUP BY PeraihPrestasi)t2
+        // ON t2.PeraihPrestasi=user.IDPengenal
+        // WHERE user.Role='Mahasiswa' GROUP BY Fakultas )t3
+        // ON fakultas.Fakultas=t3.fakultas ORDER BY total DESC")->result_array();
+        $data = $this->db->query($sql)->result_array();
+        $i = 1;
+
+        foreach ($data as $k) {
+            $data = array('Tingkat' => $k['Tingkat'], 'PrestasiKompetisi' => $k['PrestasiKompetisi'], 'PrestasiNonKompetisi' => $k['PrestasiNonKompetisi'], 'Total' => $k['Total']);
             $listData[] =  $data;
             $i = $i + 1;
         }
@@ -1045,24 +1096,31 @@ class Admin_sistem  extends CI_Controller
                 $this->flashmsg('Password dan Password Konfirmasi Berbeda!', 'danger');
                 redirect("admin_sistem/tambahuser");
             } else {
-                if ($this->input->post('role') != "Administrator Sistem") {
-                    $input['Nama'] = $this->input->post('namaadmin');
-                    $input['IDPengenal'] = $this->input->post('NIP');
-                    $input['Email'] = $this->input->post('Email');
-                    $input['Role'] = $this->input->post('role');
-                    $input['Fakultas'] = $this->input->post('fakultas');
-                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-                    $this->user_m->insert($input);
-                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                $NIP = $this->input->post('NIP');
+                $check = $this->db->query("SELECT COUNT(IDPengenal) AS Registered FROM user WHERE IDPengenal='$NIP'")->row();
+                if ($check->Registered > 0) {
+                    $this->flashmsg('Pengguna Telah Terdaftar pada Sistem', 'danger');
+                    redirect("admin_sistem/tambahuser");
                 } else {
-                    $input['Nama'] = $this->input->post('namaadmin');
-                    $input['IDPengenal'] = $this->input->post('NIP');
-                    $input['Email'] = $this->input->post('Email');
-                    $input['Role'] = $this->input->post('role');
-                    $input['Fakultas'] = null;
-                    $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-                    $this->user_m->insert($input);
-                    $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    if ($this->input->post('role') != "Administrator Sistem") {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = $this->input->post('fakultas');
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->user_m->insert($input);
+                        $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    } else {
+                        $input['Nama'] = $this->input->post('namaadmin');
+                        $input['IDPengenal'] = $this->input->post('NIP');
+                        $input['Email'] = $this->input->post('Email');
+                        $input['Role'] = $this->input->post('role');
+                        $input['Fakultas'] = null;
+                        $input['Password'] = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+                        $this->user_m->insert($input);
+                        $this->flashmsg('Data User Telah Berhasil Ditambah');
+                    }
                 }
             }
         }

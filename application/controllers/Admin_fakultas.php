@@ -43,6 +43,12 @@ class admin_fakultas  extends CI_Controller
             INNER JOIN user ON prestasinonkompetisi.PeraihPrestasi = user.IDPengenal
             WHERE `Role` = 'Mahasiswa' AND `Fakultas` = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ")")->row() //jumlah prestasi non kompetisi
         ];
+
+        // $this->data["sql"]="SELECT COUNT(*) AS kompetisi FROM prestasikompetisi
+        // INNER JOIN user ON prestasikompetisi.PeraihPrestasi = user.IDPengenal
+        // WHERE `Role` = 'Mahasiswa' AND `Fakultas` = '" . $this->data['userdata']->Fakultas . "' AND `Status` = 'Diterima' AND (YEAR(TanggalMulai) =" . $year . " OR YEAR(TanggalAkhir) =" . $year . ")";
+
+        // print_r($this->data['userdata']->Fakultas);
     }
 
     protected function flashmsg($msg, $type = 'success', $name = 'msg')
@@ -169,7 +175,7 @@ class admin_fakultas  extends CI_Controller
                 $APIFakultasParam = 'pertanian';
                 break;
             case 'Fakultas Teknik':
-                $APIFakultasParam = 'Teknik';
+                $APIFakultasParam = 'teknik';
                 break;
             case 'Program Pasca Sarjana':
                 $APIFakultasParam = 'pps';
@@ -184,9 +190,14 @@ class admin_fakultas  extends CI_Controller
                 redirect("admin_fakultas/Tambah_DataMahasiswa");
             } else {
                 //get data over API
-                $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$this->input->post('NIM').'&fakultas='.$APIFakultasParam.'');
+                $APIresponse = file_get_contents('https://satudata.unsri.info/api/simak/mahasiswa?nim='.$this->input->post('NIM').'&fakultas='.$APIFakultasParam.'');
                 $APIresponse = json_decode($APIresponse);
-
+		if(is_null($APIresponse->data)==1){
+                    { //Jika NIM bukan numerik
+                        $this->flashmsg('NIM tidak terdaftar pada fakultas ini', 'danger');
+                        redirect('admin_fakultas/Tambah_DataMahasiswa');
+                    }
+                }
                 $input['Nama'] = $APIresponse->data->NAMA;
                 $input['Role'] = 'Mahasiswa';
                 $input['IDPengenal'] = $APIresponse->data->NIM;
@@ -1075,7 +1086,7 @@ class admin_fakultas  extends CI_Controller
                     $JUMLAHPENGHARGAAN = $_SERVER['HTTP_JUMLAHPENGHARGAAN'];
                     $BERITA = $_SERVER['HTTP_BERITA'];
                     $DAFTARANGGOTA = $_SERVER['HTTP_DAFTARANGGOTA'];
-                    $BUKTIPRESTASI = $this->upload->data("file_name");
+                    //$BUKTIPRESTASI = $this->upload->data("file_name");
 
                     // // Hitung Score
                     // //Sementara untuk juara 1/2/3, juara umum menunggu konfirmasi
@@ -1309,10 +1320,11 @@ class admin_fakultas  extends CI_Controller
     public function Maptotopmahasiswa()
     {
         $listData = [];
+        $year = date("Y");
         $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , IFNULL(t1.Skor,0)+IFNULL(t2.Skor,0) AS Skor 
         FROM user
-        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
-        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasikompetisi WHERE Status='Diterima'  AND (YEAR(TanggalMulai) =2021 OR YEAR(TanggalAkhir) =2021) GROUP BY PeraihPrestasi)t1 ON t1.PeraihPrestasi = user.IDPengenal 
+        LEFT JOIN (SELECT PeraihPrestasi,SUM(Skor) AS Skor FROM prestasinonkompetisi WHERE Status='Diterima'  AND (YEAR(TanggalMulai) =2021 OR YEAR(TanggalAkhir) =2021) GROUP BY PeraihPrestasi)t2 ON user.IDPengenal=t2.PeraihPrestasi WHERE user.Role='Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND (t1.skor IS NOT NULL OR t2.Skor IS NOT NULL) GROUP BY user.IDPengenal ORDER BY Skor DESC LIMIT 10")->result_array();
         // $data = $this->db->query("SELECT user.Nama, user.ProgramStudi , SUM(prestasikompetisi.Skor) AS Skor FROM prestasikompetisi INNER JOIN user ON
         // prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE Role='Mahasiswa' AND Status='Diterima' AND Fakultas = '" . $this->data['userdata']->Fakultas . "' GROUP BY user.Nama ORDER BY Skor DESC LIMIT 10")->result_array();
         $i = 1;
@@ -1348,7 +1360,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Perlombaan` AS `Judul lomba`, `Penyelenggara`, `Status` FROM `prestasikompetisi` INNER JOIN `user` ON 
-        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasikompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND prestasikompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1387,7 +1399,7 @@ class admin_fakultas  extends CI_Controller
     {
         $listData = [];
         $data = $this->db->query("SELECT `IDPrestasi` AS `ID`, `PeraihPrestasi` AS `NIM` ,user.Nama AS `Nama`, user.ProgramStudi AS `Prodi`, `Kegiatan` , `Penyelenggara`, `Status` FROM `prestasinonkompetisi` INNER JOIN `user` ON 
-        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' ORDER BY Status DESC")->result_array();
+        prestasinonkompetisi.PeraihPrestasi = user.IDPengenal WHERE user.Role = 'Mahasiswa' AND user.Fakultas ='" . $this->data['userdata']->Fakultas . "' AND prestasinonkompetisi.Status='Sedang diverifikasi' ORDER BY Status DESC")->result_array();
         $i = 1;
 
         foreach ($data as $k) {
@@ -1440,7 +1452,7 @@ class admin_fakultas  extends CI_Controller
         //  ON t3.ProgramStudi=prodi.Prodi 
         //  WHERE prodi.Fakultas='" . $this->data['userdata']->Fakultas . "' ORDER BY total DESC")->result_array();
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM prodi
         LEFT JOIN
         (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
         LEFT JOIN 
@@ -1492,7 +1504,7 @@ class admin_fakultas  extends CI_Controller
 
         $listData = [];
 
-        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM Prodi
+        $data = $this->db->query("SELECT prodi.Prodi AS ProgramStudi, IFNULL(t3.prestasikompetisi,0) AS PrestasiKompetisi, IFNULL(t3.prestasinonkompetisi,0) AS PrestasiNonKompetisi, IFNULL(t3.total,0) AS Total FROM prodi
           LEFT JOIN
           (SELECT ProgramStudi,IFNULL(SUM(t1.total),0) AS prestasikompetisi,IFNULL(SUM(t2.total),0) AS prestasinonkompetisi, SUM(IFNULL(t1.total,0)+IFNULL(t2.total,0)) AS total FROM  user 
           LEFT JOIN 

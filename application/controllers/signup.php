@@ -91,14 +91,14 @@ class Signup extends CI_Controller
                 $APIFakultasParam = 'pertanian';
                 break;
             case 'Fakultas Teknik':
-                $APIFakultasParam = 'Teknik';
+                $APIFakultasParam = 'teknik';
                 break;
             case 'Program Pasca Sarjana':
                 $APIFakultasParam = 'pps';
                 break;
         }
         //get data mahasiswa by API simak;
-        $APIresponse = file_get_contents('http://apiunsri.ridwanzal.com/api/simak/mahasiswa?nim='.$this->input->post('IDpengenal').'&fakultas='.$APIFakultasParam.'');
+        $APIresponse = file_get_contents('https://satudata.unsri.info/api/simak/mahasiswa?nim='.$this->input->post('IDpengenal').'&fakultas='.$APIFakultasParam.'');
         $APIresponse = json_decode($APIresponse);
 
         if ($this->input->post('datauser')) {
@@ -217,6 +217,9 @@ class Signup extends CI_Controller
                         redirect('signup');
                     }
                 }
+            }else{
+                $this->flashmsg('Data Mahasiswa tidak ditemukan harap cek kembali', 'danger');
+                redirect('signup');
             }
 
             }

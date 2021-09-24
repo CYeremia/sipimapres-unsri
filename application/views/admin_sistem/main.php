@@ -112,6 +112,18 @@
                 </div>
                 <!-- /.card-body -->
             </div>
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Penyebaran Prestasi Berdasarkan Tingkat Prestasi</h3>
+
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="TingkatbarChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
             <!-- /.card -->
 
         </div><!-- /.container-fluid -->

@@ -61,7 +61,7 @@
                 </li>
 
                 <li class="nav-item has-treeview menu-close">
-                    <a href="#" class="nav-link <?php if ($active == 4 || $active == 5) {
+                    <a href="#" class="nav-link <?php if ($active == 4 || $active == 5|| $active == 8) {
                                                     echo "active";
                                                 } ?> ">
                         <i class="nav-icon fas fa-file-signature"></i>
@@ -85,6 +85,14 @@
                                                                                                                 } ?> ">
                                 <i class="nav-icon fas fa-award"></i>
                                 <p>Per Bidang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= site_url('admin_sistem/Analisis_PeringkatTingkat') ?>" class="nav-link <?php if ($active == 8) {
+                                                                                                                    echo "active";
+                                                                                                                } ?> ">
+                                <i class="nav-icon fas fa-award"></i>
+                                <p>Per Tingkat</p>
                             </a>
                         </li>
                     </ul>
